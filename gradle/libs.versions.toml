@@ -12,6 +12,8 @@ androidx-testExt = "1.3.0"
 composeMultiplatform = "1.8.2"      # https://github.com/JetBrains/compose-multiplatform/releases
 junit = "4.13.2"
 kotlin = "2.2.10"                   # https://kotlinlang.org/docs/releases.html
+maps-compose = "6.7.2"              # https://github.com/googlemaps/android-maps-compose/releases
+secrets-gradle-plugin = "2.0.1"     # https://github.com/google/secrets-gradle-plugin/releases
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -24,6 +26,8 @@ androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "a
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
+maps-secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
