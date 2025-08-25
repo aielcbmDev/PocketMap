@@ -47,3 +47,5 @@ google-services.json
 
 # Swift
 Package.resolved
+Debug.xcconfig
+Release.xcconfig
