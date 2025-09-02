@@ -4,7 +4,8 @@ import GoogleMaps
 @main
 struct iOSApp: App {
     init() {
-        GMSServices.provideAPIKey("${IOS_MAPS_API_KEY}")
+        var mapApiKey: String = Configuration.getGoogleMapsApi
+        GMSServices.provideAPIKey(mapApiKey)
     }
 
     var body: some Scene {
