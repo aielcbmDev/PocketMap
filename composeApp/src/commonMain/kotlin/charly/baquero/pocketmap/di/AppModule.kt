@@ -1,7 +1,7 @@
 package charly.baquero.pocketmap.di
 
 import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateDatabase
-import charly.baquero.pocketmap.ui.map.MainScreenViewModel
+import charly.baquero.pocketmap.ui.map.MapViewModel
 import charly.baquero.pocketmap.ui.startup.StartUpViewModel
 import charly.baquero.pocketmap.utils.AssetFileProvider
 import org.koin.core.module.Module
@@ -17,7 +17,7 @@ val appModule = module {
         )
     }
     viewModel { StartUpViewModel(get()) }
-    viewModel { MainScreenViewModel() }
+    viewModel { MapViewModel() }
 }
 
 expect val platformModule: Module
