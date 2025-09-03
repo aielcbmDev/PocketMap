@@ -1,3 +1,5 @@
+import dev.mokkery.gradle.ApplicationRule
+import dev.mokkery.gradle.mokkery
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
@@ -10,6 +12,8 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    alias(libs.plugins.mokkeryPlugin)
+    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
 }
 
 kotlin {
@@ -30,7 +34,16 @@ kotlin {
             isStatic = true
         }
     }
-    
+
+    @OptIn(ExperimentalKotlinGradlePluginApi::class)
+    compilerOptions {
+        // Removes the following warning when executing unit tests:
+        //
+        // 'expect'/'actual' classes (including interfaces, objects, annotations, enums,
+        // and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes'
+        // flag to suppress this warning.
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     sourceSets {
         
         androidMain.dependencies {
@@ -61,7 +74,9 @@ kotlin {
             implementation(libs.androidx.compose.navigation)
         }
         commonTest.dependencies {
+            implementation(mokkery("coroutines"))
             implementation(libs.kotlin.test)
+            implementation(libs.kotlinx.coroutines.test)
         }
     }
 }
@@ -115,4 +130,12 @@ secrets {
     // A properties file containing default secret values. This file can be
     // checked in version control.
     defaultPropertiesFileName = "local.defaults.properties"
+}
+
+allOpen {
+    annotation("charly.baquero.pocketmap.OpenClassForMocking")
+}
+
+mokkery {
+    rule.set(ApplicationRule.All)
 }
