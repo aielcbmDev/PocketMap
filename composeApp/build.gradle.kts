@@ -132,8 +132,20 @@ secrets {
     defaultPropertiesFileName = "local.defaults.properties"
 }
 
-allOpen {
-    annotation("charly.baquero.pocketmap.OpenClassForMocking")
+// this check might require adjustment depending on your project type and the tasks that you use
+// `endsWith("Test")` works with "*Test" tasks from Multiplafrom projects, but it does not include
+// tasks like `check`
+fun isTestingTask(name: String) = name.endsWith("Test")
+
+val isTesting = gradle
+    .startParameter
+    .taskNames
+    .any(::isTestingTask)
+
+if (isTesting) {
+    allOpen {
+        annotation("charly.baquero.pocketmap.OpenClassForMocking")
+    }
 }
 
 mokkery {
