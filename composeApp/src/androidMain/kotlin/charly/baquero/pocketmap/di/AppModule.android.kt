@@ -1,11 +1,19 @@
 package charly.baquero.pocketmap.di
 
-import charly.baquero.pocketmap.data.database.DatabaseFactory
-import charly.baquero.pocketmap.database.AndroidDatabaseFactory
+import androidx.room.RoomDatabase
+import charly.baquero.pocketmap.data.database.PocketMapDatabase
+import charly.baquero.pocketmap.database.createDatabaseBuilder
+import charly.baquero.pocketmap.database.isDatabaseCreated
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
 actual val platformModule: Module
     get() = module {
-        single<DatabaseFactory> { AndroidDatabaseFactory(context = get()) }
+        factory<Boolean>(named("isDatabaseCreated")) {
+            isDatabaseCreated(context = get())
+        }
+        factory<RoomDatabase.Builder<PocketMapDatabase>> {
+            createDatabaseBuilder(context = get())
+        }
     }

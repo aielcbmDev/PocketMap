@@ -6,6 +6,6 @@ class DatabaseDatasource(
     databaseFactory: DatabaseFactory,
 ) {
 
-    private val locationTable = databaseFactory.createDatabase().getRoomDatabase().getLocationDao()
+    //private val locationTable = databaseFactory.createDatabase().getRoomDatabase().getLocationDao()
 
 }

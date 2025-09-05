@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import charly.baquero.pocketmap.di.appDatabaseModule
 import charly.baquero.pocketmap.di.appModule
 import charly.baquero.pocketmap.di.platformModule
 import charly.baquero.pocketmap.ui.map.MapScreen
@@ -22,7 +23,7 @@ import org.koin.dsl.KoinAppDeclaration
 fun App(koinAppDeclaration: KoinAppDeclaration? = null) {
     KoinApplication(application = {
         koinAppDeclaration?.invoke(this)
-        modules(appModule, platformModule)
+        modules(appModule, platformModule, appDatabaseModule)
     }) {
         MaterialTheme {
             Scaffold {
