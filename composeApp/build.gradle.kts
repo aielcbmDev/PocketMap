@@ -133,7 +133,7 @@ secrets {
 }
 
 // this check might require adjustment depending on your project type and the tasks that you use
-// `endsWith("Test")` works with "*Test" tasks from Multiplafrom projects, but it does not include
+// `endsWith("Test")` works with "*Test" tasks from Multiplatform projects, but it does not include
 // tasks like `check`
 fun isTestingTask(name: String) = name.endsWith("Test")
 
