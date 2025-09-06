@@ -1,6 +1,6 @@
 package charly.baquero.pocketmap.domain
 
-import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateDatabase
+import com.charly.database.prepopulate.PrePopulateDatabase
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock

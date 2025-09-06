@@ -2,12 +2,12 @@ package com.charly.database.prepopulate
 
 import androidx.room.exclusiveTransaction
 import androidx.room.useWriterConnection
-import com.charly.OpenClassForMocking
+import com.charly.database.OpenClassForMocking
 import com.charly.database.PocketMapDatabase
 import com.charly.database.model.groups.GroupDao
 import com.charly.database.model.locations.LocationDao
 import com.charly.database.model.membership.MembershipDao
-import com.charly.utils.AssetFileProvider
+import com.charly.database.utils.AssetFileProvider
 
 @OpenClassForMocking
 class PrePopulateTables(

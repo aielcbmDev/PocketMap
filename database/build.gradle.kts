@@ -1,3 +1,5 @@
+import dev.mokkery.gradle.mokkery
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
@@ -76,7 +78,9 @@ kotlin {
 
         commonTest {
             dependencies {
+                implementation(mokkery("coroutines"))
                 implementation(libs.kotlin.test)
+                implementation(libs.kotlinx.coroutines.test)
             }
         }
 
@@ -122,6 +126,6 @@ val isTesting = gradle
 
 if (isTesting) {
     allOpen {
-        annotation("com.charly.OpenClassForMocking")
+        annotation("com.charly.database.OpenClassForMocking")
     }
 }

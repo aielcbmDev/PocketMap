@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.data.database.prepopulate
+package com.charly.database.prepopulate
 
 import dev.mokkery.answering.returns
 import dev.mokkery.every

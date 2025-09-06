@@ -7,8 +7,8 @@ import com.charly.database.model.locations.LocationDao
 import com.charly.database.model.membership.MembershipDao
 import com.charly.database.prepopulate.PrePopulateDatabase
 import com.charly.database.prepopulate.PrePopulateTables
-import com.charly.utils.AssetFileProvider
-import com.charly.utils.getRoomDatabase
+import com.charly.database.utils.AssetFileProvider
+import com.charly.database.utils.getRoomDatabase
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module

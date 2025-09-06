@@ -1,4 +1,4 @@
-package com.charly.utils
+package com.charly.database.utils
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver

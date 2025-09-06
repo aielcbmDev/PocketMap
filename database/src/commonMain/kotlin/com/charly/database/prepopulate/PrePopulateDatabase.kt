@@ -1,6 +1,6 @@
 package com.charly.database.prepopulate
 
-import com.charly.OpenClassForMocking
+import com.charly.database.OpenClassForMocking
 
 @OpenClassForMocking
 class PrePopulateDatabase(
