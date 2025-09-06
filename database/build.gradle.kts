@@ -6,6 +6,9 @@ plugins {
     alias(libs.plugins.androidLint)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
     kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
 }
 
@@ -18,7 +21,7 @@ kotlin {
         namespace = "com.charly.database"
         compileSdk = libs.versions.android.targetSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
-
+        androidResources.enable = true
         withHostTestBuilder {
         }
 
@@ -112,6 +115,18 @@ kotlin {
             }
         }
     }
+}
+
+dependencies {
+    val roomCompiler = libs.androidx.room.compiler
+    add("kspAndroid", roomCompiler)
+    add("kspIosSimulatorArm64", roomCompiler)
+    add("kspIosX64", roomCompiler)
+    add("kspIosArm64", roomCompiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 // this check might require adjustment depending on your project type and the tasks that you use
