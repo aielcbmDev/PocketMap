@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.data.database.model.groups
+package com.charly.database.model.groups
 
 import androidx.room.Entity
 import androidx.room.Index

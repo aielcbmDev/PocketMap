@@ -8,12 +8,12 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import charly.baquero.pocketmap.di.appDatabaseModule
 import charly.baquero.pocketmap.di.appModule
-import charly.baquero.pocketmap.di.platformModule
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.Screen
 import charly.baquero.pocketmap.ui.startup.StartUpScreen
+import com.charly.database.di.databaseMainModule
+import com.charly.database.di.databasePlatformModule
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import org.koin.dsl.KoinAppDeclaration
@@ -23,7 +23,7 @@ import org.koin.dsl.KoinAppDeclaration
 fun App(koinAppDeclaration: KoinAppDeclaration? = null) {
     KoinApplication(application = {
         koinAppDeclaration?.invoke(this)
-        modules(appModule, platformModule, appDatabaseModule)
+        modules(appModule, databasePlatformModule, databaseMainModule)
     }) {
         MaterialTheme {
             Scaffold {

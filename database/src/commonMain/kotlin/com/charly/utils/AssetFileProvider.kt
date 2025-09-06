@@ -1,10 +1,10 @@
-package charly.baquero.pocketmap.utils
+package com.charly.utils
 
-import charly.baquero.pocketmap.data.database.model.groups.GroupEntity
-import charly.baquero.pocketmap.data.database.model.locations.LocationEntity
-import charly.baquero.pocketmap.data.database.model.membership.MembershipEntity
+import com.charly.database.model.groups.GroupEntity
+import com.charly.database.model.locations.LocationEntity
+import com.charly.database.model.membership.MembershipEntity
 import kotlinx.serialization.json.Json
-import pocketmap.composeapp.generated.resources.Res
+import pocketmap.database.generated.resources.Res
 
 class AssetFileProvider {
 

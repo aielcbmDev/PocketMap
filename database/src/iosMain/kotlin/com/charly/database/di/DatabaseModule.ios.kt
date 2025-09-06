@@ -1,14 +1,14 @@
-package charly.baquero.pocketmap.di
+package com.charly.database.di
 
 import androidx.room.RoomDatabase
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
-import charly.baquero.pocketmap.database.createDatabaseBuilder
-import charly.baquero.pocketmap.database.isDatabaseCreated
+import com.charly.database.PocketMapDatabase
+import com.charly.database.createDatabaseBuilder
+import com.charly.database.isDatabaseCreated
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val platformModule: Module
+actual val databasePlatformModule: Module
     get() = module {
         factory<Boolean>(named("isDatabaseCreated")) {
             isDatabaseCreated()

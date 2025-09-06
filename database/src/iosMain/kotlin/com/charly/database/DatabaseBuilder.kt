@@ -1,8 +1,7 @@
-package charly.baquero.pocketmap.database
+package com.charly.database
 
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager

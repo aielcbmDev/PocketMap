@@ -1,11 +1,11 @@
-package charly.baquero.pocketmap.data.database.model.membership
+package com.charly.database.model.membership
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import charly.baquero.pocketmap.data.database.model.groups.GroupEntity
-import charly.baquero.pocketmap.data.database.model.locations.LocationEntity
+import com.charly.database.model.groups.GroupEntity
+import com.charly.database.model.locations.LocationEntity
 
 @Dao
 interface MembershipDao {

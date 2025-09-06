@@ -1,15 +1,15 @@
-package charly.baquero.pocketmap.data.database
+package com.charly.database
 
 import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.RoomDatabaseConstructor
-import charly.baquero.pocketmap.data.database.model.groups.GroupDao
-import charly.baquero.pocketmap.data.database.model.groups.GroupEntity
-import charly.baquero.pocketmap.data.database.model.locations.LocationDao
-import charly.baquero.pocketmap.data.database.model.locations.LocationEntity
-import charly.baquero.pocketmap.data.database.model.membership.MembershipDao
-import charly.baquero.pocketmap.data.database.model.membership.MembershipEntity
+import com.charly.database.model.groups.GroupDao
+import com.charly.database.model.groups.GroupEntity
+import com.charly.database.model.locations.LocationDao
+import com.charly.database.model.locations.LocationEntity
+import com.charly.database.model.membership.MembershipDao
+import com.charly.database.model.membership.MembershipEntity
 
 @Database(
     entities = [LocationEntity::class, GroupEntity::class, MembershipEntity::class],

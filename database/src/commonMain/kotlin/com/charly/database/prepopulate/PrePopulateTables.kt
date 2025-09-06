@@ -1,13 +1,13 @@
-package charly.baquero.pocketmap.data.database.prepopulate
+package com.charly.database.prepopulate
 
 import androidx.room.exclusiveTransaction
 import androidx.room.useWriterConnection
-import charly.baquero.pocketmap.OpenClassForMocking
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
-import charly.baquero.pocketmap.data.database.model.groups.GroupDao
-import charly.baquero.pocketmap.data.database.model.locations.LocationDao
-import charly.baquero.pocketmap.data.database.model.membership.MembershipDao
-import charly.baquero.pocketmap.utils.AssetFileProvider
+import com.charly.OpenClassForMocking
+import com.charly.database.PocketMapDatabase
+import com.charly.database.model.groups.GroupDao
+import com.charly.database.model.locations.LocationDao
+import com.charly.database.model.membership.MembershipDao
+import com.charly.utils.AssetFileProvider
 
 @OpenClassForMocking
 class PrePopulateTables(

@@ -1,6 +1,6 @@
-package charly.baquero.pocketmap.data.database.prepopulate
+package com.charly.database.prepopulate
 
-import charly.baquero.pocketmap.OpenClassForMocking
+import com.charly.OpenClassForMocking
 
 @OpenClassForMocking
 class PrePopulateDatabase(

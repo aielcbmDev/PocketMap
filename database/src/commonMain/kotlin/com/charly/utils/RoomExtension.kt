@@ -1,8 +1,8 @@
-package charly.baquero.pocketmap.utils
+package com.charly.utils
 
 import androidx.room.RoomDatabase
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
+import com.charly.database.PocketMapDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 

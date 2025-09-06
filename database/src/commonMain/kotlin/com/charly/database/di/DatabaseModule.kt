@@ -1,18 +1,21 @@
-package charly.baquero.pocketmap.di
+package com.charly.database.di
 
 import androidx.room.RoomDatabase
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
-import charly.baquero.pocketmap.data.database.model.groups.GroupDao
-import charly.baquero.pocketmap.data.database.model.locations.LocationDao
-import charly.baquero.pocketmap.data.database.model.membership.MembershipDao
-import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateDatabase
-import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateTables
-import charly.baquero.pocketmap.utils.AssetFileProvider
-import charly.baquero.pocketmap.utils.getRoomDatabase
+import com.charly.database.PocketMapDatabase
+import com.charly.database.model.groups.GroupDao
+import com.charly.database.model.locations.LocationDao
+import com.charly.database.model.membership.MembershipDao
+import com.charly.database.prepopulate.PrePopulateDatabase
+import com.charly.database.prepopulate.PrePopulateTables
+import com.charly.utils.AssetFileProvider
+import com.charly.utils.getRoomDatabase
+import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-val appDatabaseModule = module {
+expect val databasePlatformModule: Module
+
+val databaseMainModule = module {
     factory<PocketMapDatabase> {
         get<RoomDatabase.Builder<PocketMapDatabase>>().getRoomDatabase()
     }

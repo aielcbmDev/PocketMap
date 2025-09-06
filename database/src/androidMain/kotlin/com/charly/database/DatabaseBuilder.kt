@@ -1,9 +1,8 @@
-package charly.baquero.pocketmap.database
+package com.charly.database
 
 import android.content.Context
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import charly.baquero.pocketmap.data.database.PocketMapDatabase
 
 private const val DATABASE_NAME = "pocket_map_android.db"
 

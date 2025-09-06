@@ -1,10 +1,10 @@
-package charly.baquero.pocketmap.data.database.model.membership
+package com.charly.database.model.membership
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import charly.baquero.pocketmap.data.database.model.groups.GroupEntity
-import charly.baquero.pocketmap.data.database.model.locations.LocationEntity
+import com.charly.database.model.groups.GroupEntity
+import com.charly.database.model.locations.LocationEntity
 import kotlinx.serialization.Serializable
 
 //  CREATE TABLE membership_table (
