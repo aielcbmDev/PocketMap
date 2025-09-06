@@ -2,13 +2,13 @@ package charly.baquero.pocketmap.ui.startup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateDatabase
+import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class StartUpViewModel(
-    private val prePopulateDatabase: PrePopulateDatabase
+    private val prePopulateDatabaseUseCase: PrePopulateDatabaseUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<StartUpViewState>(StartUpViewState.Loading)
@@ -22,7 +22,7 @@ class StartUpViewModel(
         viewModelScope.launch {
             _state.value = StartUpViewState.Loading
             try {
-                prePopulateDatabase.execute()
+                prePopulateDatabaseUseCase.execute()
                 _state.value = StartUpViewState.Success
             } catch (_: Exception) {
                 _state.value = StartUpViewState.Error

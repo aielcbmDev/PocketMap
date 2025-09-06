@@ -1,10 +1,12 @@
 package charly.baquero.pocketmap.ui.startup
 
-import charly.baquero.pocketmap.data.database.prepopulate.PrePopulateDatabase
+import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
+import dev.mokkery.verifyNoMoreCalls
+import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -33,10 +35,10 @@ class StartUpViewModelTest {
     @Test
     fun `Verify that the database is successfully pre-populated`() = runTest {
         // GIVEN
-        val prePopulateDatabase = mock<PrePopulateDatabase>() {
+        val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
             everySuspend { execute() } returns Unit
         }
-        val startUpViewModel = StartUpViewModel(prePopulateDatabase)
+        val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
         assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
 
         // WHEN
@@ -45,16 +47,20 @@ class StartUpViewModelTest {
 
         // THEN
         assertEquals(StartUpViewState.Success, startUpViewModel.state.value)
+        verifySuspend {
+            prePopulateDatabaseUseCase.execute()
+        }
+        verifyNoMoreCalls(prePopulateDatabaseUseCase)
 
     }
 
     @Test
     fun `Verify that the database fails to be pre-populated`() = runTest {
         // GIVEN
-        val prePopulateDatabase = mock<PrePopulateDatabase>() {
+        val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
             everySuspend { execute() } throws Exception()
         }
-        val startUpViewModel = StartUpViewModel(prePopulateDatabase)
+        val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
         assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
 
         // WHEN
@@ -63,5 +69,9 @@ class StartUpViewModelTest {
 
         // THEN
         assertEquals(StartUpViewState.Error, startUpViewModel.state.value)
+        verifySuspend {
+            prePopulateDatabaseUseCase.execute()
+        }
+        verifyNoMoreCalls(prePopulateDatabaseUseCase)
     }
 }
