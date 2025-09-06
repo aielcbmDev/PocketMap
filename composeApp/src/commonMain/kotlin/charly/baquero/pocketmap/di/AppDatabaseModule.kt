@@ -42,6 +42,7 @@ val appDatabaseModule = module {
             assetFileProvider = get()
         )
     }
+
     single<PrePopulateDatabase> {
         PrePopulateDatabase(
             get(named("isDatabaseCreated")),
