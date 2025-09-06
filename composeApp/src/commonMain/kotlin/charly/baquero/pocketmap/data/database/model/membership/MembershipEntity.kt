@@ -1,5 +1,6 @@
 package charly.baquero.pocketmap.data.database.model.membership
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import charly.baquero.pocketmap.data.database.model.groups.GroupEntity
@@ -34,6 +35,8 @@ import kotlinx.serialization.Serializable
 )
 @Serializable
 data class MembershipEntity(
+    @ColumnInfo(index = true)
     val idGroup: Long,
+    @ColumnInfo(index = true)
     val idLocation: Long,
 )
