@@ -55,6 +55,7 @@ kotlin {
             implementation(libs.koin.core)
         }
         commonMain.dependencies {
+            implementation(project(":database"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
