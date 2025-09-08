@@ -55,7 +55,7 @@ class StartUpViewModelTest {
     }
 
     @Test
-    fun `Verify that the database fails to be pre-populated`() = runTest {
+    fun `Verify that the database fails to be pre-populated if an exception is thrown`() = runTest {
         // GIVEN
         val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
             everySuspend { execute() } throws Exception()
