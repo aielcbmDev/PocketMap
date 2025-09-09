@@ -9,4 +9,7 @@ sealed interface Screen {
 
     @Serializable
     data object Map : Screen
+
+    @Serializable
+    data object DisplayDataTabs : Screen
 }
