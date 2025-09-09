@@ -75,6 +75,7 @@ kotlin {
                 implementation(libs.androidx.room.runtime)
                 implementation(libs.androidx.sqlite.bundled)
 
+                implementation(project.dependencies.platform(libs.koin.bom))
                 implementation(libs.koin.compose)
                 implementation(libs.koin.compose.viewmodel)
             }

@@ -13,17 +13,16 @@ junit = "4.13.2"
 composeMultiplatform = "1.8.2"                  # https://github.com/JetBrains/compose-multiplatform/releases
 kotlin = "2.2.10"                               # https://kotlinlang.org/docs/releases.html
 kotlinxCoroutinesTest = "1.10.2"
-maps-compose = "6.9.0"                          # https://github.com/googlemaps/android-maps-compose/releases
+maps-compose = "6.10.0"                         # https://github.com/googlemaps/android-maps-compose/releases
 secrets-gradle-plugin = "2.0.1"                 # https://github.com/google/secrets-gradle-plugin/releases
 ksp = "2.2.10-2.0.2"                            # https://github.com/google/ksp/releases
 androidx-room = "2.7.2"                         # https://developer.android.com/jetpack/androidx/releases/room
 sqlite-bundled = "2.5.2"                        # https://developer.android.com/jetpack/androidx/releases/sqlite
-koin = "4.1.1"                                  # https://github.com/InsertKoinIO/koin/releases
+koinBom = "4.1.1"                               # https://github.com/InsertKoinIO/koin/releases
 kotlin-serialization-json = "1.9.0"             # https://github.com/Kotlin/kotlinx.serialization/releases
 androidx-compose-navigation = "2.9.0-rc01"      # https://mvnrepository.com/artifact/org.jetbrains.androidx.navigation/navigation-compose
 mokkeryVersion = "2.9.0"                        # https://github.com/lupuuss/Mokkery/releases
-runner = "1.7.0"
-core = "1.7.0"
+androidx-test = "1.7.0"
 
 [libraries]
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
@@ -40,17 +39,18 @@ androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycl
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 google-maps-compose = { module = "com.google.maps.android:maps-compose", version.ref = "maps-compose" }
 maps-secrets-gradle-plugin = { module = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin", version.ref = "secrets-gradle-plugin" }
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidx-room" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidx-room" }
-androidx-sqlite-bundled = { group = "androidx.sqlite", name = "sqlite-bundled", version.ref = "sqlite-bundled" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite-bundled" }
+koin-bom = { module = "io.insert-koin:koin-bom", version.ref = "koinBom" }
+koin-core = { module = "io.insert-koin:koin-core" }
+koin-android = { module = "io.insert-koin:koin-android" }
+koin-compose = { module = "io.insert-koin:koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
 androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "androidx-compose-navigation" }
-kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
-androidx-runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
-androidx-core = { group = "androidx.test", name = "core", version.ref = "core" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+androidx-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
+androidx-core = { module = "androidx.test:core", version.ref = "androidx-test" }
 
 [plugins]
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
