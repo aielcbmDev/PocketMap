@@ -5,9 +5,6 @@ import com.charly.database.GroupDataSource
 import com.charly.database.LocationDataSource
 import com.charly.database.MembershipDataSource
 import com.charly.database.PocketMapDatabase
-import com.charly.database.model.groups.GroupDao
-import com.charly.database.model.locations.LocationDao
-import com.charly.database.model.membership.MembershipDao
 import com.charly.database.prepopulate.PrePopulateDatabaseRepository
 import com.charly.database.prepopulate.PrePopulateTables
 import com.charly.database.utils.AssetFileProvider
@@ -23,28 +20,19 @@ val databaseMainModule = module {
         get<RoomDatabase.Builder<PocketMapDatabase>>().getRoomDatabase()
     }
 
-    single<LocationDao> {
-        get<PocketMapDatabase>().getLocationDao()
-    }
-
     single<LocationDataSource> {
-        LocationDataSource(get())
-    }
-
-    single<GroupDao> {
-        get<PocketMapDatabase>().getGroupDao()
+        val locationDao = get<PocketMapDatabase>().getLocationDao()
+        LocationDataSource(locationDao)
     }
 
     single<GroupDataSource> {
-        GroupDataSource(get())
-    }
-
-    single<MembershipDao> {
-        get<PocketMapDatabase>().getMembershipDao()
+        val groupDao = get<PocketMapDatabase>().getGroupDao()
+        GroupDataSource(groupDao)
     }
 
     single<MembershipDataSource> {
-        MembershipDataSource(get())
+        val membershipDao = get<PocketMapDatabase>().getMembershipDao()
+        MembershipDataSource(membershipDao)
     }
 
     factory<AssetFileProvider> {
