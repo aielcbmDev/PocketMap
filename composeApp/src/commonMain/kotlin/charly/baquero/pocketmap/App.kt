@@ -9,7 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.di.appModule
-import charly.baquero.pocketmap.ui.display.DisplayDataTabsScreen
+import charly.baquero.pocketmap.ui.display.DisplayGroupsScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.Screen
 import charly.baquero.pocketmap.ui.startup.StartUpScreen
@@ -57,7 +57,7 @@ private fun MainNavigationHost() {
             })
         }
         composable<Screen.DisplayDataTabs> {
-            DisplayDataTabsScreen()
+            DisplayGroupsScreen()
         }
     }
 }
