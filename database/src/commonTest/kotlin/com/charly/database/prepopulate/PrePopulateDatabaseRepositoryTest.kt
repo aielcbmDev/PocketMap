@@ -1,5 +1,7 @@
 package com.charly.database.prepopulate
 
+import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.database.repositories.prepopulate.PrePopulateTables
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend

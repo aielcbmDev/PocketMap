@@ -7,14 +7,6 @@ import com.charly.database.model.membership.MembershipEntity
 
 class MembershipDataSource(private val membershipDao: MembershipDao) {
 
-    suspend fun getAllMemberships(): List<MembershipEntity> {
-        return membershipDao.getAllMemberships()
-    }
-
-    suspend fun insertOrReplaceMembership(membershipEntity: MembershipEntity) {
-        membershipDao.insertOrReplaceMembership(membershipEntity)
-    }
-
     suspend fun insertOrReplaceListOfMemberships(membershipEntityList: List<MembershipEntity>) {
         membershipDao.insertOrReplaceListOfMemberships(membershipEntityList)
     }

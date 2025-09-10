@@ -1,4 +1,4 @@
-package com.charly.database.prepopulate
+package com.charly.database.repositories.prepopulate
 
 import androidx.room.exclusiveTransaction
 import androidx.room.useWriterConnection

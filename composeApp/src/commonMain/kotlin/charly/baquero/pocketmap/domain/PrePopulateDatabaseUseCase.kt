@@ -1,7 +1,7 @@
 package charly.baquero.pocketmap.domain
 
 import charly.baquero.pocketmap.OpenClassForMocking
-import com.charly.database.prepopulate.PrePopulateDatabaseRepository
+import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
 
 @OpenClassForMocking
 class PrePopulateDatabaseUseCase(

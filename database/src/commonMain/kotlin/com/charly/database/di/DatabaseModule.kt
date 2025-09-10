@@ -5,8 +5,8 @@ import com.charly.database.GroupDataSource
 import com.charly.database.LocationDataSource
 import com.charly.database.MembershipDataSource
 import com.charly.database.PocketMapDatabase
-import com.charly.database.prepopulate.PrePopulateDatabaseRepository
-import com.charly.database.prepopulate.PrePopulateTables
+import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.database.repositories.prepopulate.PrePopulateTables
 import com.charly.database.utils.AssetFileProvider
 import com.charly.database.utils.getRoomDatabase
 import org.koin.core.module.Module
