@@ -3,7 +3,7 @@ package com.charly.database.prepopulate
 import com.charly.database.OpenClassForMocking
 
 @OpenClassForMocking
-class PrePopulateDatabase(
+class PrePopulateDatabaseRepository(
     private val isDatabaseCreated: Boolean,
     private val prePopulateTablesLazy: Lazy<PrePopulateTables>
 ) {

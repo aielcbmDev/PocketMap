@@ -1,14 +1,14 @@
 package charly.baquero.pocketmap.domain
 
 import charly.baquero.pocketmap.OpenClassForMocking
-import com.charly.database.prepopulate.PrePopulateDatabase
+import com.charly.database.prepopulate.PrePopulateDatabaseRepository
 
 @OpenClassForMocking
 class PrePopulateDatabaseUseCase(
-    private val prePopulateDatabase: PrePopulateDatabase
+    private val prePopulateDatabaseRepository: PrePopulateDatabaseRepository
 ) {
 
     suspend fun execute() {
-        prePopulateDatabase.execute()
+        prePopulateDatabaseRepository.execute()
     }
 }

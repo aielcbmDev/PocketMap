@@ -1,6 +1,6 @@
 package charly.baquero.pocketmap.domain
 
-import com.charly.database.prepopulate.PrePopulateDatabase
+import com.charly.database.prepopulate.PrePopulateDatabaseRepository
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
@@ -34,10 +34,10 @@ class PrePopulateDatabaseUseCaseTest {
     @Test
     fun `Verify that execute succeeds`() = runTest {
         // GIVEN
-        val prePopulateDatabase = mock<PrePopulateDatabase>() {
+        val prePopulateDatabaseRepository = mock<PrePopulateDatabaseRepository>() {
             everySuspend { execute() } returns Unit
         }
-        val prePopulateDatabaseUseCase = PrePopulateDatabaseUseCase(prePopulateDatabase)
+        val prePopulateDatabaseUseCase = PrePopulateDatabaseUseCase(prePopulateDatabaseRepository)
 
         // WHEN
         prePopulateDatabaseUseCase.execute()
@@ -45,8 +45,8 @@ class PrePopulateDatabaseUseCaseTest {
 
         // THEN
         verifySuspend(mode = VerifyMode.exhaustiveOrder) {
-            prePopulateDatabase.execute()
+            prePopulateDatabaseRepository.execute()
         }
-        verifyNoMoreCalls(prePopulateDatabase)
+        verifyNoMoreCalls(prePopulateDatabaseRepository)
     }
 }

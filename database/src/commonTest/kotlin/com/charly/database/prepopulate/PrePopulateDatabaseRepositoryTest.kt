@@ -19,7 +19,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PrePopulateDatabaseTest {
+class PrePopulateDatabaseRepositoryTest {
 
     @BeforeTest
     fun setUp() {
@@ -32,28 +32,27 @@ class PrePopulateDatabaseTest {
     }
 
     @Test
-    fun `Verify that no interactions with the database occur if the it already exists`() =
-        runTest {
-            // GIVEN
-            val isDatabaseCreated = true
-            val prePopulateTables = mock<PrePopulateTables>() {
-                everySuspend { execute() } returns Unit
-            }
-            val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
-                every { value } returns prePopulateTables
-            }
-            val prePopulateDatabase = PrePopulateDatabase(
-                isDatabaseCreated = isDatabaseCreated,
-                prePopulateTablesLazy = prePopulateTablesLazy
-            )
-
-            // WHEN
-            prePopulateDatabase.execute()
-            runCurrent()
-
-            // THEN
-            verifyNoMoreCalls(prePopulateTables, prePopulateTablesLazy)
+    fun `Verify that no interactions with the database occur if the it already exists`() = runTest {
+        // GIVEN
+        val isDatabaseCreated = true
+        val prePopulateTables = mock<PrePopulateTables>() {
+            everySuspend { execute() } returns Unit
         }
+        val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
+            every { value } returns prePopulateTables
+        }
+        val prePopulateDatabaseRepository = PrePopulateDatabaseRepository(
+            isDatabaseCreated = isDatabaseCreated,
+            prePopulateTablesLazy = prePopulateTablesLazy
+        )
+
+        // WHEN
+        prePopulateDatabaseRepository.execute()
+        runCurrent()
+
+        // THEN
+        verifyNoMoreCalls(prePopulateTables, prePopulateTablesLazy)
+    }
 
     @Test
     fun `Verify that the database is pre-populated if it does not exist`() = runTest {
@@ -65,13 +64,13 @@ class PrePopulateDatabaseTest {
         val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
             every { value } returns prePopulateTables
         }
-        val prePopulateDatabase = PrePopulateDatabase(
+        val prePopulateDatabaseRepository = PrePopulateDatabaseRepository(
             isDatabaseCreated = isDatabaseCreated,
             prePopulateTablesLazy = prePopulateTablesLazy
         )
 
         // WHEN
-        prePopulateDatabase.execute()
+        prePopulateDatabaseRepository.execute()
         runCurrent()
 
         // THEN
