@@ -1,9 +1,9 @@
 [versions]
-agp = "8.12.2"
+agp = "8.12.3"
 android-compileSdk = "36"
 android-minSdk = "24"
 android-targetSdk = "36"
-androidx-activity = "1.10.1"
+androidx-activity = "1.11.0"
 androidx-appcompat = "1.7.1"
 androidx-core = "1.17.0"
 androidx-espresso = "3.7.0"
@@ -17,12 +17,12 @@ kotlinxCoroutinesTest = "1.10.2"
 maps-compose = "6.10.0"                         # https://github.com/googlemaps/android-maps-compose/releases
 secrets-gradle-plugin = "2.0.1"                 # https://github.com/google/secrets-gradle-plugin/releases
 ksp = "2.2.20-2.0.2"                            # https://github.com/google/ksp/releases
-androidx-room = "2.7.2"                         # https://developer.android.com/jetpack/androidx/releases/room
-sqlite-bundled = "2.5.2"                        # https://developer.android.com/jetpack/androidx/releases/sqlite
+androidx-room = "2.8.0"                         # https://developer.android.com/jetpack/androidx/releases/room
+sqlite-bundled = "2.6.0"                        # https://developer.android.com/jetpack/androidx/releases/sqlite
 koinBom = "4.1.1"                               # https://github.com/InsertKoinIO/koin/releases
 kotlin-serialization-json = "1.9.0"             # https://github.com/Kotlin/kotlinx.serialization/releases
 androidx-compose-navigation = "2.9.0-rc01"      # https://mvnrepository.com/artifact/org.jetbrains.androidx.navigation/navigation-compose
-mokkeryVersion = "2.9.0"                        # https://github.com/lupuuss/Mokkery/releases
+mokkeryVersion = "2.10.0"                       # https://github.com/lupuuss/Mokkery/releases
 
 [libraries]
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
