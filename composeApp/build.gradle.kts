@@ -70,6 +70,11 @@ kotlin {
             implementation(libs.koin.compose.viewmodel)
 
             implementation(libs.androidx.compose.navigation)
+
+            implementation(libs.androidx.material3.adaptive)
+            implementation(libs.androidx.material3.adaptive.navigation.suite)
+            implementation(libs.androidx.material3.adaptive.layout)
+            implementation(libs.androidx.material3.adaptive.navigation)
         }
         commonTest.dependencies {
             implementation(mokkery("coroutines"))

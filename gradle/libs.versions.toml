@@ -23,6 +23,8 @@ koinBom = "4.1.1"                               # https://github.com/InsertKoinI
 kotlin-serialization-json = "1.9.0"             # https://github.com/Kotlin/kotlinx.serialization/releases
 androidx-compose-navigation = "2.9.0-rc01"      # https://mvnrepository.com/artifact/org.jetbrains.androidx.navigation/navigation-compose
 mokkeryVersion = "2.10.0"                       # https://github.com/lupuuss/Mokkery/releases
+material3Adaptive = "1.1.2"                     # https://central.sonatype.com/artifact/org.jetbrains.compose.material3.adaptive/adaptive-navigation/versions
+material3AdaptiveNavSuite = "1.8.2"             # https://central.sonatype.com/artifact/org.jetbrains.compose.material3/material3-adaptive-navigation-suite/versions
 
 [libraries]
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
@@ -51,6 +53,10 @@ androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navi
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-core = { module = "androidx.test:core", version.ref = "androidx-test" }
+androidx-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "material3Adaptive" }
+androidx-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavSuite" }
+androidx-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "material3Adaptive" }
+androidx-material3-adaptive-navigation = { module = "org.jetbrains.compose.material3.adaptive:adaptive-navigation", version.ref = "material3Adaptive" }
 
 [plugins]
 kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
