@@ -55,6 +55,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":database"))
+            implementation(libs.androidx.material.icons.extended)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -71,6 +72,7 @@ kotlin {
 
             implementation(libs.androidx.compose.navigation)
 
+            implementation(libs.jetbrains.backhandler)
             implementation(libs.androidx.material3.adaptive)
             implementation(libs.androidx.material3.adaptive.navigation.suite)
             implementation(libs.androidx.material3.adaptive.layout)

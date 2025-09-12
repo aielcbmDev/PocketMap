@@ -25,6 +25,7 @@ androidx-compose-navigation = "2.9.0-rc01"      # https://mvnrepository.com/arti
 mokkeryVersion = "2.10.0"                       # https://github.com/lupuuss/Mokkery/releases
 material3Adaptive = "1.1.2"                     # https://central.sonatype.com/artifact/org.jetbrains.compose.material3.adaptive/adaptive-navigation/versions
 material3AdaptiveNavSuite = "1.8.2"             # https://central.sonatype.com/artifact/org.jetbrains.compose.material3/material3-adaptive-navigation-suite/versions
+materialIcons = "1.7.3"                         # https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended
 
 [libraries]
 kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
@@ -36,6 +37,7 @@ androidx-testExt-junit = { module = "androidx.test.ext:junit", version.ref = "an
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
+androidx-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIcons" }
 androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
@@ -53,6 +55,7 @@ androidx-compose-navigation = { module = "org.jetbrains.androidx.navigation:navi
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 androidx-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-core = { module = "androidx.test:core", version.ref = "androidx-test" }
+jetbrains-backhandler = { module = "org.jetbrains.compose.ui:ui-backhandler", version.ref = "composeMultiplatform" }
 androidx-material3-adaptive = { module = "org.jetbrains.compose.material3.adaptive:adaptive", version.ref = "material3Adaptive" }
 androidx-material3-adaptive-navigation-suite = { module = "org.jetbrains.compose.material3:material3-adaptive-navigation-suite", version.ref = "material3AdaptiveNavSuite" }
 androidx-material3-adaptive-layout = { module = "org.jetbrains.compose.material3.adaptive:adaptive-layout", version.ref = "material3Adaptive" }

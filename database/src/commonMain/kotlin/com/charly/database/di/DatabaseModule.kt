@@ -6,6 +6,7 @@ import com.charly.database.LocationDataSource
 import com.charly.database.MembershipDataSource
 import com.charly.database.PocketMapDatabase
 import com.charly.database.repositories.getall.GetAllGroupsRepository
+import com.charly.database.repositories.getall.GetAllLocationsForGroupRepository
 import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
 import com.charly.database.repositories.prepopulate.PrePopulateTables
 import com.charly.database.utils.AssetFileProvider
@@ -58,6 +59,10 @@ val databaseMainModule = module {
     }
 
     factory<GetAllGroupsRepository> {
-        GetAllGroupsRepository( get())
+        GetAllGroupsRepository(get())
+    }
+
+    factory<GetAllLocationsForGroupRepository> {
+        GetAllLocationsForGroupRepository(get())
     }
 }

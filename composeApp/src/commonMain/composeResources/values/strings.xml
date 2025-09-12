@@ -2,4 +2,9 @@
     <string name="app_name">Pocket Map app</string>
     <string name="retry">Retry</string>
     <string name="something_went_wrong">Something went wrong. Please try again</string>
+    <string name="search">Search</string>
+    <string name="search_groups">search groups</string>
+
+    <string name="tab_map">Map</string>
+    <string name="tab_groups">Groups</string>
 </resources>

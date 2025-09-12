@@ -1,6 +1,7 @@
 package charly.baquero.pocketmap.di
 
 import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
+import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
 import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
 import charly.baquero.pocketmap.ui.display.DisplayGroupsViewModel
 import charly.baquero.pocketmap.ui.map.MapViewModel
@@ -13,5 +14,6 @@ val appModule = module {
     viewModel { StartUpViewModel(get()) }
     viewModel { MapViewModel() }
     factory<GetAllGroupsUseCase> { GetAllGroupsUseCase(get()) }
-    viewModel { DisplayGroupsViewModel(get()) }
+    factory<GetAllLocationsForGroupUseCase> { GetAllLocationsForGroupUseCase(get()) }
+    viewModel { DisplayGroupsViewModel(get(), get()) }
 }
