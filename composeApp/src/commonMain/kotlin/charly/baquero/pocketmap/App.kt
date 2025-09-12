@@ -4,12 +4,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.di.appModule
 import charly.baquero.pocketmap.ui.display.DisplayGroupsScreen
+import charly.baquero.pocketmap.ui.display.DisplayGroupsViewModel
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.Screen
 import charly.baquero.pocketmap.ui.startup.StartUpScreen
@@ -17,6 +20,7 @@ import com.charly.database.di.databaseMainModule
 import com.charly.database.di.databasePlatformModule
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
+import org.koin.compose.viewmodel.koinViewModel
 import org.koin.dsl.KoinAppDeclaration
 
 @Composable
@@ -57,7 +61,12 @@ private fun MainNavigationHost() {
             })
         }
         composable<Screen.DisplayDataTabs> {
-            DisplayGroupsScreen()
+            val viewModel = koinViewModel<DisplayGroupsViewModel>()
+            val state by viewModel.state.collectAsStateWithLifecycle()
+            DisplayGroupsScreen(
+                displayGroupUIState = state,
+                onGroupClick = viewModel::setSelectedGroup
+            )
         }
     }
 }

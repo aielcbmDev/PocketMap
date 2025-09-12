@@ -2,9 +2,7 @@ package charly.baquero.pocketmap.ui.display
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -26,7 +24,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import charly.baquero.pocketmap.ui.navigation.BottomTabDestination
 import charly.baquero.pocketmap.ui.startup.ErrorContent
 import charly.baquero.pocketmap.ui.startup.LoadingContent
@@ -36,36 +33,34 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun DisplayGroupsScreen() {
-    val viewModel = koinViewModel<DisplayGroupsViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    Scaffold { innerPadding ->
-        Box(modifier = Modifier.fillMaxSize().padding(innerPadding)) {
-            when (val currentState = state) {
-                is DisplayGroupsViewState.Loading -> {
-                    LoadingContent()
-                }
+fun DisplayGroupsScreen(
+    displayGroupUIState: DisplayGroupsViewState,
+    onGroupClick: (Group) -> Unit
+) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (val currentState = displayGroupUIState) {
+            is DisplayGroupsViewState.Loading -> {
+                LoadingContent()
+            }
 
-                is DisplayGroupsViewState.Success -> {
-                    GroupsNavigationWrapperUI {
-                        GroupsAppContent(
-                            displayGroupUIState = currentState,
-                            onGroupClick = viewModel::setSelectedGroup
-                        )
-                    }
-                }
-
-                is DisplayGroupsViewState.Error -> {
-                    ErrorContent(
-                        { }
+            is DisplayGroupsViewState.Success -> {
+                GroupsNavigationWrapperUI {
+                    GroupsAppContent(
+                        displayGroupUIState = currentState,
+                        onGroupClick = onGroupClick
                     )
                 }
-
-                DisplayGroupsViewState.Empty -> {}
             }
+
+            is DisplayGroupsViewState.Error -> {
+                ErrorContent(
+                    { }
+                )
+            }
+
+            DisplayGroupsViewState.Empty -> {}
         }
     }
 }
