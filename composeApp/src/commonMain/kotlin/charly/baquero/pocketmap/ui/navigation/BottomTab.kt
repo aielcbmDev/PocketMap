@@ -9,7 +9,7 @@ import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.tab_groups
 import pocketmap.composeapp.generated.resources.tab_map
 
-enum class BottomTabDestination(
+enum class BottomTab(
     val labelRes: StringResource,
     val icon: ImageVector,
 ) {

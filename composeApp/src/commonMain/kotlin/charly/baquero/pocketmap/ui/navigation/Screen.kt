@@ -8,8 +8,5 @@ sealed interface Screen {
     data object StartUp : Screen
 
     @Serializable
-    data object Map : Screen
-
-    @Serializable
-    data object DisplayDataTabs : Screen
+    data object Main : Screen
 }

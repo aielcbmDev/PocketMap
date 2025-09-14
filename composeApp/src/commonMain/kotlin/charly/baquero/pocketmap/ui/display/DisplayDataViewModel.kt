@@ -11,13 +11,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DisplayGroupsViewModel(
+class DisplayDataViewModel(
     private val getAllGroupsUseCase: GetAllGroupsUseCase,
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<DisplayGroupsViewState>(DisplayGroupsViewState.Loading)
-    val state: StateFlow<DisplayGroupsViewState> = _state
+    private val _state = MutableStateFlow<DisplayGroupViewState>(DisplayGroupViewState.Loading)
+    val state: StateFlow<DisplayGroupViewState> = _state
 
     init {
         displayAllGroups()
@@ -25,15 +25,15 @@ class DisplayGroupsViewModel(
 
     fun displayAllGroups() {
         viewModelScope.launch {
-            _state.value = DisplayGroupsViewState.Loading
+            _state.value = DisplayGroupViewState.Loading
             try {
                 val groupList = getAllGroupsUseCase.execute()
-                _state.value = DisplayGroupsViewState.Success(
+                _state.value = DisplayGroupViewState.Success(
                     groupList = groupList,
                     displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
                 )
             } catch (_: Exception) {
-                _state.value = DisplayGroupsViewState.Error
+                _state.value = DisplayGroupViewState.Error
             }
         }
     }
@@ -59,50 +59,50 @@ class DisplayGroupsViewModel(
         locationList: List<Location>
     ) {
         _state.update { state ->
-            val current = state as? DisplayGroupsViewState.Success
+            val current = state as? DisplayGroupViewState.Success
             if (locationList.isEmpty()) {
                 current?.copy(
                     displayLocationsViewState = DisplayLocationsViewState.Empty(group.name)
-                ) ?: DisplayGroupsViewState.Error
+                ) ?: DisplayGroupViewState.Error
             } else {
                 current?.copy(
                     displayLocationsViewState = DisplayLocationsViewState.Success(
                         groupName = group.name,
                         locationList = locationList
                     )
-                ) ?: DisplayGroupsViewState.Error
+                ) ?: DisplayGroupViewState.Error
             }
         }
     }
 
     private fun setLocationsLoading(group: Group) {
         _state.update { state ->
-            val current = state as? DisplayGroupsViewState.Success
+            val current = state as? DisplayGroupViewState.Success
             current?.copy(
                 displayLocationsViewState = DisplayLocationsViewState.Loading(group.name)
-            ) ?: DisplayGroupsViewState.Error
+            ) ?: DisplayGroupViewState.Error
         }
     }
 
     private fun setLocationsError(group: Group) {
         _state.update { state ->
-            val current = state as? DisplayGroupsViewState.Success
+            val current = state as? DisplayGroupViewState.Success
             current?.copy(
                 displayLocationsViewState = DisplayLocationsViewState.Error(group.name)
-            ) ?: DisplayGroupsViewState.Error
+            ) ?: DisplayGroupViewState.Error
         }
     }
 }
 
-sealed interface DisplayGroupsViewState {
-    data object Empty : DisplayGroupsViewState
-    data object Loading : DisplayGroupsViewState
+sealed interface DisplayGroupViewState {
+    data object Empty : DisplayGroupViewState
+    data object Loading : DisplayGroupViewState
     data class Success(
         val groupList: List<Group>,
         val displayLocationsViewState: DisplayLocationsViewState
-    ) : DisplayGroupsViewState
+    ) : DisplayGroupViewState
 
-    data object Error : DisplayGroupsViewState
+    data object Error : DisplayGroupViewState
 }
 
 sealed interface DisplayLocationsViewState {

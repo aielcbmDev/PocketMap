@@ -33,7 +33,7 @@ import pocketmap.composeapp.generated.resources.search_groups
 
 @Composable
 fun GroupListPane(
-    displayGroupUIState: DisplayGroupsViewState.Success,
+    displayGroupState: DisplayGroupViewState.Success,
     onGroupClick: (Group) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -46,7 +46,7 @@ fun GroupListPane(
         item {
             GroupSearchBar(modifier = Modifier.fillMaxWidth())
         }
-        items(displayGroupUIState.groupList) { group ->
+        items(displayGroupState.groupList) { group ->
             GroupListItem(
                 group = group,
                 onGroupClick = onGroupClick

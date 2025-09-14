@@ -13,10 +13,6 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -24,7 +20,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
-import charly.baquero.pocketmap.ui.navigation.BottomTabDestination
+import charly.baquero.pocketmap.ui.navigation.BottomTab
 import charly.baquero.pocketmap.ui.startup.ErrorContent
 import charly.baquero.pocketmap.ui.startup.LoadingContent
 import com.charly.database.model.groups.Group
@@ -35,43 +31,48 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
-fun DisplayGroupsScreen(
-    displayGroupUIState: DisplayGroupsViewState,
-    onGroupClick: (Group) -> Unit
+fun DisplayDataScreen(
+    displayGroupState: DisplayGroupViewState,
+    onGroupClick: (Group) -> Unit,
+    onTabSelected: (BottomTab) -> Unit,
+    selectedTab: BottomTab
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        when (val currentState = displayGroupUIState) {
-            is DisplayGroupsViewState.Loading -> {
+        when (val currentState = displayGroupState) {
+            is DisplayGroupViewState.Loading -> {
                 LoadingContent()
             }
 
-            is DisplayGroupsViewState.Success -> {
-                GroupsNavigationWrapperUI {
-                    GroupsAppContent(
-                        displayGroupUIState = currentState,
-                        onGroupClick = onGroupClick
-                    )
-                }
+            is DisplayGroupViewState.Success -> {
+                GroupsNavigationWrapperUI(
+                    onTabSelected = onTabSelected,
+                    selectedTab = selectedTab,
+                    content = {
+                        GroupsAppContent(
+                            displayGroupState = currentState,
+                            onGroupClick = onGroupClick
+                        )
+                    }
+                )
             }
 
-            is DisplayGroupsViewState.Error -> {
+            is DisplayGroupViewState.Error -> {
                 ErrorContent(
                     { }
                 )
             }
 
-            DisplayGroupsViewState.Empty -> {}
+            DisplayGroupViewState.Empty -> {}
         }
     }
 }
 
 @Composable
 private fun GroupsNavigationWrapperUI(
-    content: @Composable () -> Unit = {}
+    onTabSelected: (BottomTab) -> Unit,
+    selectedTab: BottomTab,
+    content: @Composable () -> Unit
 ) {
-    var selectedTab: BottomTabDestination by remember {
-        mutableStateOf(BottomTabDestination.Groups)
-    }
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
         windowInfo.containerSize.toSize().toDpSize()
@@ -87,10 +88,12 @@ private fun GroupsNavigationWrapperUI(
     NavigationSuiteScaffold(
         layoutType = layoutType,
         navigationSuiteItems = {
-            BottomTabDestination.entries.forEach {
+            BottomTab.entries.forEach {
                 item(
                     selected = it == selectedTab,
-                    onClick = { /*TODO update selection*/ },
+                    onClick = {
+                        onTabSelected(it)
+                    },
                     icon = {
                         Icon(
                             imageVector = it.icon,
@@ -111,7 +114,7 @@ private fun GroupsNavigationWrapperUI(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GroupsAppContent(
-    displayGroupUIState: DisplayGroupsViewState.Success,
+    displayGroupState: DisplayGroupViewState.Success,
     onGroupClick: (Group) -> Unit,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
@@ -127,7 +130,7 @@ fun GroupsAppContent(
         value = navigator.scaffoldValue,
         listPane = {
             GroupListPane(
-                displayGroupUIState = displayGroupUIState,
+                displayGroupState = displayGroupState,
                 onGroupClick = { group ->
                     onGroupClick(group)
                     applicationScope.launch {
@@ -137,7 +140,7 @@ fun GroupsAppContent(
             )
         },
         detailPane = {
-            GroupDetailPane(displayGroupUIState.displayLocationsViewState)
+            GroupDetailPane(displayGroupState.displayLocationsViewState)
         }
     )
 }
