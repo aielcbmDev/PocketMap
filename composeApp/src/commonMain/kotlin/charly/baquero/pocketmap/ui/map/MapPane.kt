@@ -6,9 +6,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-internal fun MapPane(
-    onDelayFinished: () -> Unit
-) {
+internal fun MapPane() {
     MapComponent()
 
     val viewModel = koinViewModel<MapViewModel>()
@@ -17,6 +15,8 @@ internal fun MapPane(
         is MapViewState.Loading -> {
             // unused for now
         }
-        is MapViewState.Success -> onDelayFinished.invoke()
+        is MapViewState.Success -> {
+            // unused for now
+        }
     }
 }
