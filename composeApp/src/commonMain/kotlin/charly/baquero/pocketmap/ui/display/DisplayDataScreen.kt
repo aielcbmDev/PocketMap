@@ -13,6 +13,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -24,9 +25,6 @@ import charly.baquero.pocketmap.ui.navigation.BottomTab
 import com.charly.database.model.groups.Group
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -118,9 +116,9 @@ fun GroupsAppContent(
     onGroupClick: (Group) -> Unit,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
-    val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    val coroutineScope = rememberCoroutineScope()
     BackHandler(navigator.canNavigateBack()) {
-        applicationScope.launch {
+        coroutineScope.launch {
             navigator.navigateBack()
         }
     }
@@ -133,7 +131,7 @@ fun GroupsAppContent(
                 displayGroupState = displayGroupState,
                 onGroupClick = { group ->
                     onGroupClick(group)
-                    applicationScope.launch {
+                    coroutineScope.launch {
                         navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, group.id)
                     }
                 }

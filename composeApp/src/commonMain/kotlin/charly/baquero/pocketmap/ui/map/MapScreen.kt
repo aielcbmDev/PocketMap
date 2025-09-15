@@ -11,6 +11,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
@@ -19,9 +20,6 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
@@ -88,9 +86,9 @@ fun MapNavigationWrapperUI(
 @Composable
 fun MapAppContent() {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
-    val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    val coroutineScope = rememberCoroutineScope()
     BackHandler(navigator.canNavigateBack()) {
-        applicationScope.launch {
+        coroutineScope.launch {
             navigator.navigateBack()
         }
     }
