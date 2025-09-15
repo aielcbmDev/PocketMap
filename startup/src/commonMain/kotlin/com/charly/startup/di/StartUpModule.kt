@@ -5,7 +5,7 @@ import com.charly.startup.ui.StartUpViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
-val startUpMainModule = module {
+val startUpModule = module {
     factory<PrePopulateDatabaseUseCase> { PrePopulateDatabaseUseCase(get()) }
     viewModel { StartUpViewModel(get()) }
 }
