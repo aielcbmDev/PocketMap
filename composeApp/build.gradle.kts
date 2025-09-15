@@ -55,33 +55,33 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":database"))
-            implementation(libs.androidx.material.icons.extended)
+            implementation(libs.jetbrains.material.icons.extended)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-            implementation(libs.androidx.lifecycle.viewmodel)
-            implementation(libs.androidx.lifecycle.runtime.compose)
-            implementation(libs.kotlin.serialization.json)
+            implementation(libs.jetbrains.lifecycle.viewmodel)
+            implementation(libs.jetbrains.lifecycle.runtime.compose)
+            implementation(libs.jetbrains.kotlin.serialization.json)
 
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
-            implementation(libs.androidx.compose.navigation)
+            implementation(libs.jetbrains.compose.navigation)
 
             implementation(libs.jetbrains.backhandler)
-            implementation(libs.androidx.material3.adaptive)
-            implementation(libs.androidx.material3.adaptive.navigation.suite)
-            implementation(libs.androidx.material3.adaptive.layout)
-            implementation(libs.androidx.material3.adaptive.navigation)
+            implementation(libs.jetbrains.material3.adaptive)
+            implementation(libs.jetbrains.material3.adaptive.navigation.suite)
+            implementation(libs.jetbrains.material3.adaptive.layout)
+            implementation(libs.jetbrains.material3.adaptive.navigation)
         }
         commonTest.dependencies {
             implementation(mokkery("coroutines"))
-            implementation(libs.kotlin.test)
-            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.jetbrains.kotlin.test)
+            implementation(libs.jetbrains.kotlinx.coroutines.test)
         }
     }
 }

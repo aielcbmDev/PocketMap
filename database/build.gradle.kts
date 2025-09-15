@@ -68,10 +68,10 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(libs.kotlin.stdlib)
+                implementation(libs.jetbrains.kotlin.stdlib)
                 // Add KMP dependencies here
                 implementation(compose.components.resources)
-                implementation(libs.kotlin.serialization.json)
+                implementation(libs.jetbrains.kotlin.serialization.json)
                 implementation(libs.androidx.room.runtime)
                 implementation(libs.androidx.sqlite.bundled)
 
@@ -84,8 +84,8 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(mokkery("coroutines"))
-                implementation(libs.kotlin.test)
-                implementation(libs.kotlinx.coroutines.test)
+                implementation(libs.jetbrains.kotlin.test)
+                implementation(libs.jetbrains.kotlinx.coroutines.test)
             }
         }
 
