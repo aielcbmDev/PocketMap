@@ -15,9 +15,8 @@ import charly.baquero.pocketmap.ui.MainScreen
 import charly.baquero.pocketmap.ui.MainViewModel
 import charly.baquero.pocketmap.ui.display.DisplayDataViewModel
 import charly.baquero.pocketmap.ui.navigation.Screen
-import com.charly.database.di.databaseMainModule
-import com.charly.database.di.databasePlatformModule
-import com.charly.startup.di.startUpMainModule
+import com.charly.database.di.databaseModule
+import com.charly.startup.di.startUpModule
 import com.charly.startup.ui.StartUpScreen
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
@@ -29,7 +28,7 @@ import org.koin.dsl.KoinAppDeclaration
 fun App(koinAppDeclaration: KoinAppDeclaration? = null) {
     KoinApplication(application = {
         koinAppDeclaration?.invoke(this)
-        modules(appModule, databasePlatformModule, databaseMainModule, startUpMainModule)
+        modules(appModule, databaseModule, startUpModule)
     }) {
         MaterialTheme {
             Scaffold {

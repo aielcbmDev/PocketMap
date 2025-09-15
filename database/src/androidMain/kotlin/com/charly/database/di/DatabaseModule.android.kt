@@ -8,7 +8,7 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-actual val databasePlatformModule: Module
+internal actual val databasePlatformModule: Module
     get() = module {
         factory<Boolean>(named("isDatabaseCreated")) {
             isDatabaseCreated(context = get())

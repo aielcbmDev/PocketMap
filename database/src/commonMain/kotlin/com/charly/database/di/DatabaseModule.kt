@@ -15,9 +15,11 @@ import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
-expect val databasePlatformModule: Module
+internal expect val databasePlatformModule: Module
 
-val databaseMainModule = module {
+val databaseModule = module {
+    includes(databasePlatformModule)
+
     single<PocketMapDatabase> {
         get<RoomDatabase.Builder<PocketMapDatabase>>().getRoomDatabase()
     }
