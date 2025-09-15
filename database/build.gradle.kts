@@ -120,11 +120,10 @@ kotlin {
 }
 
 dependencies {
-    val roomCompiler = libs.androidx.room.compiler
-    add("kspAndroid", roomCompiler)
-    add("kspIosSimulatorArm64", roomCompiler)
-    add("kspIosX64", roomCompiler)
-    add("kspIosArm64", roomCompiler)
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
 }
 
 room {
