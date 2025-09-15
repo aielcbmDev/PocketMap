@@ -1,6 +1,6 @@
-package charly.baquero.pocketmap.ui.startup
+package com.charly.startup.ui
 
-import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
+import com.charly.startup.domain.PrePopulateDatabaseUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend

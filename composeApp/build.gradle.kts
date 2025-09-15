@@ -55,6 +55,7 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(project(":database"))
+            implementation(project(":startup"))
             implementation(libs.jetbrains.material.icons.extended)
             implementation(compose.runtime)
             implementation(compose.foundation)

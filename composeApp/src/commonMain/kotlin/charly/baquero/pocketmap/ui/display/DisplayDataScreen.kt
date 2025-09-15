@@ -21,9 +21,9 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import charly.baquero.pocketmap.ui.startup.ErrorContent
-import charly.baquero.pocketmap.ui.startup.LoadingContent
 import com.charly.database.model.groups.Group
+import com.charly.startup.ui.ErrorContent
+import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

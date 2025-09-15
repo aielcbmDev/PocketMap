@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.ui.startup
+package com.charly.startup.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxScope
@@ -20,13 +20,13 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
-import pocketmap.composeapp.generated.resources.Res
-import pocketmap.composeapp.generated.resources.retry
-import pocketmap.composeapp.generated.resources.something_went_wrong
+import pocketmap.startup.generated.resources.Res
+import pocketmap.startup.generated.resources.retry
+import pocketmap.startup.generated.resources.something_went_wrong
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun StartUpScreen(
+fun StartUpScreen(
     onStartUpSuccess: () -> Unit
 ) {
     val viewModel = koinViewModel<StartUpViewModel>()

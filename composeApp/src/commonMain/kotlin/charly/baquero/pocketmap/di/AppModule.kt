@@ -2,17 +2,13 @@ package charly.baquero.pocketmap.di
 
 import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
 import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
-import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
 import charly.baquero.pocketmap.ui.MainViewModel
 import charly.baquero.pocketmap.ui.display.DisplayDataViewModel
 import charly.baquero.pocketmap.ui.map.MapViewModel
-import charly.baquero.pocketmap.ui.startup.StartUpViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    factory<PrePopulateDatabaseUseCase> { PrePopulateDatabaseUseCase(get()) }
-    viewModel { StartUpViewModel(get()) }
     viewModel { MapViewModel() }
     factory<GetAllGroupsUseCase> { GetAllGroupsUseCase(get()) }
     factory<GetAllLocationsForGroupUseCase> { GetAllLocationsForGroupUseCase(get()) }

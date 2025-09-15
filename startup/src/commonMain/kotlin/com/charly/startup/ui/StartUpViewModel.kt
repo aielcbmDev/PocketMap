@@ -1,8 +1,8 @@
-package charly.baquero.pocketmap.ui.startup
+package com.charly.startup.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import charly.baquero.pocketmap.domain.PrePopulateDatabaseUseCase
+import com.charly.startup.domain.PrePopulateDatabaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
