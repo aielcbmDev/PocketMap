@@ -16,7 +16,7 @@ actual fun MapComponent() {
     Box(
         modifier = Modifier.fillMaxSize(),
     ) {
-        val coordinates = LatLng(19.068857, 72.833)
+        val coordinates = LatLng(41.4036, 2.1744)
         val markerState = rememberUpdatedMarkerState(position = coordinates)
         val cameraPositionState = rememberCameraPositionState {
             position = CameraPosition.fromLatLngZoom(coordinates, 10f)
@@ -27,8 +27,8 @@ actual fun MapComponent() {
         ) {
             Marker(
                 state = markerState,
-                title = "Bandra West",
-                snippet = "Mumbai"
+                title = "Sagrada Familia",
+                snippet = "Barcelona"
             )
         }
     }
