@@ -22,7 +22,7 @@ import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import com.charly.database.model.groups.Group
+import charly.baquero.pocketmap.domain.model.Group
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch

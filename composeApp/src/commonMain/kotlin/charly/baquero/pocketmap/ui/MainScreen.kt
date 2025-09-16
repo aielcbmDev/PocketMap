@@ -5,7 +5,7 @@ import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.display.DisplayGroupViewState
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import com.charly.database.model.groups.Group
+import charly.baquero.pocketmap.domain.model.Group
 
 @Composable
 fun MainScreen(

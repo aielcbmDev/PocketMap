@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
 import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
-import com.charly.database.model.groups.Group
-import com.charly.database.model.locations.Location
+import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.domain.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

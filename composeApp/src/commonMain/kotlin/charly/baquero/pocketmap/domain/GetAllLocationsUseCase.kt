@@ -1,6 +1,7 @@
 package charly.baquero.pocketmap.domain
 
-import com.charly.database.model.locations.Location
+import charly.baquero.pocketmap.domain.model.Location
+import charly.baquero.pocketmap.domain.utils.mapToLocationList
 import com.charly.database.repositories.getall.GetAllLocationsRepository
 
 class GetAllLocationsUseCase(
@@ -8,6 +9,6 @@ class GetAllLocationsUseCase(
 ) {
 
     suspend fun execute(): List<Location> {
-        return getAllLocationsRepository.execute()
+        return getAllLocationsRepository.execute().mapToLocationList()
     }
 }

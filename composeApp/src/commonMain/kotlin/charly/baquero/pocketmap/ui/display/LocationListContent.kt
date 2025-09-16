@@ -25,7 +25,7 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.charly.database.model.locations.Location
+import charly.baquero.pocketmap.domain.model.Location
 
 @Composable
 fun LocationListPane(

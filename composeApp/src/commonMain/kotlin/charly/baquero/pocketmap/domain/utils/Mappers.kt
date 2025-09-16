@@ -1,13 +1,11 @@
-package com.charly.database.utils
+package charly.baquero.pocketmap.domain.utils
 
-import com.charly.database.model.groups.Group
+import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.domain.model.Location
 import com.charly.database.model.groups.GroupEntity
-import com.charly.database.model.locations.Location
 import com.charly.database.model.locations.LocationEntity
-import com.charly.database.model.membership.Membership
-import com.charly.database.model.membership.MembershipEntity
 
-internal fun GroupEntity.mapToGroup(): Group {
+fun GroupEntity.mapToGroup(): Group {
     return Group(
         id = this.id,
         name = this.name
@@ -73,22 +71,6 @@ internal fun List<Location>.mapToLocationEntityList(): List<LocationEntity> {
     forEach { location ->
         val locationEntity = location.mapToLocationEntity()
         list.add(locationEntity)
-    }
-    return list
-}
-
-internal fun Membership.mapToMembershipEntity(): MembershipEntity {
-    return MembershipEntity(
-        idGroup = this.idGroup,
-        idLocation = this.idLocation
-    )
-}
-
-internal fun List<Membership>.mapToMembershipEntityList(): List<MembershipEntity> {
-    val list = mutableListOf<MembershipEntity>()
-    forEach { membership ->
-        val membershipEntity = membership.mapToMembershipEntity()
-        list.add(membershipEntity)
     }
     return list
 }

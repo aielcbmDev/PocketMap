@@ -1,4 +1,4 @@
-package com.charly.database.model.groups
+package charly.baquero.pocketmap.domain.model
 
 import kotlinx.serialization.Serializable
 
