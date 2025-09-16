@@ -42,13 +42,26 @@ fun DisplayDataScreen(
             }
 
             is DisplayGroupViewState.Success -> {
+                val windowSize = with(LocalDensity.current) {
+                    val windowInfo = LocalWindowInfo.current
+                    windowInfo.containerSize.toSize().toDpSize()
+                }
+                val layoutType = if (windowSize.width >= 1200.dp) {
+                    NavigationSuiteType.NavigationDrawer
+                } else {
+                    NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
+                        currentWindowAdaptiveInfo()
+                    )
+                }
                 GroupsNavigationWrapperUI(
                     onTabSelected = onTabSelected,
                     selectedTab = selectedTab,
+                    layoutType = layoutType,
                     content = {
                         GroupsAppContent(
                             displayGroupState = currentState,
-                            onGroupClick = onGroupClick
+                            onGroupClick = onGroupClick,
+                            layoutType = layoutType
                         )
                     }
                 )
@@ -69,20 +82,9 @@ fun DisplayDataScreen(
 private fun GroupsNavigationWrapperUI(
     onTabSelected: (BottomTab) -> Unit,
     selectedTab: BottomTab,
+    layoutType: NavigationSuiteType,
     content: @Composable () -> Unit
 ) {
-    val windowSize = with(LocalDensity.current) {
-        val windowInfo = LocalWindowInfo.current
-        windowInfo.containerSize.toSize().toDpSize()
-    }
-    val layoutType = if (windowSize.width >= 1200.dp) {
-        NavigationSuiteType.NavigationDrawer
-    } else {
-        NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
-            currentWindowAdaptiveInfo()
-        )
-    }
-
     NavigationSuiteScaffold(
         layoutType = layoutType,
         navigationSuiteItems = {
@@ -114,6 +116,7 @@ private fun GroupsNavigationWrapperUI(
 fun GroupsAppContent(
     displayGroupState: DisplayGroupViewState.Success,
     onGroupClick: (Group) -> Unit,
+    layoutType: NavigationSuiteType,
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
@@ -138,7 +141,15 @@ fun GroupsAppContent(
             )
         },
         detailPane = {
-            GroupDetailPane(displayGroupState.displayLocationsViewState)
+            LocationListPane(
+                displayLocationsViewState = displayGroupState.displayLocationsViewState,
+                onBackClick = {
+                    coroutineScope.launch {
+                        navigator.navigateBack()
+                    }
+                },
+                layoutType = layoutType
+            )
         }
     )
 }
