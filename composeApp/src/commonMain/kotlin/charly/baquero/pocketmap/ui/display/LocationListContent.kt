@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
@@ -46,7 +47,9 @@ fun LocationListPane(
             is DisplayLocationsViewState.Loading -> {}
 
             is DisplayLocationsViewState.Success -> {
+                val state = rememberLazyListState()
                 LazyColumn(
+                    state = state,
                     modifier = modifier.fillMaxWidth(),
                     contentPadding = WindowInsets.safeDrawing.only(
                         WindowInsetsSides.Horizontal + WindowInsetsSides.Top
@@ -72,6 +75,7 @@ fun LocationListItem(
     modifier: Modifier = Modifier
 ) {
     Card(
+        onClick = {},
         modifier = modifier.padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
