@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface LocationDao {
 
-    @Query("SELECT * FROM locations_table;")
+    @Query("SELECT * FROM locations_table ORDER BY title")
     suspend fun getAllLocations(): List<LocationEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)

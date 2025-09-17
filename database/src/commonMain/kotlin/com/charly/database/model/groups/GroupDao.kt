@@ -8,7 +8,7 @@ import androidx.room.Query
 @Dao
 interface GroupDao {
 
-    @Query("SELECT * FROM groups_table;")
+    @Query("SELECT * FROM groups_table ORDER BY name")
     suspend fun getAllGroups(): List<GroupEntity>
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)

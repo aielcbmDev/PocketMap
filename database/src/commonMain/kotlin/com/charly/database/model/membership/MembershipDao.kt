@@ -19,9 +19,9 @@ interface MembershipDao {
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertOrReplaceListOfMemberships(membershipEntityList: List<MembershipEntity>)
 
-    @Query("SELECT * FROM groups_table INNER JOIN membership_table ON groups_table.id=membership_table.idGroup WHERE membership_table.idLocation=:idLocation")
+    @Query("SELECT * FROM groups_table INNER JOIN membership_table ON groups_table.id=membership_table.idGroup WHERE membership_table.idLocation=:idLocation ORDER BY groups_table.name")
     suspend fun getGroupsForLocation(idLocation: Long): List<GroupEntity>
 
-    @Query("SELECT * FROM locations_table INNER JOIN membership_table ON locations_table.id=membership_table.idLocation WHERE membership_table.idGroup=:idGroup")
+    @Query("SELECT * FROM locations_table INNER JOIN membership_table ON locations_table.id=membership_table.idLocation WHERE membership_table.idGroup=:idGroup ORDER BY locations_table.title")
     suspend fun getLocationsForGroup(idGroup: Long): List<LocationEntity>
 }
