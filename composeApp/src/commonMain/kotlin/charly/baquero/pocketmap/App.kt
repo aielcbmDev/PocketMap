@@ -12,7 +12,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.di.appModule
 import charly.baquero.pocketmap.ui.MainScreen
-import charly.baquero.pocketmap.ui.MainViewModel
 import charly.baquero.pocketmap.ui.display.DisplayDataViewModel
 import charly.baquero.pocketmap.ui.navigation.Screen
 import com.charly.database.di.databaseModule
@@ -58,13 +57,9 @@ private fun MainNavigationHost() {
         composable<Screen.Main> {
             val displayDataViewModel = koinViewModel<DisplayDataViewModel>()
             val displayGroupState by displayDataViewModel.state.collectAsStateWithLifecycle()
-            val mainViewModel = koinViewModel<MainViewModel>()
-            val mainViewState by mainViewModel.state.collectAsStateWithLifecycle()
             MainScreen(
-                mainViewState = mainViewState,
                 displayGroupState = displayGroupState,
-                onGroupClick = displayDataViewModel::setSelectedGroup,
-                onTabSelected = mainViewModel::setSelectedTab
+                onGroupClick = displayDataViewModel::setSelectedGroup
             )
         }
     }

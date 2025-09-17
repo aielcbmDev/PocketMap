@@ -1,34 +1,78 @@
 package charly.baquero.pocketmap.ui
 
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
+import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.toSize
+import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.display.DisplayGroupViewState
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import charly.baquero.pocketmap.domain.model.Group
+import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MainScreen(
-    mainViewState: MainViewState,
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
-    onTabSelected: (BottomTab) -> Unit
 ) {
-    when (mainViewState) {
-        is MainViewState.MapTabSelected -> {
-            MapScreen(
-                onTabSelected = onTabSelected,
-                selectedTab = BottomTab.Map
-            )
+    val windowSize = with(LocalDensity.current) {
+        val windowInfo = LocalWindowInfo.current
+        windowInfo.containerSize.toSize().toDpSize()
+    }
+    val layoutType = if (windowSize.width >= 1200.dp) {
+        NavigationSuiteType.NavigationDrawer
+    } else {
+        NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
+            currentWindowAdaptiveInfo()
+        )
+    }
+    var currentDestination by rememberSaveable { mutableStateOf(BottomTab.Map) }
+    NavigationSuiteScaffold(
+        layoutType = layoutType,
+        navigationSuiteItems = {
+            BottomTab.entries.forEach {
+                item(
+                    selected = it == currentDestination,
+                    onClick = {
+                        currentDestination = it
+                    },
+                    icon = {
+                        Icon(
+                            imageVector = it.icon,
+                            contentDescription = stringResource(it.labelRes)
+                        )
+                    },
+                    label = {
+                        Text(text = stringResource(it.labelRes))
+                    },
+                )
+            }
         }
+    ) {
+        when (currentDestination) {
+            BottomTab.Map -> {
+                MapScreen()
+            }
 
-        is MainViewState.GroupsTabSelected -> {
-            DisplayDataScreen(
-                displayGroupState = displayGroupState,
-                onGroupClick = onGroupClick,
-                onTabSelected = onTabSelected,
-                selectedTab = BottomTab.Groups
-            )
+            BottomTab.Groups -> {
+                DisplayDataScreen(
+                    displayGroupState = displayGroupState,
+                    onGroupClick = onGroupClick,
+                    layoutType = layoutType
+                )
+            }
         }
     }
 }
