@@ -22,6 +22,6 @@ data class LocationEntity(
     val id: Long = 0,
     val title: String,
     val description: String? = null,
-    val latitude: Float,
-    val longitude: Float,
+    val latitude: Double,
+    val longitude: Double,
 )

@@ -29,8 +29,8 @@ actual fun MapComponent(locationList: List<Location>?) {
                 Marker(
                     state = rememberUpdatedMarkerState(
                         position = LatLng(
-                            it.latitude.toDouble(),
-                            it.longitude.toDouble()
+                            it.latitude,
+                            it.longitude
                         )
                     ),
                     title = it.title,
