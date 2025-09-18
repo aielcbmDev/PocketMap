@@ -56,7 +56,9 @@ fun LocationListPane(
                     ).asPaddingValues()
                 ) {
                     items(currentState.locationList) { location ->
-                        LocationListItem(location)
+                        LocationListItem(
+                            location = location
+                        )
                     }
                 }
             }
@@ -75,7 +77,7 @@ fun LocationListItem(
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = {},
+        onClick = { },
         modifier = modifier.padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
