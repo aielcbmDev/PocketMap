@@ -27,11 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Location
+import charly.baquero.pocketmap.ui.DisplayLocationsViewState
 
 @Composable
 fun LocationListPane(
     displayLocationsViewState: DisplayLocationsViewState,
     onBackClick: () -> Unit,
+    onLocationClick: () -> Unit,
     layoutType: NavigationSuiteType,
     modifier: Modifier = Modifier
 ) {
@@ -57,7 +59,8 @@ fun LocationListPane(
                 ) {
                     items(currentState.locationList) { location ->
                         LocationListItem(
-                            location = location
+                            location = location,
+                            onLocationClick = onLocationClick
                         )
                     }
                 }
@@ -74,10 +77,11 @@ fun LocationListPane(
 @Composable
 fun LocationListItem(
     location: Location,
+    onLocationClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { },
+        onClick = { onLocationClick.invoke() },
         modifier = modifier.padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {

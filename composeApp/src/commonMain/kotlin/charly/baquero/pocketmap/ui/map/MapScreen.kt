@@ -18,14 +18,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import charly.baquero.pocketmap.ui.DisplayGroupViewState
 
 @Composable
-fun MapScreen() {
+fun MapScreen(
+    displayGroupState: DisplayGroupViewState,
+) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
             topBar = { MapTopBar() }
         ) { _ ->
-            MapPane()
+            MapPane(displayGroupState)
         }
     }
 }

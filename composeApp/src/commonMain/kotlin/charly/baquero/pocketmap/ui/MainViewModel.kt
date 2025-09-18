@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.ui.display
+package charly.baquero.pocketmap.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class DisplayDataViewModel(
+class MainViewModel(
     private val getAllGroupsUseCase: GetAllGroupsUseCase,
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase
 ) : ViewModel() {
@@ -38,11 +38,7 @@ class DisplayDataViewModel(
         }
     }
 
-    fun setSelectedGroup(group: Group) {
-        displayLocationsForGroup(group)
-    }
-
-    private fun displayLocationsForGroup(group: Group) {
+    fun displayLocationsForGroup(group: Group) {
         viewModelScope.launch {
             setLocationsLoading(group)
             try {

@@ -1,22 +1,26 @@
 package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import org.koin.compose.viewmodel.koinViewModel
+import charly.baquero.pocketmap.ui.DisplayGroupViewState
+import charly.baquero.pocketmap.ui.DisplayLocationsViewState
 
 @Composable
-internal fun MapPane() {
-    MapComponent()
-
-    val viewModel = koinViewModel<MapViewModel>()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    when (state) {
-        is MapViewState.Loading -> {
-            // unused for now
+fun MapPane(
+    displayGroupState: DisplayGroupViewState,
+) {
+    when (val groupsState = displayGroupState) {
+        is DisplayGroupViewState.Success -> {
+            when (val locationsState = groupsState.displayLocationsViewState) {
+                is DisplayLocationsViewState.Success -> {
+                    MapComponent(locationsState.locationList)
+                }
+                else -> {
+                    MapComponent()
+                }
+            }
         }
-        is MapViewState.Success -> {
-            // unused for now
+        else -> {
+            //MapComponent()
         }
     }
 }

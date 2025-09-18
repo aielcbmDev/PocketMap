@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.ui.DisplayGroupViewState
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.CoroutineScope
@@ -21,6 +22,7 @@ import kotlinx.coroutines.launch
 fun DisplayDataScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
+    onLocationClick: () -> Unit,
     navigator: ThreePaneScaffoldNavigator<Long>,
     coroutineScope: CoroutineScope,
     layoutType: NavigationSuiteType
@@ -35,6 +37,7 @@ fun DisplayDataScreen(
                 GroupsAppContent(
                     displayGroupState = currentState,
                     onGroupClick = onGroupClick,
+                    onLocationClick = onLocationClick,
                     navigator = navigator,
                     coroutineScope = coroutineScope,
                     layoutType = layoutType
@@ -57,6 +60,7 @@ fun DisplayDataScreen(
 fun GroupsAppContent(
     displayGroupState: DisplayGroupViewState.Success,
     onGroupClick: (Group) -> Unit,
+    onLocationClick: () -> Unit,
     navigator: ThreePaneScaffoldNavigator<Long>,
     coroutineScope: CoroutineScope,
     layoutType: NavigationSuiteType
@@ -83,6 +87,7 @@ fun GroupsAppContent(
                         navigator.navigateBack()
                     }
                 },
+                onLocationClick = onLocationClick,
                 layoutType = layoutType
             )
         }

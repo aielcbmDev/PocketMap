@@ -9,10 +9,14 @@ import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.tab_groups
 import pocketmap.composeapp.generated.resources.tab_map
 
+private const val mapRoute = "mapTab"
+private const val groupsRoute = "groupsTab"
+
 enum class BottomTab(
     val labelRes: StringResource,
     val icon: ImageVector,
+    val route: String
 ) {
-    Map(Res.string.tab_map, Icons.Outlined.Map),
-    Groups(Res.string.tab_groups, Icons.Outlined.Group),
+    Map(Res.string.tab_map, Icons.Outlined.Map, mapRoute),
+    Groups(Res.string.tab_groups, Icons.Outlined.Group, groupsRoute);
 }

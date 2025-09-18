@@ -9,20 +9,20 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
-import charly.baquero.pocketmap.ui.display.DisplayGroupViewState
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
 import kotlinx.coroutines.launch
@@ -52,15 +52,16 @@ fun MainScreen(
             navigator.navigateBack()
         }
     }
-    var currentDestination by rememberSaveable { mutableStateOf(BottomTab.Map) }
+    val navController = rememberNavController()
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     NavigationSuiteScaffold(
         layoutType = layoutType,
         navigationSuiteItems = {
             BottomTab.entries.forEach {
                 item(
-                    selected = it == currentDestination,
+                    selected = currentRoute == it.route,
                     onClick = {
-                        currentDestination = it
+                        navController.navigate(it.route)
                     },
                     icon = {
                         Icon(
@@ -75,15 +76,21 @@ fun MainScreen(
             }
         }
     ) {
-        when (currentDestination) {
-            BottomTab.Map -> {
-                MapScreen()
+        NavHost(
+            navController = navController,
+            startDestination = BottomTab.Map.route,
+            modifier = Modifier
+        ) {
+            composable(BottomTab.Map.route) {
+                MapScreen(
+                    displayGroupState = displayGroupState,
+                )
             }
-
-            BottomTab.Groups -> {
+            composable(BottomTab.Groups.route) {
                 DisplayDataScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
+                    onLocationClick = { navController.navigate(BottomTab.Map.route) },
                     navigator = navigator,
                     coroutineScope = coroutineScope,
                     layoutType = layoutType
