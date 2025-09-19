@@ -10,7 +10,7 @@ fun MapPane(
 ) {
     when (val groupsState = displayGroupState) {
         is DisplayGroupViewState.Success -> MapPaneWithLocations(groupsState.displayLocationsViewState)
-        else -> MapComponent()
+        else -> {}
     }
 }
 

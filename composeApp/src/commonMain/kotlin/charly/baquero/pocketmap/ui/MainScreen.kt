@@ -32,8 +32,7 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MainScreen(
     displayGroupState: DisplayGroupViewState,
-    onGroupClick: (Group) -> Unit,
-    displayAllGroups: () -> Unit,
+    onGroupClick: (Group) -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -92,7 +91,6 @@ fun MainScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
                     onLocationClick = { navController.navigate(BottomTab.Map.route) },
-                    displayAllGroups = displayAllGroups,
                     navigator = navigator,
                     coroutineScope = coroutineScope,
                     layoutType = layoutType

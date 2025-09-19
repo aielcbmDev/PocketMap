@@ -59,8 +59,7 @@ private fun MainNavigationHost() {
             val displayGroupState by mainViewModel.state.collectAsStateWithLifecycle()
             MainScreen(
                 displayGroupState = displayGroupState,
-                onGroupClick = mainViewModel::displayLocationsForGroup,
-                displayAllGroups = mainViewModel::displayAllGroups
+                onGroupClick = mainViewModel::displayLocationsForGroup
             )
         }
     }
