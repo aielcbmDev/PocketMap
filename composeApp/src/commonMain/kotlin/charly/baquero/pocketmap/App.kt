@@ -59,7 +59,8 @@ private fun MainNavigationHost() {
             val displayGroupState by mainViewModel.state.collectAsStateWithLifecycle()
             MainScreen(
                 displayGroupState = displayGroupState,
-                onGroupClick = mainViewModel::displayLocationsForGroup
+                onGroupClick = mainViewModel::fetchLocationsForGroup,
+                onTabSelected = mainViewModel::setSelectTab
             )
         }
     }

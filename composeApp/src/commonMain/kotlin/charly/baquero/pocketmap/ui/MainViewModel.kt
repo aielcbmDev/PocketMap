@@ -6,6 +6,7 @@ import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
 import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.model.Location
+import charly.baquero.pocketmap.ui.navigation.BottomTab
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -19,26 +20,30 @@ class MainViewModel(
     private val _state = MutableStateFlow<DisplayGroupViewState>(DisplayGroupViewState.Loading)
     val state: StateFlow<DisplayGroupViewState> = _state
 
-    init {
-        displayAllGroups()
+    fun setSelectTab(tab: BottomTab) {
+        if (tab == BottomTab.Groups) {
+            fetchAllGroups()
+        }
     }
 
-    fun displayAllGroups() {
-        viewModelScope.launch {
-            _state.value = DisplayGroupViewState.Loading
-            try {
-                val groupList = getAllGroupsUseCase.execute()
-                _state.value = DisplayGroupViewState.Success(
-                    groupList = groupList,
-                    displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
-                )
-            } catch (_: Exception) {
-                _state.value = DisplayGroupViewState.Error
+    private fun fetchAllGroups(updateGroupData: Boolean = false) {
+        if (_state.value !is DisplayGroupViewState.Success || updateGroupData) {
+            viewModelScope.launch {
+                _state.value = DisplayGroupViewState.Loading
+                try {
+                    val groupList = getAllGroupsUseCase.execute()
+                    _state.value = DisplayGroupViewState.Success(
+                        groupList = groupList,
+                        displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+                    )
+                } catch (_: Exception) {
+                    _state.value = DisplayGroupViewState.Error
+                }
             }
         }
     }
 
-    fun displayLocationsForGroup(group: Group) {
+    fun fetchLocationsForGroup(group: Group) {
         viewModelScope.launch {
             setLocationsLoading(group)
             try {

@@ -32,7 +32,8 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MainScreen(
     displayGroupState: DisplayGroupViewState,
-    onGroupClick: (Group) -> Unit
+    onGroupClick: (Group) -> Unit,
+    onTabSelected: (BottomTab) -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -82,15 +83,19 @@ fun MainScreen(
             modifier = Modifier
         ) {
             composable(BottomTab.Map.route) {
+                onTabSelected.invoke(BottomTab.Map)
                 MapScreen(
                     displayGroupState = displayGroupState,
                 )
             }
             composable(BottomTab.Groups.route) {
+                onTabSelected.invoke(BottomTab.Groups)
                 DisplayDataScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
-                    onLocationClick = { navController.navigate(BottomTab.Map.route) },
+                    onLocationClick = {
+                        navController.navigate(BottomTab.Map.route)
+                    },
                     navigator = navigator,
                     coroutineScope = coroutineScope,
                     layoutType = layoutType
