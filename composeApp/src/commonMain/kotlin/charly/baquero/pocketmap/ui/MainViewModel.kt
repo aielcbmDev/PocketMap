@@ -19,10 +19,6 @@ class MainViewModel(
     private val _state = MutableStateFlow<DisplayGroupViewState>(DisplayGroupViewState.Loading)
     val state: StateFlow<DisplayGroupViewState> = _state
 
-    init {
-        displayAllGroups()
-    }
-
     fun displayAllGroups() {
         viewModelScope.launch {
             _state.value = DisplayGroupViewState.Loading

@@ -60,6 +60,7 @@ private fun MainNavigationHost() {
             MainScreen(
                 displayGroupState = displayGroupState,
                 onGroupClick = mainViewModel::displayLocationsForGroup,
+                displayAllGroups = mainViewModel::displayAllGroups
             )
         }
     }

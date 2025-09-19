@@ -9,18 +9,15 @@ fun MapPane(
     displayGroupState: DisplayGroupViewState,
 ) {
     when (val groupsState = displayGroupState) {
-        is DisplayGroupViewState.Success -> {
-            when (val locationsState = groupsState.displayLocationsViewState) {
-                is DisplayLocationsViewState.Success -> {
-                    MapComponent(locationsState.locationList)
-                }
-                else -> {
-                    MapComponent()
-                }
-            }
-        }
-        else -> {
-            //MapComponent()
-        }
+        is DisplayGroupViewState.Success -> MapPaneWithLocations(groupsState.displayLocationsViewState)
+        else -> MapComponent()
+    }
+}
+
+@Composable
+private fun MapPaneWithLocations(locationsState: DisplayLocationsViewState) {
+    when (locationsState) {
+        is DisplayLocationsViewState.Success -> MapComponent(locationsState.locationList)
+        else -> MapComponent()
     }
 }

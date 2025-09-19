@@ -8,6 +8,7 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import charly.baquero.pocketmap.domain.model.Group
@@ -23,10 +24,14 @@ fun DisplayDataScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: () -> Unit,
+    displayAllGroups: () -> Unit,
     navigator: ThreePaneScaffoldNavigator<Long>,
     coroutineScope: CoroutineScope,
     layoutType: NavigationSuiteType
 ) {
+    LaunchedEffect(Unit) {
+        displayAllGroups.invoke()
+    }
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = displayGroupState) {
             is DisplayGroupViewState.Loading -> {
