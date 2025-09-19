@@ -3,6 +3,7 @@ package charly.baquero.pocketmap.ui.display
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
@@ -69,27 +70,31 @@ fun GroupsAppContent(
         directive = navigator.scaffoldDirective,
         value = navigator.scaffoldValue,
         listPane = {
-            GroupListPane(
-                displayGroupState = displayGroupState,
-                onGroupClick = { group ->
-                    onGroupClick(group)
-                    coroutineScope.launch {
-                        navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, group.id)
+            AnimatedPane {
+                GroupListPane(
+                    displayGroupState = displayGroupState,
+                    onGroupClick = { group ->
+                        onGroupClick(group)
+                        coroutineScope.launch {
+                            navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, group.id)
+                        }
                     }
-                }
-            )
+                )
+            }
         },
         detailPane = {
-            LocationListPane(
-                displayLocationsViewState = displayGroupState.displayLocationsViewState,
-                onBackClick = {
-                    coroutineScope.launch {
-                        navigator.navigateBack()
-                    }
-                },
-                onLocationClick = onLocationClick,
-                layoutType = layoutType
-            )
+            AnimatedPane {
+                LocationListPane(
+                    displayLocationsViewState = displayGroupState.displayLocationsViewState,
+                    onBackClick = {
+                        coroutineScope.launch {
+                            navigator.navigateBack()
+                        }
+                    },
+                    onLocationClick = onLocationClick,
+                    layoutType = layoutType
+                )
+            }
         }
     )
 }
