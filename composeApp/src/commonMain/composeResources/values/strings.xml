@@ -5,4 +5,12 @@
 
     <string name="tab_map">Map</string>
     <string name="tab_groups">Groups</string>
+
+    <string name="groups_screen_title">Groups</string>
+    <string name="groups_screen_add_group_option">Add group</string>
+    <string name="groups_screen_edit_group_option">Edit group</string>
+    <string name="groups_screen_delete_group_option">Delete group</string>
+
+    <string name="groups_screen_edit_location_option">Edit location</string>
+    <string name="groups_screen_delete_location_option">Delete location</string>
 </resources>

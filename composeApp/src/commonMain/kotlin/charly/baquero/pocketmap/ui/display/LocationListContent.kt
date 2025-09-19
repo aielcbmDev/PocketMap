@@ -1,20 +1,18 @@
 package charly.baquero.pocketmap.ui.display
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,10 +22,18 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.DisplayLocationsViewState
+import org.jetbrains.compose.resources.stringResource
+import pocketmap.composeapp.generated.resources.Res
+import pocketmap.composeapp.generated.resources.groups_screen_delete_location_option
+import pocketmap.composeapp.generated.resources.groups_screen_edit_location_option
 
 @Composable
 fun LocationListPane(
@@ -39,12 +45,14 @@ fun LocationListPane(
 ) {
     Scaffold(
         topBar = {
-            LocationPaneTopBar(
+            LocationListPaneTopBar(
+                groupName = (displayLocationsViewState as? DisplayLocationsViewState.Success)?.groupName
+                    ?: "",
                 onBackClick = onBackClick,
                 layoutType = layoutType
             )
         }
-    ) { _ ->
+    ) { padding ->
         when (val currentState = displayLocationsViewState) {
             is DisplayLocationsViewState.Loading -> {}
 
@@ -52,10 +60,7 @@ fun LocationListPane(
                 val state = rememberLazyListState()
                 LazyColumn(
                     state = state,
-                    modifier = modifier.fillMaxWidth(),
-                    contentPadding = WindowInsets.safeDrawing.only(
-                        WindowInsetsSides.Horizontal + WindowInsetsSides.Top
-                    ).asPaddingValues()
+                    modifier = modifier.fillMaxWidth().padding(padding)
                 ) {
                     items(currentState.locationList) { location ->
                         LocationListItem(
@@ -108,18 +113,46 @@ fun LocationListItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LocationPaneTopBar(
+private fun LocationListPaneTopBar(
+    groupName: String,
     onBackClick: () -> Unit,
     layoutType: NavigationSuiteType,
 ) {
     if (layoutType == NavigationSuiteType.NavigationBar) {
         TopAppBar(
-            title = {},
+            title = { Text(groupName) },
             navigationIcon = {
                 IconButton(onClick = { onBackClick.invoke() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
-            }
+            },
+            actions = { LocationListActions() }
+        )
+    } else {
+        TopAppBar(
+            title = { Text(groupName) },
+            actions = { LocationListActions() }
+        )
+    }
+}
+
+@Composable
+private fun LocationListActions() {
+    var expanded by remember { mutableStateOf(false) }
+    IconButton(onClick = { expanded = !expanded }) {
+        Icon(Icons.Default.MoreVert, contentDescription = "More options")
+    }
+    DropdownMenu(
+        expanded = expanded,
+        onDismissRequest = { expanded = false }
+    ) {
+        DropdownMenuItem(
+            text = { Text(stringResource(Res.string.groups_screen_edit_location_option)) },
+            onClick = { /* Do something... */ }
+        )
+        DropdownMenuItem(
+            text = { Text(stringResource(Res.string.groups_screen_delete_location_option)) },
+            onClick = { /* Do something... */ }
         )
     }
 }

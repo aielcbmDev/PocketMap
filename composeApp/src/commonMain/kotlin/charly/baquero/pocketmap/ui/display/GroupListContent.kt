@@ -1,24 +1,38 @@
 package charly.baquero.pocketmap.ui.display
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.WindowInsetsSides
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.Card
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.DisplayGroupViewState
+import org.jetbrains.compose.resources.stringResource
+import pocketmap.composeapp.generated.resources.Res
+import pocketmap.composeapp.generated.resources.groups_screen_add_group_option
+import pocketmap.composeapp.generated.resources.groups_screen_delete_group_option
+import pocketmap.composeapp.generated.resources.groups_screen_edit_group_option
+import pocketmap.composeapp.generated.resources.groups_screen_title
 
 @Composable
 fun GroupListPane(
@@ -26,19 +40,20 @@ fun GroupListPane(
     onGroupClick: (Group) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val state = rememberLazyListState()
-    LazyColumn(
-        state = state,
-        modifier = modifier.fillMaxWidth(),
-        contentPadding = WindowInsets.safeDrawing.only(
-            WindowInsetsSides.Horizontal + WindowInsetsSides.Top
-        ).asPaddingValues()
-    ) {
-        items(displayGroupState.groupList) { group ->
-            GroupListItem(
-                group = group,
-                onGroupClick = onGroupClick
-            )
+    Scaffold(
+        topBar = { GroupListPaneTopBar() }
+    ) { padding ->
+        val state = rememberLazyListState()
+        LazyColumn(
+            state = state,
+            modifier = modifier.padding(padding)
+        ) {
+            items(displayGroupState.groupList) { group ->
+                GroupListItem(
+                    group = group,
+                    onGroupClick = onGroupClick
+                )
+            }
         }
     }
 }
@@ -66,4 +81,35 @@ fun GroupListItem(
             )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun GroupListPaneTopBar() {
+    var expanded by remember { mutableStateOf(false) }
+    TopAppBar(
+        title = { Text(stringResource(Res.string.groups_screen_title)) },
+        actions = {
+            IconButton(onClick = { expanded = !expanded }) {
+                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+            }
+            DropdownMenu(
+                expanded = expanded,
+                onDismissRequest = { expanded = false }
+            ) {
+                DropdownMenuItem(
+                    text = { Text(stringResource(Res.string.groups_screen_add_group_option)) },
+                    onClick = { /* Do something... */ }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(Res.string.groups_screen_edit_group_option)) },
+                    onClick = { /* Do something... */ }
+                )
+                DropdownMenuItem(
+                    text = { Text(stringResource(Res.string.groups_screen_delete_group_option)) },
+                    onClick = { /* Do something... */ }
+                )
+            }
+        },
+    )
 }
