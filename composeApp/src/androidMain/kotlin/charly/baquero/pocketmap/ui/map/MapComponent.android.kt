@@ -8,6 +8,8 @@ import charly.baquero.pocketmap.domain.model.Location
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
+import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.google.maps.android.compose.rememberUpdatedMarkerState
@@ -23,7 +25,20 @@ actual fun MapComponent(locationList: List<Location>?) {
         }
         GoogleMap(
             modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState
+            cameraPositionState = cameraPositionState,
+            properties = MapProperties(
+                isMyLocationEnabled = false,
+                isTrafficEnabled = true,
+            ),
+            uiSettings = MapUiSettings(
+                zoomControlsEnabled = false,
+                zoomGesturesEnabled = true,
+                mapToolbarEnabled = true,
+                scrollGesturesEnabled = true,
+                rotationGesturesEnabled = true,
+                tiltGesturesEnabled = false,
+                scrollGesturesEnabledDuringRotateOrZoom = true,
+            )
         ) {
             locationList?.forEach {
                 Marker(
