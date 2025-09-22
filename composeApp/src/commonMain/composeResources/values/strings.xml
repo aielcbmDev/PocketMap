@@ -3,14 +3,31 @@
     <string name="search">Search</string>
     <string name="search_groups">search groups</string>
 
-    <string name="tab_map">Map</string>
-    <string name="tab_groups">Groups</string>
+    <string name="tab_map_label">Map</string>
+    <string name="tab_map_tooltip_title">Map</string>
+    <string name="tab_map_tooltip_text">Displays a map and the locations that belong to the group selected.</string>
+    <string name="tab_map_content_description">Map</string>
+
+    <string name="tab_groups_label">Groups</string>
+    <string name="tab_groups_tooltip_title">Groups</string>
+    <string name="tab_groups_tooltip_text">Display a list of groups. You can edit, remove or create new groups.</string>
+    <string name="tab_groups_content_description">Groups</string>
+
+    <string name="more_options">More options</string>
 
     <string name="groups_screen_title">Groups</string>
-    <string name="groups_screen_add_group_option">Add group</string>
+    <string name="groups_screen_add_group_tooltip_title">Add group</string>
+    <string name="groups_screen_add_group_tooltip_text">Allows adding a new group. This is the main way to display locations in the map.</string>
+
     <string name="groups_screen_edit_group_option">Edit group</string>
     <string name="groups_screen_delete_group_option">Delete group</string>
 
-    <string name="groups_screen_edit_location_option">Edit location</string>
-    <string name="groups_screen_delete_location_option">Delete location</string>
+    <string name="location_screen_edit_location_tooltip_title">Edit location</string>
+    <string name="location_screen_edit_location_tooltip_text">Allows editing a location. You can change its title or description.</string>
+
+    <string name="location_screen_delete_location_option">Delete location</string>
+
+    <string name="map_screen_add_group_tooltip_title">Add group</string>
+    <string name="map_screen_add_group_tooltip_description">Allows adding a new group. This is the main way to display locations in the map.</string>
+    <string name="map_screen_clear_map_option">Clear map</string>
 </resources>

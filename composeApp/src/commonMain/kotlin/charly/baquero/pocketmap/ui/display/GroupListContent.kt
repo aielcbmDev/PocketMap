@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material3.Card
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -27,12 +28,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.DisplayGroupViewState
+import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
-import pocketmap.composeapp.generated.resources.groups_screen_add_group_option
+import pocketmap.composeapp.generated.resources.groups_screen_add_group_tooltip_text
+import pocketmap.composeapp.generated.resources.groups_screen_add_group_tooltip_title
 import pocketmap.composeapp.generated.resources.groups_screen_delete_group_option
 import pocketmap.composeapp.generated.resources.groups_screen_edit_group_option
 import pocketmap.composeapp.generated.resources.groups_screen_title
+import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun GroupListPane(
@@ -90,17 +94,23 @@ private fun GroupListPaneTopBar() {
     TopAppBar(
         title = { Text(stringResource(Res.string.groups_screen_title)) },
         actions = {
+            IconButtonWithRichTooltip(
+                tooltipTitle = stringResource(Res.string.groups_screen_add_group_tooltip_title),
+                tooltipText = stringResource(Res.string.groups_screen_add_group_tooltip_text),
+                imageVector = Icons.Outlined.Add,
+                contentDescription = stringResource(Res.string.groups_screen_add_group_tooltip_title),
+                onClick = {}
+            )
             IconButton(onClick = { expanded = !expanded }) {
-                Icon(Icons.Default.MoreVert, contentDescription = "More options")
+                Icon(
+                    Icons.Default.MoreVert,
+                    contentDescription = stringResource(Res.string.more_options)
+                )
             }
             DropdownMenu(
                 expanded = expanded,
                 onDismissRequest = { expanded = false }
             ) {
-                DropdownMenuItem(
-                    text = { Text(stringResource(Res.string.groups_screen_add_group_option)) },
-                    onClick = { /* Do something... */ }
-                )
                 DropdownMenuItem(
                     text = { Text(stringResource(Res.string.groups_screen_edit_group_option)) },
                     onClick = { /* Do something... */ }

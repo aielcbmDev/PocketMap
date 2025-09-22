@@ -9,7 +9,6 @@ import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.DisplayGroupViewState
@@ -56,7 +55,7 @@ fun DisplayDataScreen(
     }
 }
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun GroupsAppContent(
     displayGroupState: DisplayGroupViewState.Success,

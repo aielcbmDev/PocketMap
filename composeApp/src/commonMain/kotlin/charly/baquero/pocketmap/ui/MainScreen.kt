@@ -1,6 +1,5 @@
 package charly.baquero.pocketmap.ui
 
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
@@ -22,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
@@ -61,13 +61,16 @@ fun MainScreen(
             BottomTab.entries.forEach {
                 item(
                     selected = currentRoute == it.route,
-                    onClick = {
-                        navController.navigate(it.route)
-                    },
+                    onClick = {},
                     icon = {
-                        Icon(
+                        IconButtonWithRichTooltip(
+                            tooltipTitle = stringResource(it.tooltipTitle),
+                            tooltipText = stringResource(it.tooltipText),
                             imageVector = it.icon,
-                            contentDescription = stringResource(it.labelRes)
+                            contentDescription = stringResource(it.contentDescription),
+                            onClick = {
+                                navController.navigate(it.route)
+                            }
                         )
                     },
                     label = {
