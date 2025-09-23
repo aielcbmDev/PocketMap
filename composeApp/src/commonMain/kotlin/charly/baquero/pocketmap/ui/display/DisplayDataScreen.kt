@@ -7,7 +7,6 @@ import androidx.compose.material3.adaptive.layout.AnimatedPane
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffold
 import androidx.compose.material3.adaptive.layout.ListDetailPaneScaffoldRole
 import androidx.compose.material3.adaptive.navigation.ThreePaneScaffoldNavigator
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import charly.baquero.pocketmap.domain.model.Group
@@ -25,7 +24,7 @@ fun DisplayDataScreen(
     onLocationClick: () -> Unit,
     navigator: ThreePaneScaffoldNavigator<Long>,
     coroutineScope: CoroutineScope,
-    layoutType: NavigationSuiteType
+    canNavigateBack: Boolean
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = displayGroupState) {
@@ -40,7 +39,7 @@ fun DisplayDataScreen(
                     onLocationClick = onLocationClick,
                     navigator = navigator,
                     coroutineScope = coroutineScope,
-                    layoutType = layoutType
+                    canNavigateBack = canNavigateBack
                 )
             }
 
@@ -63,7 +62,7 @@ fun GroupsAppContent(
     onLocationClick: () -> Unit,
     navigator: ThreePaneScaffoldNavigator<Long>,
     coroutineScope: CoroutineScope,
-    layoutType: NavigationSuiteType
+    canNavigateBack: Boolean
 ) {
     ListDetailPaneScaffold(
         directive = navigator.scaffoldDirective,
@@ -91,7 +90,7 @@ fun GroupsAppContent(
                         }
                     },
                     onLocationClick = onLocationClick,
-                    layoutType = layoutType
+                    canNavigateBack = canNavigateBack
                 )
             }
         }

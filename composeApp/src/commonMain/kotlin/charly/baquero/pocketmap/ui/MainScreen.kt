@@ -48,7 +48,8 @@ fun MainScreen(
     }
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
-    BackHandler(navigator.canNavigateBack()) {
+    val canNavigateBack = navigator.canNavigateBack()
+    BackHandler(canNavigateBack) {
         coroutineScope.launch {
             navigator.navigateBack()
         }
@@ -101,7 +102,7 @@ fun MainScreen(
                     },
                     navigator = navigator,
                     coroutineScope = coroutineScope,
-                    layoutType = layoutType
+                    canNavigateBack = canNavigateBack
                 )
             }
         }

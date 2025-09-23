@@ -21,7 +21,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,7 +43,7 @@ fun LocationListPane(
     displayLocationsViewState: DisplayLocationsViewState,
     onBackClick: () -> Unit,
     onLocationClick: () -> Unit,
-    layoutType: NavigationSuiteType,
+    canNavigateBack: Boolean,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -53,7 +52,7 @@ fun LocationListPane(
                 groupName = (displayLocationsViewState as? DisplayLocationsViewState.Success)?.groupName
                     ?: "",
                 onBackClick = onBackClick,
-                layoutType = layoutType
+                canNavigateBack = canNavigateBack
             )
         }
     ) { padding ->
@@ -120,9 +119,9 @@ fun LocationListItem(
 private fun LocationListPaneTopBar(
     groupName: String,
     onBackClick: () -> Unit,
-    layoutType: NavigationSuiteType,
+    canNavigateBack: Boolean,
 ) {
-    if (layoutType == NavigationSuiteType.NavigationBar) {
+    if (canNavigateBack) {
         TopAppBar(
             title = { Text(groupName) },
             navigationIcon = {
