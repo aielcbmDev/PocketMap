@@ -55,7 +55,12 @@ fun MainScreen(
                             imageVector = it.icon,
                             contentDescription = stringResource(it.contentDescription),
                             onClick = {
-                                navController.navigate(it.route)
+                                if (currentRoute == it.route) {
+                                    return@IconButtonWithRichTooltip
+                                }
+                                navController.navigate(it.route) {
+                                    launchSingleTop = true
+                                }
                             }
                         )
                     },
