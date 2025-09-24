@@ -3,15 +3,12 @@ package charly.baquero.pocketmap.ui
 import androidx.compose.material3.Text
 import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
 import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
-import androidx.compose.material3.adaptive.navigation.rememberListDetailPaneScaffoldNavigator
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldDefaults
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.backhandler.BackHandler
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
@@ -25,7 +22,6 @@ import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
@@ -45,14 +41,6 @@ fun MainScreen(
         NavigationSuiteScaffoldDefaults.calculateFromAdaptiveInfo(
             currentWindowAdaptiveInfo()
         )
-    }
-    val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
-    val coroutineScope = rememberCoroutineScope()
-    val canNavigateBack = navigator.canNavigateBack()
-    BackHandler(canNavigateBack) {
-        coroutineScope.launch {
-            navigator.navigateBack()
-        }
     }
     val navController = rememberNavController()
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
@@ -98,11 +86,12 @@ fun MainScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
                     onLocationClick = {
-                        navController.navigate(BottomTab.Map.route)
-                    },
-                    navigator = navigator,
-                    coroutineScope = coroutineScope,
-                    canNavigateBack = canNavigateBack
+                        navController.popBackStack(
+                            route = BottomTab.Map.route,
+                            inclusive = false,
+                            saveState = false
+                        )
+                    }
                 )
             }
         }
