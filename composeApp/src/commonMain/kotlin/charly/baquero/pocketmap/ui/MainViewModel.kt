@@ -26,6 +26,25 @@ class MainViewModel(
         }
     }
 
+    fun onLocationClick(location: Location) {
+        _state.update { state ->
+            val current = state as? DisplayGroupViewState.Success
+            current?.let {
+                val currentLocationsState =
+                    it.displayLocationsViewState as? DisplayLocationsViewState.Success
+                currentLocationsState?.let { locationsState ->
+                    it.copy(
+                        displayLocationsViewState = DisplayLocationsViewState.Success(
+                            groupName = currentLocationsState.groupName,
+                            locationList = currentLocationsState.locationList,
+                            locationSelected = location
+                        )
+                    )
+                }
+            } ?: DisplayGroupViewState.Error
+        }
+    }
+
     private fun fetchAllGroups(updateGroupData: Boolean = false) {
         if (_state.value !is DisplayGroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
@@ -118,7 +137,8 @@ sealed interface DisplayLocationsViewState {
 
     data class Success(
         val groupName: String,
-        val locationList: List<Location>
+        val locationList: List<Location>,
+        val locationSelected: Location? = null
     ) : DisplayLocationsViewState
 
     data class Error(

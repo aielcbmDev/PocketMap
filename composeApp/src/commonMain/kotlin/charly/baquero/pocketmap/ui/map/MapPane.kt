@@ -17,7 +17,11 @@ fun MapPane(
 @Composable
 private fun MapPaneWithLocations(locationsState: DisplayLocationsViewState) {
     when (locationsState) {
-        is DisplayLocationsViewState.Success -> MapComponent(locationsState.locationList)
+        is DisplayLocationsViewState.Success -> MapComponent(
+            locationList = locationsState.locationList,
+            locationSelected = locationsState.locationSelected
+        )
+
         else -> MapComponent()
     }
 }

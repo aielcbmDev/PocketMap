@@ -60,6 +60,7 @@ private fun MainNavigationHost() {
             MainScreen(
                 displayGroupState = displayGroupState,
                 onGroupClick = mainViewModel::fetchLocationsForGroup,
+                onLocationClick = mainViewModel::onLocationClick,
                 onTabSelected = mainViewModel::setSelectTab
             )
         }

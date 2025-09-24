@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
@@ -26,6 +27,7 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
+    onLocationClick: (Location) -> Unit,
     onTabSelected: (BottomTab) -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
@@ -87,7 +89,8 @@ fun MainScreen(
                 DisplayDataScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
-                    onLocationClick = {
+                    onLocationClick = { location ->
+                        onLocationClick.invoke(location)
                         navController.popBackStack(
                             route = BottomTab.Map.route,
                             inclusive = false,

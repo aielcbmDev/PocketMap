@@ -13,6 +13,7 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import charly.baquero.pocketmap.domain.model.Group
+import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.DisplayGroupViewState
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
@@ -22,7 +23,7 @@ import kotlinx.coroutines.launch
 fun DisplayDataScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
-    onLocationClick: () -> Unit
+    onLocationClick: (Location) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = displayGroupState) {
@@ -54,7 +55,7 @@ fun DisplayDataScreen(
 fun GroupsAppContent(
     displayGroupState: DisplayGroupViewState.Success,
     onGroupClick: (Group) -> Unit,
-    onLocationClick: () -> Unit
+    onLocationClick: (Location) -> Unit
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()

@@ -34,15 +34,15 @@ import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.location_screen_delete_location_option
-import pocketmap.composeapp.generated.resources.location_screen_edit_location_tooltip_title
 import pocketmap.composeapp.generated.resources.location_screen_edit_location_tooltip_text
+import pocketmap.composeapp.generated.resources.location_screen_edit_location_tooltip_title
 import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun LocationListPane(
     displayLocationsViewState: DisplayLocationsViewState,
     onBackClick: () -> Unit,
-    onLocationClick: () -> Unit,
+    onLocationClick: (Location) -> Unit,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -85,11 +85,11 @@ fun LocationListPane(
 @Composable
 fun LocationListItem(
     location: Location,
-    onLocationClick: () -> Unit,
+    onLocationClick: (Location) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = { onLocationClick.invoke() },
+        onClick = { onLocationClick.invoke(location) },
         modifier = modifier.padding(horizontal = 16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface)
     ) {
