@@ -18,7 +18,6 @@ import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalMaterial3AdaptiveApi::class)
 @Composable
 fun DisplayDataScreen(
     displayGroupState: DisplayGroupViewState,
