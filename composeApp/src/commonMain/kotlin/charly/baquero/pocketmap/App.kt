@@ -48,6 +48,7 @@ private fun MainNavigationHost() {
         composable<Screen.StartUp> {
             StartUpScreen(onStartUpSuccess = {
                 navController.navigate(Screen.Main) {
+                    launchSingleTop = true
                     popUpTo(Screen.StartUp) {
                         inclusive = true
                     }

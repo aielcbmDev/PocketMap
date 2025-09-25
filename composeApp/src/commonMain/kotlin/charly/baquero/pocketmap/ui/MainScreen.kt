@@ -57,11 +57,19 @@ fun MainScreen(
                             imageVector = it.icon,
                             contentDescription = stringResource(it.contentDescription),
                             onClick = {
-                                if (currentRoute == it.route) {
-                                    return@IconButtonWithRichTooltip
-                                }
-                                navController.navigate(it.route) {
-                                    launchSingleTop = true
+                                when (it.route) {
+                                    BottomTab.Map.route -> {
+                                        navController.popBackStack(
+                                            route = BottomTab.Map.route,
+                                            inclusive = false
+                                        )
+                                    }
+
+                                    BottomTab.Groups.route -> {
+                                        navController.navigate(BottomTab.Groups.route) {
+                                            launchSingleTop = true
+                                        }
+                                    }
                                 }
                             }
                         )
@@ -93,8 +101,7 @@ fun MainScreen(
                         onLocationClick.invoke(location)
                         navController.popBackStack(
                             route = BottomTab.Map.route,
-                            inclusive = false,
-                            saveState = false
+                            inclusive = false
                         )
                     }
                 )
