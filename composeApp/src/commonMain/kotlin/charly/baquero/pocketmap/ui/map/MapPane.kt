@@ -1,27 +1,36 @@
 package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
+import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.DisplayGroupViewState
 import charly.baquero.pocketmap.ui.DisplayLocationsViewState
 
 @Composable
 fun MapPane(
-    displayGroupState: DisplayGroupViewState,
+    displayGroupState: DisplayGroupViewState
 ) {
-    when (val groupsState = displayGroupState) {
-        is DisplayGroupViewState.Success -> MapPaneWithLocations(groupsState.displayLocationsViewState)
-        else -> MapComponent()
-    }
+    val (locationList, locationSelected) = retrieveData(displayGroupState)
+    MapComponent(
+        locationList = locationList,
+        locationSelected = locationSelected
+    )
 }
 
-@Composable
-private fun MapPaneWithLocations(locationsState: DisplayLocationsViewState) {
-    when (locationsState) {
-        is DisplayLocationsViewState.Success -> MapComponent(
-            locationList = locationsState.locationList,
-            locationSelected = locationsState.locationSelected
-        )
+private fun retrieveData(
+    displayGroupState: DisplayGroupViewState
+): Pair<List<Location>?, Location?> {
+    return when (displayGroupState) {
+        is DisplayGroupViewState.Success -> {
+            when (val locationsState = displayGroupState.displayLocationsViewState) {
+                is DisplayLocationsViewState.Success -> Pair(
+                    locationsState.locationList,
+                    locationsState.locationSelected
+                )
 
-        else -> MapComponent()
+                else -> Pair(null, null)
+            }
+        }
+
+        else -> Pair(null, null)
     }
 }

@@ -26,6 +26,21 @@ class MainViewModel(
         }
     }
 
+    fun onClearMapClick() {
+        _state.update { state ->
+            val current = state as? DisplayGroupViewState.Success
+            current?.let {
+                val currentLocationsState =
+                    it.displayLocationsViewState as? DisplayLocationsViewState.Success
+                currentLocationsState?.let { locationsState ->
+                    it.copy(
+                        displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+                    )
+                }
+            } ?: DisplayGroupViewState.Error
+        }
+    }
+
     fun onLocationClick(location: Location) {
         _state.update { state ->
             val current = state as? DisplayGroupViewState.Success

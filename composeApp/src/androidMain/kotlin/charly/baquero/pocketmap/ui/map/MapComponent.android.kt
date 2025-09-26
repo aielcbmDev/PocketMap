@@ -76,7 +76,7 @@ fun MoveCameraToSelectedLocation(
 ) {
     locationSelected?.let {
         val coroutineScope = rememberCoroutineScope()
-        LaunchedEffect(key1 = true) {
+        LaunchedEffect(key1 = locationSelected.id) {
             coroutineScope.launch {
                 cameraPositionState.move(
                     update = CameraUpdateFactory.newCameraPosition(

@@ -23,18 +23,19 @@ import charly.baquero.pocketmap.ui.DisplayGroupViewState
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
-import pocketmap.composeapp.generated.resources.map_screen_add_group_tooltip_title
 import pocketmap.composeapp.generated.resources.map_screen_add_group_tooltip_description
+import pocketmap.composeapp.generated.resources.map_screen_add_group_tooltip_title
 import pocketmap.composeapp.generated.resources.map_screen_clear_map_option
 import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun MapScreen(
     displayGroupState: DisplayGroupViewState,
+    onClearMapClick: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
-            topBar = { MapTopBar() }
+            topBar = { MapTopBar(onClearMapClick) }
         ) { _ ->
             MapPane(displayGroupState)
         }
@@ -43,7 +44,9 @@ fun MapScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MapTopBar() {
+fun MapTopBar(
+    onClearMapClick: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
     TopAppBar(
         title = {},
@@ -67,7 +70,10 @@ fun MapTopBar() {
             ) {
                 DropdownMenuItem(
                     text = { Text(stringResource(Res.string.map_screen_clear_map_option)) },
-                    onClick = { /* Do something... */ }
+                    onClick = {
+                        onClearMapClick.invoke()
+                        expanded = false
+                    }
                 )
             }
         },

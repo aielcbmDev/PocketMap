@@ -28,7 +28,8 @@ fun MainScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
-    onTabSelected: (BottomTab) -> Unit
+    onTabSelected: (BottomTab) -> Unit,
+    onClearMapClick: () -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -90,6 +91,7 @@ fun MainScreen(
                 onTabSelected.invoke(BottomTab.Map)
                 MapScreen(
                     displayGroupState = displayGroupState,
+                    onClearMapClick = onClearMapClick
                 )
             }
             composable(BottomTab.Groups.route) {
