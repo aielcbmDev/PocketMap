@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
 fun DisplayDataScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
-    onLocationClick: (Location) -> Unit
+    onLocationClick: (Location) -> Unit,
+    fetchAllGroups: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = displayGroupState) {
@@ -41,7 +42,7 @@ fun DisplayDataScreen(
 
             is DisplayGroupViewState.Error -> {
                 ErrorContent(
-                    { }
+                    { fetchAllGroups.invoke() }
                 )
             }
 

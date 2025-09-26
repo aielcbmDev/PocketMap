@@ -28,8 +28,8 @@ fun MainScreen(
     displayGroupState: DisplayGroupViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
-    onTabSelected: (BottomTab) -> Unit,
-    onClearMapClick: () -> Unit
+    onClearMapClick: () -> Unit,
+    fetchAllGroups: () -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -67,6 +67,9 @@ fun MainScreen(
                                     }
 
                                     BottomTab.Groups.route -> {
+                                        if (displayGroupState == DisplayGroupViewState.Empty) {
+                                            return@IconButtonWithRichTooltip
+                                        }
                                         navController.navigate(BottomTab.Groups.route) {
                                             launchSingleTop = true
                                         }
@@ -75,6 +78,7 @@ fun MainScreen(
                             }
                         )
                     },
+                    enabled = it.route == BottomTab.Map.route || displayGroupState != DisplayGroupViewState.Empty,
                     label = {
                         Text(text = stringResource(it.labelRes))
                     },
@@ -88,14 +92,12 @@ fun MainScreen(
             modifier = Modifier
         ) {
             composable(BottomTab.Map.route) {
-                onTabSelected.invoke(BottomTab.Map)
                 MapScreen(
                     displayGroupState = displayGroupState,
                     onClearMapClick = onClearMapClick
                 )
             }
             composable(BottomTab.Groups.route) {
-                onTabSelected.invoke(BottomTab.Groups)
                 DisplayDataScreen(
                     displayGroupState = displayGroupState,
                     onGroupClick = onGroupClick,
@@ -105,7 +107,8 @@ fun MainScreen(
                             route = BottomTab.Map.route,
                             inclusive = false
                         )
-                    }
+                    },
+                    fetchAllGroups = fetchAllGroups
                 )
             }
         }

@@ -62,8 +62,8 @@ private fun MainNavigationHost() {
                 displayGroupState = displayGroupState,
                 onGroupClick = mainViewModel::fetchLocationsForGroup,
                 onLocationClick = mainViewModel::onLocationClick,
-                onTabSelected = mainViewModel::setSelectTab,
-                onClearMapClick = mainViewModel::onClearMapClick
+                onClearMapClick = mainViewModel::onClearMapClick,
+                fetchAllGroups = mainViewModel::fetchAllGroups
             )
         }
     }

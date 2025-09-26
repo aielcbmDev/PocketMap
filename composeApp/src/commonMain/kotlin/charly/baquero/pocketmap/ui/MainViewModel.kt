@@ -6,7 +6,6 @@ import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
 import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.model.Location
-import charly.baquero.pocketmap.ui.navigation.BottomTab
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -20,10 +19,8 @@ class MainViewModel(
     private val _state = MutableStateFlow<DisplayGroupViewState>(DisplayGroupViewState.Loading)
     val state: StateFlow<DisplayGroupViewState> = _state
 
-    fun setSelectTab(tab: BottomTab) {
-        if (tab == BottomTab.Groups) {
-            fetchAllGroups()
-        }
+    init {
+        fetchAllGroups()
     }
 
     fun onClearMapClick() {
@@ -60,7 +57,7 @@ class MainViewModel(
         }
     }
 
-    private fun fetchAllGroups(updateGroupData: Boolean = false) {
+    fun fetchAllGroups(updateGroupData: Boolean = false) {
         if (_state.value !is DisplayGroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
                 _state.value = DisplayGroupViewState.Loading
