@@ -66,10 +66,14 @@ class MainViewModel(
                 _state.value = DisplayGroupViewState.Loading
                 try {
                     val groupList = getAllGroupsUseCase.execute()
-                    _state.value = DisplayGroupViewState.Success(
-                        groupList = groupList,
-                        displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
-                    )
+                    if (groupList.isEmpty()) {
+                        _state.value = DisplayGroupViewState.Empty
+                    } else {
+                        _state.value = DisplayGroupViewState.Success(
+                            groupList = groupList,
+                            displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+                        )
+                    }
                 } catch (_: Exception) {
                     _state.value = DisplayGroupViewState.Error
                 }
