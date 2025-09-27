@@ -26,15 +26,9 @@ class MainViewModel(
     fun onClearMapClick() {
         _state.update { state ->
             val current = state as? DisplayGroupViewState.Success
-            current?.let {
-                val currentLocationsState =
-                    it.displayLocationsViewState as? DisplayLocationsViewState.Success
-                currentLocationsState?.let { locationsState ->
-                    it.copy(
-                        displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
-                    )
-                }
-            } ?: DisplayGroupViewState.Error
+            current?.copy(
+                displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+            ) ?: DisplayGroupViewState.Error
         }
     }
 
@@ -47,8 +41,8 @@ class MainViewModel(
                 currentLocationsState?.let { locationsState ->
                     it.copy(
                         displayLocationsViewState = DisplayLocationsViewState.Success(
-                            groupName = currentLocationsState.groupName,
-                            locationList = currentLocationsState.locationList,
+                            groupName = locationsState.groupName,
+                            locationList = locationsState.locationList,
                             locationSelected = location
                         )
                     )
