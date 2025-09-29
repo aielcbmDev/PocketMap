@@ -5,7 +5,7 @@ import charly.baquero.pocketmap.domain.model.Location
 import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
 
-fun GroupEntity.mapToGroup(): Group {
+internal fun GroupEntity.mapToGroup(): Group {
     return Group(
         id = this.id,
         name = this.name

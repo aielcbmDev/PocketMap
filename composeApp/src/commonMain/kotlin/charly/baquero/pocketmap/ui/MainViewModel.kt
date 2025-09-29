@@ -16,8 +16,13 @@ class MainViewModel(
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow<DisplayGroupViewState>(DisplayGroupViewState.Loading)
-    val state: StateFlow<DisplayGroupViewState> = _state
+    private val _state = MutableStateFlow(
+        MainViewState(
+            viewEvent = null,
+            displayGroupViewState = DisplayGroupViewState.Loading
+        )
+    )
+    val state: StateFlow<MainViewState> = _state
 
     init {
         fetchAllGroups()
@@ -25,48 +30,80 @@ class MainViewModel(
 
     fun onClearMapClick() {
         _state.update { state ->
-            val current = state as? DisplayGroupViewState.Success
-            current?.copy(
-                displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
-            ) ?: DisplayGroupViewState.Error
+            state.copy(
+                displayGroupViewState = getOnClearMapClickViewState(
+                    displayGroupViewState = state.displayGroupViewState
+                )
+            )
         }
+    }
+
+    private fun getOnClearMapClickViewState(
+        displayGroupViewState: DisplayGroupViewState
+    ): DisplayGroupViewState {
+        val current = displayGroupViewState as? DisplayGroupViewState.Success
+        return current?.copy(
+            displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+        ) ?: DisplayGroupViewState.Error
     }
 
     fun onLocationClick(location: Location) {
         _state.update { state ->
-            val current = state as? DisplayGroupViewState.Success
-            current?.let {
-                val currentLocationsState =
-                    it.displayLocationsViewState as? DisplayLocationsViewState.Success
-                currentLocationsState?.let { locationsState ->
-                    it.copy(
-                        displayLocationsViewState = DisplayLocationsViewState.Success(
-                            groupName = locationsState.groupName,
-                            locationList = locationsState.locationList,
-                            locationSelected = location
-                        )
-                    )
-                }
-            } ?: DisplayGroupViewState.Error
+            state.copy(
+                displayGroupViewState = getOnLocationClickViewState(
+                    displayGroupViewState = state.displayGroupViewState,
+                    location = location
+                )
+            )
         }
     }
 
+    private fun getOnLocationClickViewState(
+        displayGroupViewState: DisplayGroupViewState,
+        location: Location
+    ): DisplayGroupViewState {
+        val current = displayGroupViewState as? DisplayGroupViewState.Success
+        return current?.let {
+            val currentLocationsState =
+                it.displayLocationsViewState as? DisplayLocationsViewState.Success
+            currentLocationsState?.let { locationsState ->
+                it.copy(
+                    displayLocationsViewState = DisplayLocationsViewState.Success(
+                        groupName = locationsState.groupName,
+                        locationList = locationsState.locationList,
+                        locationSelected = location
+                    )
+                )
+            }
+        } ?: DisplayGroupViewState.Error
+    }
+
     fun fetchAllGroups(updateGroupData: Boolean = false) {
-        if (_state.value !is DisplayGroupViewState.Success || updateGroupData) {
+        if (_state.value.displayGroupViewState !is DisplayGroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
-                _state.value = DisplayGroupViewState.Loading
+                _state.update { state ->
+                    state.copy(displayGroupViewState = DisplayGroupViewState.Loading)
+                }
                 try {
                     val groupList = getAllGroupsUseCase.execute()
                     if (groupList.isEmpty()) {
-                        _state.value = DisplayGroupViewState.Empty
+                        _state.update { state ->
+                            state.copy(displayGroupViewState = DisplayGroupViewState.Empty)
+                        }
                     } else {
-                        _state.value = DisplayGroupViewState.Success(
-                            groupList = groupList,
-                            displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
-                        )
+                        _state.update { state ->
+                            state.copy(
+                                displayGroupViewState = DisplayGroupViewState.Success(
+                                    groupList = groupList,
+                                    displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+                                )
+                            )
+                        }
                     }
                 } catch (_: Exception) {
-                    _state.value = DisplayGroupViewState.Error
+                    _state.update { state ->
+                        state.copy(displayGroupViewState = DisplayGroupViewState.Error)
+                    }
                 }
             }
         }
@@ -89,39 +126,102 @@ class MainViewModel(
         locationList: List<Location>
     ) {
         _state.update { state ->
-            val current = state as? DisplayGroupViewState.Success
-            if (locationList.isEmpty()) {
-                current?.copy(
-                    displayLocationsViewState = DisplayLocationsViewState.Empty(group.name)
-                ) ?: DisplayGroupViewState.Error
-            } else {
-                current?.copy(
-                    displayLocationsViewState = DisplayLocationsViewState.Success(
-                        groupName = group.name,
-                        locationList = locationList
-                    )
-                ) ?: DisplayGroupViewState.Error
-            }
+            state.copy(
+                displayGroupViewState = getLocationViewState(
+                    displayGroupViewState = state.displayGroupViewState,
+                    groupName = group.name,
+                    locationList = locationList
+                )
+            )
+        }
+    }
+
+    private fun getLocationViewState(
+        displayGroupViewState: DisplayGroupViewState,
+        groupName: String,
+        locationList: List<Location>
+    ): DisplayGroupViewState {
+        val current = displayGroupViewState as? DisplayGroupViewState.Success
+        return if (locationList.isEmpty()) {
+            current?.copy(
+                displayLocationsViewState = DisplayLocationsViewState.Empty(groupName)
+            ) ?: DisplayGroupViewState.Error
+        } else {
+            current?.copy(
+                displayLocationsViewState = DisplayLocationsViewState.Success(
+                    groupName = groupName,
+                    locationList = locationList
+                )
+            ) ?: DisplayGroupViewState.Error
         }
     }
 
     private fun setLocationsLoading(group: Group) {
         _state.update { state ->
-            val current = state as? DisplayGroupViewState.Success
-            current?.copy(
-                displayLocationsViewState = DisplayLocationsViewState.Loading(group.name)
-            ) ?: DisplayGroupViewState.Error
+            state.copy(
+                displayGroupViewState = getLoadingLocationViewState(
+                    displayGroupViewState = state.displayGroupViewState,
+                    groupName = group.name
+                )
+            )
         }
+    }
+
+    private fun getLoadingLocationViewState(
+        displayGroupViewState: DisplayGroupViewState,
+        groupName: String
+    ): DisplayGroupViewState {
+        val current = displayGroupViewState as? DisplayGroupViewState.Success
+        return current?.copy(
+            displayLocationsViewState = DisplayLocationsViewState.Loading(groupName)
+        ) ?: DisplayGroupViewState.Error
     }
 
     private fun setLocationsError(group: Group) {
         _state.update { state ->
-            val current = state as? DisplayGroupViewState.Success
-            current?.copy(
-                displayLocationsViewState = DisplayLocationsViewState.Error(group.name)
-            ) ?: DisplayGroupViewState.Error
+            state.copy(
+                displayGroupViewState = getErrorLocationViewState(
+                    displayGroupViewState = state.displayGroupViewState,
+                    groupName = group.name
+                )
+            )
         }
     }
+
+    private fun getErrorLocationViewState(
+        displayGroupViewState: DisplayGroupViewState,
+        groupName: String
+    ): DisplayGroupViewState {
+        val current = displayGroupViewState as? DisplayGroupViewState.Success
+        return current?.copy(
+            displayLocationsViewState = DisplayLocationsViewState.Error(groupName)
+        ) ?: DisplayGroupViewState.Error
+    }
+
+    fun showCreateGroupDialog() {
+        _state.update { state ->
+            state.copy(
+                viewEvent = ViewEvent.CreateGroupDialog
+            )
+        }
+    }
+
+    fun dismissCreateGroupDialog() {
+        _state.update { state ->
+            state.copy(
+                viewEvent = null
+            )
+        }
+    }
+}
+
+data class MainViewState(
+    val viewEvent: ViewEvent? = null,
+    val displayGroupViewState: DisplayGroupViewState,
+)
+
+sealed class ViewEvent {
+    data object CreateGroupDialog : ViewEvent()
 }
 
 sealed interface DisplayGroupViewState {

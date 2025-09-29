@@ -27,10 +27,14 @@ import org.jetbrains.compose.resources.stringResource
 @Composable
 fun MainScreen(
     displayGroupState: DisplayGroupViewState,
+    viewEvent: ViewEvent?,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
     onClearMapClick: () -> Unit,
-    fetchAllGroups: () -> Unit
+    fetchAllGroups: () -> Unit,
+    onCreateGroupClick: () -> Unit,
+    createGroup: (String) -> Unit,
+    onDismissCreateGroupDialog: () -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -75,7 +79,11 @@ fun MainScreen(
             composable(BottomTab.Map.route) {
                 MapScreen(
                     displayGroupState = displayGroupState,
-                    onClearMapClick = onClearMapClick
+                    viewEvent = viewEvent,
+                    onClearMapClick = onClearMapClick,
+                    onCreateGroupClick = onCreateGroupClick,
+                    createGroup = createGroup,
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
             }
             composable(BottomTab.Groups.route) {

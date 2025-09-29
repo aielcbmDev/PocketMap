@@ -57,13 +57,19 @@ private fun MainNavigationHost() {
         }
         composable<Screen.Main> {
             val mainViewModel = koinViewModel<MainViewModel>()
-            val displayGroupState by mainViewModel.state.collectAsStateWithLifecycle()
+            val mainViewState by mainViewModel.state.collectAsStateWithLifecycle()
+            val displayGroupState = mainViewState.displayGroupViewState
+            val viewEvent = mainViewState.viewEvent
             MainScreen(
                 displayGroupState = displayGroupState,
+                viewEvent = viewEvent,
                 onGroupClick = mainViewModel::fetchLocationsForGroup,
                 onLocationClick = mainViewModel::onLocationClick,
                 onClearMapClick = mainViewModel::onClearMapClick,
-                fetchAllGroups = mainViewModel::fetchAllGroups
+                fetchAllGroups = mainViewModel::fetchAllGroups,
+                onCreateGroupClick = mainViewModel::showCreateGroupDialog,
+                createGroup = {},
+                onDismissCreateGroupDialog = mainViewModel::dismissCreateGroupDialog
             )
         }
     }
