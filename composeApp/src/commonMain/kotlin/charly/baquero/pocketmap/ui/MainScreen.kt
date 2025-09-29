@@ -11,6 +11,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -53,29 +54,9 @@ fun MainScreen(
                     onClick = {},
                     icon = {
                         IconButtonWithRichTooltip(
-                            tooltipTitle = stringResource(it.tooltipTitle),
-                            tooltipText = stringResource(it.tooltipText),
-                            imageVector = it.icon,
-                            contentDescription = stringResource(it.contentDescription),
-                            onClick = {
-                                when (it.route) {
-                                    BottomTab.Map.route -> {
-                                        navController.popBackStack(
-                                            route = BottomTab.Map.route,
-                                            inclusive = false
-                                        )
-                                    }
-
-                                    BottomTab.Groups.route -> {
-                                        if (displayGroupState == DisplayGroupViewState.Empty) {
-                                            return@IconButtonWithRichTooltip
-                                        }
-                                        navController.navigate(BottomTab.Groups.route) {
-                                            launchSingleTop = true
-                                        }
-                                    }
-                                }
-                            }
+                            displayGroupState = displayGroupState,
+                            bottomTab = it,
+                            navController = navController
                         )
                     },
                     enabled = it.route == BottomTab.Map.route || displayGroupState != DisplayGroupViewState.Empty,
@@ -113,4 +94,37 @@ fun MainScreen(
             }
         }
     }
+}
+
+@Composable
+private fun IconButtonWithRichTooltip(
+    displayGroupState: DisplayGroupViewState,
+    bottomTab: BottomTab,
+    navController: NavHostController,
+) {
+    IconButtonWithRichTooltip(
+        tooltipTitle = stringResource(bottomTab.tooltipTitle),
+        tooltipText = stringResource(bottomTab.tooltipText),
+        imageVector = bottomTab.icon,
+        contentDescription = stringResource(bottomTab.contentDescription),
+        onClick = {
+            when (bottomTab.route) {
+                BottomTab.Map.route -> {
+                    navController.popBackStack(
+                        route = BottomTab.Map.route,
+                        inclusive = false
+                    )
+                }
+
+                BottomTab.Groups.route -> {
+                    if (displayGroupState == DisplayGroupViewState.Empty) {
+                        return@IconButtonWithRichTooltip
+                    }
+                    navController.navigate(BottomTab.Groups.route) {
+                        launchSingleTop = true
+                    }
+                }
+            }
+        }
+    )
 }
