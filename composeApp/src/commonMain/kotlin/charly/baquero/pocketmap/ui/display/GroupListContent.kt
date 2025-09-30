@@ -40,7 +40,7 @@ import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun GroupListPane(
-    displayGroupState: GroupViewState.Success,
+    groupViewState: GroupViewState.Success,
     onGroupClick: (Group) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -52,7 +52,7 @@ fun GroupListPane(
             state = state,
             modifier = modifier.padding(padding)
         ) {
-            items(displayGroupState.groupList) { group ->
+            items(groupViewState.groupList) { group ->
                 GroupListItem(
                     group = group,
                     onGroupClick = onGroupClick

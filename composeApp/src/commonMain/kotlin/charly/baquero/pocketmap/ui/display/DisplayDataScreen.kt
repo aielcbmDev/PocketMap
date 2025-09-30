@@ -36,7 +36,7 @@ fun DisplayDataScreen(
 
             is GroupViewState.Success -> {
                 GroupsAppContent(
-                    displayGroupState = currentState,
+                    groupViewState = currentState,
                     locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
                     onLocationClick = onLocationClick
@@ -57,7 +57,7 @@ fun DisplayDataScreen(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GroupsAppContent(
-    displayGroupState: GroupViewState.Success,
+    groupViewState: GroupViewState.Success,
     locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit
@@ -76,7 +76,7 @@ fun GroupsAppContent(
         listPane = {
             AnimatedPane {
                 GroupListPane(
-                    displayGroupState = displayGroupState,
+                    groupViewState = groupViewState,
                     onGroupClick = { group ->
                         onGroupClick(group)
                         coroutineScope.launch {
