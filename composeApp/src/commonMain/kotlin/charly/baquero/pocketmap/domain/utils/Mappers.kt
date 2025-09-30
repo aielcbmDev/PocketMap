@@ -21,6 +21,12 @@ internal fun List<GroupEntity>.mapToGroupList(): List<Group> {
     return list
 }
 
+internal fun String.mapToGroupEntity(): GroupEntity {
+    return GroupEntity(
+        name = this
+    )
+}
+
 internal fun Group.mapToGroupEntity(): GroupEntity {
     return GroupEntity(
         id = this.id,

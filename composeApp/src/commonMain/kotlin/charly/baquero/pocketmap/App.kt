@@ -68,7 +68,7 @@ private fun MainNavigationHost() {
                 onClearMapClick = mainViewModel::onClearMapClick,
                 fetchAllGroups = mainViewModel::fetchAllGroups,
                 onCreateGroupClick = mainViewModel::showCreateGroupDialog,
-                createGroup = {},
+                createGroup = mainViewModel::createGroup,
                 onDismissCreateGroupDialog = mainViewModel::dismissCreateGroupDialog
             )
         }

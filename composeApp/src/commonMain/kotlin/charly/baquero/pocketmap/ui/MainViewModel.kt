@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import charly.baquero.pocketmap.domain.GetAllGroupsUseCase
 import charly.baquero.pocketmap.domain.GetAllLocationsForGroupUseCase
+import charly.baquero.pocketmap.domain.add.AddGroupUseCase
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,7 +14,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val getAllGroupsUseCase: GetAllGroupsUseCase,
-    private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase
+    private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase,
+    private val addGroupUseCase: AddGroupUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -126,7 +128,7 @@ class MainViewModel(
     fun showCreateGroupDialog() {
         _state.update { state ->
             state.copy(
-                viewEvent = ViewEvent.CreateGroupDialog
+                viewEvent = ViewEvent.CreateGroupDialog()
             )
         }
     }
@@ -138,6 +140,21 @@ class MainViewModel(
             )
         }
     }
+
+    fun createGroup(groupName: String) {
+        viewModelScope.launch {
+            try {
+                addGroupUseCase.execute(groupName)
+                _state.update { state ->
+                    state.copy(viewEvent = null)
+                }
+            } catch (_: Exception) {
+                _state.update { state ->
+                    state.copy(viewEvent = ViewEvent.CreateGroupDialog(displayError = true))
+                }
+            }
+        }
+    }
 }
 
 data class MainViewState(
@@ -146,7 +163,9 @@ data class MainViewState(
 )
 
 sealed class ViewEvent {
-    data object CreateGroupDialog : ViewEvent()
+    data class CreateGroupDialog(
+        val displayError: Boolean = false
+    ) : ViewEvent()
 }
 
 sealed interface DisplayGroupViewState {

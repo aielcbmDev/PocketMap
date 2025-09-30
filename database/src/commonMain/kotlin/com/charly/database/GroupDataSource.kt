@@ -9,8 +9,11 @@ class GroupDataSource(private val groupDao: GroupDao) {
         return groupDao.getAllGroups()
     }
 
-    suspend fun insertOrReplaceGroup(groupEntity: GroupEntity) {
-        groupDao.insertOrReplaceGroup(groupEntity)
+    suspend fun insertGroup(groupEntity: GroupEntity) {
+        val result = groupDao.insertGroup(groupEntity)
+        if (result == -1L) {
+            throw Exception("Group already exists")
+        }
     }
 
     suspend fun insertOrReplaceListOfGroups(groupEntityList: List<GroupEntity>) {
