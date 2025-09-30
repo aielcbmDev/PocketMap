@@ -29,7 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Location
-import charly.baquero.pocketmap.ui.DisplayLocationsViewState
+import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
@@ -40,7 +40,7 @@ import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun LocationListPane(
-    displayLocationsViewState: DisplayLocationsViewState,
+    locationsViewState: LocationsViewState,
     onBackClick: () -> Unit,
     onLocationClick: (Location) -> Unit,
     canNavigateBack: Boolean,
@@ -49,17 +49,17 @@ fun LocationListPane(
     Scaffold(
         topBar = {
             LocationListPaneTopBar(
-                groupName = (displayLocationsViewState as? DisplayLocationsViewState.Success)?.groupName
+                groupName = (locationsViewState as? LocationsViewState.Success)?.groupName
                     ?: "",
                 onBackClick = onBackClick,
                 canNavigateBack = canNavigateBack
             )
         }
     ) { padding ->
-        when (val currentState = displayLocationsViewState) {
-            is DisplayLocationsViewState.Loading -> {}
+        when (val currentState = locationsViewState) {
+            is LocationsViewState.Loading -> {}
 
-            is DisplayLocationsViewState.Success -> {
+            is LocationsViewState.Success -> {
                 val state = rememberLazyListState()
                 LazyColumn(
                     state = state,
@@ -74,10 +74,10 @@ fun LocationListPane(
                 }
             }
 
-            is DisplayLocationsViewState.Error -> {}
+            is LocationsViewState.Error -> {}
 
-            is DisplayLocationsViewState.Empty -> {}
-            DisplayLocationsViewState.NoGroupSelected -> {}
+            is LocationsViewState.Empty -> {}
+            LocationsViewState.NoGroupSelected -> {}
         }
     }
 }

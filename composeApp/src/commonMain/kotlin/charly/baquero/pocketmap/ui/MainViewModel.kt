@@ -21,7 +21,8 @@ class MainViewModel(
     private val _state = MutableStateFlow(
         MainViewState(
             viewEvent = null,
-            displayGroupViewState = DisplayGroupViewState.Loading
+            groupViewState = GroupViewState.Loading,
+            locationsViewState = LocationsViewState.NoGroupSelected
         )
     )
     val state: StateFlow<MainViewState> = _state
@@ -33,7 +34,7 @@ class MainViewModel(
     fun onClearMapClick() {
         _state.update { state ->
             state.copy(
-                displayGroupViewState = state.displayGroupViewState.getOnClearMapClickViewState()
+                locationsViewState = LocationsViewState.NoGroupSelected
             )
         }
     }
@@ -41,7 +42,7 @@ class MainViewModel(
     fun onLocationClick(location: Location) {
         _state.update { state ->
             state.copy(
-                displayGroupViewState = state.displayGroupViewState.getOnLocationClickViewState(
+                locationsViewState = state.locationsViewState.getOnLocationClickViewState(
                     location = location
                 )
             )
@@ -49,30 +50,29 @@ class MainViewModel(
     }
 
     fun fetchAllGroups(updateGroupData: Boolean = false) {
-        if (_state.value.displayGroupViewState !is DisplayGroupViewState.Success || updateGroupData) {
+        if (_state.value.groupViewState !is GroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
                 _state.update { state ->
-                    state.copy(displayGroupViewState = DisplayGroupViewState.Loading)
+                    state.copy(groupViewState = GroupViewState.Loading)
                 }
                 try {
                     val groupList = getAllGroupsUseCase.execute()
                     if (groupList.isEmpty()) {
                         _state.update { state ->
-                            state.copy(displayGroupViewState = DisplayGroupViewState.Empty)
+                            state.copy(groupViewState = GroupViewState.Empty)
                         }
                     } else {
                         _state.update { state ->
                             state.copy(
-                                displayGroupViewState = DisplayGroupViewState.Success(
-                                    groupList = groupList,
-                                    displayLocationsViewState = DisplayLocationsViewState.NoGroupSelected
+                                groupViewState = GroupViewState.Success(
+                                    groupList = groupList
                                 )
                             )
                         }
                     }
                 } catch (_: Exception) {
                     _state.update { state ->
-                        state.copy(displayGroupViewState = DisplayGroupViewState.Error)
+                        state.copy(groupViewState = GroupViewState.Error)
                     }
                 }
             }
@@ -97,7 +97,7 @@ class MainViewModel(
     ) {
         _state.update { state ->
             state.copy(
-                displayGroupViewState = state.displayGroupViewState.getLocationViewState(
+                locationsViewState = LocationsViewState.Success(
                     groupName = group.name,
                     locationList = locationList
                 )
@@ -108,7 +108,7 @@ class MainViewModel(
     private fun setLocationsLoading(group: Group) {
         _state.update { state ->
             state.copy(
-                displayGroupViewState = state.displayGroupViewState.getLoadingLocationViewState(
+                locationsViewState = LocationsViewState.Loading(
                     groupName = group.name
                 )
             )
@@ -118,9 +118,7 @@ class MainViewModel(
     private fun setLocationsError(group: Group) {
         _state.update { state ->
             state.copy(
-                displayGroupViewState = state.displayGroupViewState.getErrorLocationViewState(
-                    groupName = group.name
-                )
+                locationsViewState = LocationsViewState.Error
             )
         }
     }
@@ -145,6 +143,7 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 addGroupUseCase.execute(groupName)
+                fetchAllGroups(updateGroupData = true)
                 _state.update { state ->
                     state.copy(viewEvent = null)
                 }
@@ -159,7 +158,8 @@ class MainViewModel(
 
 data class MainViewState(
     val viewEvent: ViewEvent? = null,
-    val displayGroupViewState: DisplayGroupViewState,
+    val groupViewState: GroupViewState,
+    val locationsViewState: LocationsViewState
 )
 
 sealed class ViewEvent {
@@ -168,34 +168,31 @@ sealed class ViewEvent {
     ) : ViewEvent()
 }
 
-sealed interface DisplayGroupViewState {
-    data object Empty : DisplayGroupViewState
-    data object Loading : DisplayGroupViewState
+sealed interface GroupViewState {
+    data object Empty : GroupViewState
+    data object Loading : GroupViewState
     data class Success(
-        val groupList: List<Group>,
-        val displayLocationsViewState: DisplayLocationsViewState
-    ) : DisplayGroupViewState
+        val groupList: List<Group>
+    ) : GroupViewState
 
-    data object Error : DisplayGroupViewState
+    data object Error : GroupViewState
 }
 
-sealed interface DisplayLocationsViewState {
-    data object NoGroupSelected : DisplayLocationsViewState
+sealed interface LocationsViewState {
+    data object NoGroupSelected : LocationsViewState
     data class Empty(
         val groupName: String
-    ) : DisplayLocationsViewState
+    ) : LocationsViewState
 
     data class Loading(
         val groupName: String
-    ) : DisplayLocationsViewState
+    ) : LocationsViewState
 
     data class Success(
         val groupName: String,
         val locationList: List<Location>,
         val locationSelected: Location? = null
-    ) : DisplayLocationsViewState
+    ) : LocationsViewState
 
-    data class Error(
-        val groupName: String
-    ) : DisplayLocationsViewState
+    data object Error : LocationsViewState
 }

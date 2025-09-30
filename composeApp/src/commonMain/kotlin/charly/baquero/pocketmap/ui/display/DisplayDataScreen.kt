@@ -14,39 +14,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.model.Location
-import charly.baquero.pocketmap.ui.DisplayGroupViewState
+import charly.baquero.pocketmap.ui.GroupViewState
+import charly.baquero.pocketmap.ui.LocationsViewState
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch
 
 @Composable
 fun DisplayDataScreen(
-    displayGroupState: DisplayGroupViewState,
+    groupViewState: GroupViewState,
+    locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
     fetchAllGroups: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
-        when (val currentState = displayGroupState) {
-            is DisplayGroupViewState.Loading -> {
+        when (val currentState = groupViewState) {
+            is GroupViewState.Loading -> {
                 LoadingContent()
             }
 
-            is DisplayGroupViewState.Success -> {
+            is GroupViewState.Success -> {
                 GroupsAppContent(
                     displayGroupState = currentState,
+                    locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
                     onLocationClick = onLocationClick
                 )
             }
 
-            is DisplayGroupViewState.Error -> {
+            is GroupViewState.Error -> {
                 ErrorContent(
                     { fetchAllGroups.invoke() }
                 )
             }
 
-            DisplayGroupViewState.Empty -> {}
+            GroupViewState.Empty -> {}
         }
     }
 }
@@ -54,7 +57,8 @@ fun DisplayDataScreen(
 @OptIn(ExperimentalMaterial3AdaptiveApi::class, ExperimentalComposeUiApi::class)
 @Composable
 fun GroupsAppContent(
-    displayGroupState: DisplayGroupViewState.Success,
+    displayGroupState: GroupViewState.Success,
+    locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit
 ) {
@@ -85,7 +89,7 @@ fun GroupsAppContent(
         detailPane = {
             AnimatedPane {
                 LocationListPane(
-                    displayLocationsViewState = displayGroupState.displayLocationsViewState,
+                    locationsViewState = locationsViewState,
                     onBackClick = {
                         coroutineScope.launch {
                             navigator.navigateBack()

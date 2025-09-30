@@ -27,7 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Group
-import charly.baquero.pocketmap.ui.DisplayGroupViewState
+import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
@@ -40,7 +40,7 @@ import pocketmap.composeapp.generated.resources.more_options
 
 @Composable
 fun GroupListPane(
-    displayGroupState: DisplayGroupViewState.Success,
+    displayGroupState: GroupViewState.Success,
     onGroupClick: (Group) -> Unit,
     modifier: Modifier = Modifier
 ) {

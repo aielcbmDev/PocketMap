@@ -26,7 +26,8 @@ import org.jetbrains.compose.resources.stringResource
 
 @Composable
 fun MainScreen(
-    displayGroupState: DisplayGroupViewState,
+    groupViewState: GroupViewState,
+    locationsViewState: LocationsViewState,
     viewEvent: ViewEvent?,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
@@ -58,12 +59,12 @@ fun MainScreen(
                     onClick = {},
                     icon = {
                         IconButtonWithRichTooltip(
-                            displayGroupState = displayGroupState,
+                            groupViewState = groupViewState,
                             bottomTab = it,
                             navController = navController
                         )
                     },
-                    enabled = it.route == BottomTab.Map.route || displayGroupState != DisplayGroupViewState.Empty,
+                    enabled = it.route == BottomTab.Map.route || groupViewState != GroupViewState.Empty,
                     label = {
                         Text(text = stringResource(it.labelRes))
                     },
@@ -78,7 +79,7 @@ fun MainScreen(
         ) {
             composable(BottomTab.Map.route) {
                 MapScreen(
-                    displayGroupState = displayGroupState,
+                    locationsViewState = locationsViewState,
                     viewEvent = viewEvent,
                     onClearMapClick = onClearMapClick,
                     onCreateGroupClick = onCreateGroupClick,
@@ -88,7 +89,8 @@ fun MainScreen(
             }
             composable(BottomTab.Groups.route) {
                 DisplayDataScreen(
-                    displayGroupState = displayGroupState,
+                    groupViewState = groupViewState,
+                    locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
                     onLocationClick = { location ->
                         onLocationClick.invoke(location)
@@ -106,7 +108,7 @@ fun MainScreen(
 
 @Composable
 private fun IconButtonWithRichTooltip(
-    displayGroupState: DisplayGroupViewState,
+    groupViewState: GroupViewState,
     bottomTab: BottomTab,
     navController: NavHostController,
 ) {
@@ -125,7 +127,7 @@ private fun IconButtonWithRichTooltip(
                 }
 
                 BottomTab.Groups.route -> {
-                    if (displayGroupState == DisplayGroupViewState.Empty) {
+                    if (groupViewState == GroupViewState.Empty) {
                         return@IconButtonWithRichTooltip
                     }
                     navController.navigate(BottomTab.Groups.route) {
