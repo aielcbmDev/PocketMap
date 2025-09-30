@@ -99,7 +99,11 @@ fun MainScreen(
                             inclusive = false
                         )
                     },
-                    fetchAllGroups = fetchAllGroups
+                    fetchAllGroups = fetchAllGroups,
+                    onCreateGroupClick = onCreateGroupClick,
+                    viewEvent = viewEvent,
+                    createGroup = createGroup,
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
             }
         }

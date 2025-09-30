@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.GroupViewState
+import charly.baquero.pocketmap.ui.ViewEvent
+import charly.baquero.pocketmap.ui.common.DisplayViewEvent
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
@@ -42,10 +44,18 @@ import pocketmap.composeapp.generated.resources.more_options
 fun GroupListPane(
     groupViewState: GroupViewState.Success,
     onGroupClick: (Group) -> Unit,
+    onCreateGroupClick: () -> Unit,
+    viewEvent: ViewEvent?,
+    createGroup: (String) -> Unit,
+    onDismissCreateGroupDialog: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
-        topBar = { GroupListPaneTopBar() }
+        topBar = {
+            GroupListPaneTopBar(
+                onCreateGroupClick = onCreateGroupClick
+            )
+        }
     ) { padding ->
         val state = rememberLazyListState()
         LazyColumn(
@@ -59,6 +69,11 @@ fun GroupListPane(
                 )
             }
         }
+        DisplayViewEvent(
+            viewEvent = viewEvent,
+            createGroup = createGroup,
+            onDismissCreateGroupDialog = onDismissCreateGroupDialog
+        )
     }
 }
 
@@ -89,7 +104,9 @@ fun GroupListItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun GroupListPaneTopBar() {
+private fun GroupListPaneTopBar(
+    onCreateGroupClick: () -> Unit
+) {
     var expanded by remember { mutableStateOf(false) }
     TopAppBar(
         title = { Text(stringResource(Res.string.groups_screen_title)) },
@@ -99,7 +116,7 @@ private fun GroupListPaneTopBar() {
                 tooltipText = stringResource(Res.string.groups_screen_add_group_tooltip_text),
                 imageVector = Icons.Outlined.Add,
                 contentDescription = stringResource(Res.string.groups_screen_add_group_tooltip_title),
-                onClick = {}
+                onClick = { onCreateGroupClick.invoke() }
             )
             IconButton(onClick = { expanded = !expanded }) {
                 Icon(

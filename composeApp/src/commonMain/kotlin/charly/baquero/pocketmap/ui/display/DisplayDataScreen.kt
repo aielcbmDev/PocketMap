@@ -16,6 +16,7 @@ import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.LocationsViewState
+import charly.baquero.pocketmap.ui.ViewEvent
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch
@@ -26,7 +27,11 @@ fun DisplayDataScreen(
     locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
-    fetchAllGroups: () -> Unit
+    fetchAllGroups: () -> Unit,
+    onCreateGroupClick: () -> Unit,
+    viewEvent: ViewEvent?,
+    createGroup: (String) -> Unit,
+    onDismissCreateGroupDialog: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = groupViewState) {
@@ -39,7 +44,11 @@ fun DisplayDataScreen(
                     groupViewState = currentState,
                     locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
-                    onLocationClick = onLocationClick
+                    onLocationClick = onLocationClick,
+                    onCreateGroupClick = onCreateGroupClick,
+                    viewEvent = viewEvent,
+                    createGroup = createGroup,
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
             }
 
@@ -60,7 +69,11 @@ fun GroupsAppContent(
     groupViewState: GroupViewState.Success,
     locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
-    onLocationClick: (Location) -> Unit
+    onLocationClick: (Location) -> Unit,
+    onCreateGroupClick: () -> Unit,
+    viewEvent: ViewEvent?,
+    createGroup: (String) -> Unit,
+    onDismissCreateGroupDialog: () -> Unit
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
@@ -82,7 +95,11 @@ fun GroupsAppContent(
                         coroutineScope.launch {
                             navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, group.id)
                         }
-                    }
+                    },
+                    onCreateGroupClick = onCreateGroupClick,
+                    viewEvent = viewEvent,
+                    createGroup = createGroup,
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
             }
         },

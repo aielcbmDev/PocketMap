@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import charly.baquero.pocketmap.ui.ViewEvent
 import charly.baquero.pocketmap.ui.LocationsViewState
-import charly.baquero.pocketmap.ui.common.CreateGroupDialog
+import charly.baquero.pocketmap.ui.common.DisplayViewEvent
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
@@ -53,26 +53,6 @@ fun MapScreen(
                 viewEvent = viewEvent,
                 createGroup = createGroup,
                 onDismissCreateGroupDialog = onDismissCreateGroupDialog
-            )
-        }
-    }
-}
-
-@Composable
-fun DisplayViewEvent(
-    viewEvent: ViewEvent?,
-    createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit
-) {
-    viewEvent?.let { it ->
-        when (it) {
-            is ViewEvent.CreateGroupDialog -> CreateGroupDialog(
-                createGroup = { groupName ->
-                    createGroup.invoke(groupName)
-                },
-                dismissDialog = {
-                    onDismissCreateGroupDialog.invoke()
-                }
             )
         }
     }
