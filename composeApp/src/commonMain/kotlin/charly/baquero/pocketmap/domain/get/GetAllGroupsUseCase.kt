@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.domain
+package charly.baquero.pocketmap.domain.get
 
 import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.domain.utils.mapToGroupList

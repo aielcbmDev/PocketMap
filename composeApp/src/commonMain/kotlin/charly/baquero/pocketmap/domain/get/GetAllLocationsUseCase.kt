@@ -1,4 +1,4 @@
-package charly.baquero.pocketmap.domain
+package charly.baquero.pocketmap.domain.get
 
 import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.domain.utils.mapToLocationList
