@@ -65,7 +65,10 @@ fun LocationListPane(
                     state = state,
                     modifier = modifier.fillMaxWidth().padding(padding)
                 ) {
-                    items(currentState.locationList) { location ->
+                    items(
+                        items = currentState.locationList,
+                        key = { item -> item.id }
+                    ) { location ->
                         LocationListItem(
                             location = location,
                             onLocationClick = onLocationClick

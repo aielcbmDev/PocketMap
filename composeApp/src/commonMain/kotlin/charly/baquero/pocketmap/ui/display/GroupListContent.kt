@@ -66,7 +66,10 @@ fun GroupListPane(
             state = state,
             modifier = modifier.padding(padding)
         ) {
-            items(groupViewState.groupList) { group ->
+            items(
+                items = groupViewState.groupList,
+                key = { item -> item.id }
+            ) { group ->
                 GroupListItem(
                     group = group,
                     onGroupClick = onGroupClick,
