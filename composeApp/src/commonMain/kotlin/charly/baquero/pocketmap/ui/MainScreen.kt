@@ -30,10 +30,12 @@ fun MainScreen(
     locationsViewState: LocationsViewState,
     viewEvent: ViewEvent?,
     onGroupClick: (Group) -> Unit,
+    onGroupLongClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
     onClearMapClick: () -> Unit,
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
+    onGroupOptionsMenuBackClick: () -> Unit,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
 ) {
@@ -92,6 +94,7 @@ fun MainScreen(
                     groupViewState = groupViewState,
                     locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
+                    onGroupLongClick = onGroupLongClick,
                     onLocationClick = { location ->
                         onLocationClick.invoke(location)
                         navController.popBackStack(
@@ -101,6 +104,7 @@ fun MainScreen(
                     },
                     fetchAllGroups = fetchAllGroups,
                     onCreateGroupClick = onCreateGroupClick,
+                    onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     viewEvent = viewEvent,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog

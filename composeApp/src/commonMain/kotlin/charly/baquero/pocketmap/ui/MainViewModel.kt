@@ -91,6 +91,42 @@ class MainViewModel(
         }
     }
 
+    fun displayGroupOptionsMenu(group: Group) {
+        _state.update { state ->
+            val currentGroupViewState = state.groupViewState as? GroupViewState.Success
+            currentGroupViewState?.let {
+                state.copy(
+                    groupViewState = it.copy(
+                        groupSelected = group,
+                        displayOptionsMenu = true
+                    )
+                )
+            } ?: run {
+                state.copy(
+                    groupViewState = GroupViewState.Error
+                )
+            }
+        }
+    }
+
+    fun dismissGroupOptionsMenu() {
+        _state.update { state ->
+            val currentGroupViewState = state.groupViewState as? GroupViewState.Success
+            currentGroupViewState?.let {
+                state.copy(
+                    groupViewState = it.copy(
+                        groupSelected = null,
+                        displayOptionsMenu = false
+                    )
+                )
+            } ?: run {
+                state.copy(
+                    groupViewState = GroupViewState.Error
+                )
+            }
+        }
+    }
+
     private fun setLocationsForGroup(
         group: Group,
         locationList: List<Location>
@@ -172,6 +208,8 @@ sealed interface GroupViewState {
     data object Empty : GroupViewState
     data object Loading : GroupViewState
     data class Success(
+        val displayOptionsMenu: Boolean = false,
+        val groupSelected: Group? = null,
         val groupList: List<Group>
     ) : GroupViewState
 

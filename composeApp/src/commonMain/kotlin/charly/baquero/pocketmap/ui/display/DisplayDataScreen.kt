@@ -26,9 +26,11 @@ fun DisplayDataScreen(
     groupViewState: GroupViewState,
     locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
+    onGroupLongClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
+    onGroupOptionsMenuBackClick: () -> Unit,
     viewEvent: ViewEvent?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
@@ -44,8 +46,10 @@ fun DisplayDataScreen(
                     groupViewState = currentState,
                     locationsViewState = locationsViewState,
                     onGroupClick = onGroupClick,
+                    onGroupLongClick = onGroupLongClick,
                     onLocationClick = onLocationClick,
                     onCreateGroupClick = onCreateGroupClick,
+                    onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     viewEvent = viewEvent,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog
@@ -69,8 +73,10 @@ fun GroupsAppContent(
     groupViewState: GroupViewState.Success,
     locationsViewState: LocationsViewState,
     onGroupClick: (Group) -> Unit,
+    onGroupLongClick: (Group) -> Unit,
     onLocationClick: (Location) -> Unit,
     onCreateGroupClick: () -> Unit,
+    onOptionsMenuBackClick: () -> Unit,
     viewEvent: ViewEvent?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
@@ -96,7 +102,9 @@ fun GroupsAppContent(
                             navigator.navigateTo(ListDetailPaneScaffoldRole.Detail, group.id)
                         }
                     },
+                    onGroupLongClick = onGroupLongClick,
                     onCreateGroupClick = onCreateGroupClick,
+                    onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
                     viewEvent = viewEvent,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog

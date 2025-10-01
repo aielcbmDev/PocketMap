@@ -66,10 +66,12 @@ private fun MainNavigationHost() {
                 locationsViewState = locationsViewState,
                 viewEvent = viewEvent,
                 onGroupClick = mainViewModel::fetchLocationsForGroup,
+                onGroupLongClick = mainViewModel::displayGroupOptionsMenu,
                 onLocationClick = mainViewModel::onLocationClick,
                 onClearMapClick = mainViewModel::onClearMapClick,
                 fetchAllGroups = mainViewModel::fetchAllGroups,
                 onCreateGroupClick = mainViewModel::showCreateGroupDialog,
+                onGroupOptionsMenuBackClick = mainViewModel::dismissGroupOptionsMenu,
                 createGroup = mainViewModel::createGroup,
                 onDismissCreateGroupDialog = mainViewModel::dismissCreateGroupDialog
             )

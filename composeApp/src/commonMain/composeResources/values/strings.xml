@@ -18,9 +18,10 @@
     <string name="groups_screen_title">Groups</string>
     <string name="groups_screen_add_group_tooltip_title">Add group</string>
     <string name="groups_screen_add_group_tooltip_text">Allows adding a new group. This is the main way to display locations in the map.</string>
-
-    <string name="groups_screen_edit_group_option">Edit group</string>
-    <string name="groups_screen_delete_group_option">Delete group</string>
+    <string name="groups_screen_edit_group_tooltip_title">Edit group</string>
+    <string name="groups_screen_edit_group_tooltip_text">Allows editing an existing group's name</string>
+    <string name="groups_screen_delete_group_tooltip_title">Delete group</string>
+    <string name="groups_screen_delete_group_tooltip_text">Allows deleting a group</string>
 
     <string name="location_screen_edit_location_tooltip_title">Edit location</string>
     <string name="location_screen_edit_location_tooltip_text">Allows editing a location. You can change its title or description.</string>
