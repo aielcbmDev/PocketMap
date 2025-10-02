@@ -1,10 +1,10 @@
 package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 
 @Composable
 expect fun MapComponent(
-    locationList: List<Location>? = null,
-    locationSelected: Location? = null
+    locationList: List<LocationModel>? = null,
+    locationSelected: LocationModel? = null
 )

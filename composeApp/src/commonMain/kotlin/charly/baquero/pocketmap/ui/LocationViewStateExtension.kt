@@ -1,9 +1,9 @@
 package charly.baquero.pocketmap.ui
 
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 
 fun LocationsViewState.getOnLocationClickViewState(
-    location: Location
+    location: LocationModel
 ): LocationsViewState {
     val currentLocationsState = this as? LocationsViewState.Success
     return currentLocationsState?.copy(

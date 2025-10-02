@@ -29,7 +29,7 @@ import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.ViewEvent
 import charly.baquero.pocketmap.ui.common.DisplayViewEvent
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
-import com.charly.domain.model.Group
+import charly.baquero.pocketmap.ui.model.GroupModel
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.groups_screen_add_group_tooltip_text
@@ -43,8 +43,8 @@ import pocketmap.composeapp.generated.resources.groups_screen_title
 @Composable
 fun GroupListPane(
     groupViewState: GroupViewState.Success,
-    onGroupClick: (Group) -> Unit,
-    onGroupLongClick: (Group) -> Unit,
+    onGroupClick: (GroupModel) -> Unit,
+    onGroupLongClick: (GroupModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     viewEvent: ViewEvent?,
@@ -87,9 +87,9 @@ fun GroupListPane(
 
 @Composable
 fun GroupListItem(
-    group: Group,
-    onGroupClick: (Group) -> Unit,
-    onGroupLongClick: (Group) -> Unit,
+    group: GroupModel,
+    onGroupClick: (GroupModel) -> Unit,
+    onGroupLongClick: (GroupModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(

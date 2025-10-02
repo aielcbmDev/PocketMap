@@ -19,9 +19,9 @@ import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
+import charly.baquero.pocketmap.ui.model.GroupModel
+import charly.baquero.pocketmap.ui.model.LocationModel
 import charly.baquero.pocketmap.ui.navigation.BottomTab
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -29,9 +29,9 @@ fun MainScreen(
     groupViewState: GroupViewState,
     locationsViewState: LocationsViewState,
     viewEvent: ViewEvent?,
-    onGroupClick: (Group) -> Unit,
-    onGroupLongClick: (Group) -> Unit,
-    onLocationClick: (Location) -> Unit,
+    onGroupClick: (GroupModel) -> Unit,
+    onGroupLongClick: (GroupModel) -> Unit,
+    onLocationClick: (LocationModel) -> Unit,
     onClearMapClick: () -> Unit,
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,

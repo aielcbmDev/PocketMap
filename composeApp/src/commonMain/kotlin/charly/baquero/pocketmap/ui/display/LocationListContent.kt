@@ -30,7 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.location_screen_delete_location_option
@@ -42,7 +42,7 @@ import pocketmap.composeapp.generated.resources.more_options
 fun LocationListPane(
     locationsViewState: LocationsViewState,
     onBackClick: () -> Unit,
-    onLocationClick: (Location) -> Unit,
+    onLocationClick: (LocationModel) -> Unit,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier
 ) {
@@ -87,8 +87,8 @@ fun LocationListPane(
 
 @Composable
 fun LocationListItem(
-    location: Location,
-    onLocationClick: (Location) -> Unit,
+    location: LocationModel,
+    onLocationClick: (LocationModel) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(

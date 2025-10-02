@@ -2,7 +2,7 @@ package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
 import charly.baquero.pocketmap.ui.LocationsViewState
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 
 @Composable
 fun MapPane(
@@ -17,7 +17,7 @@ fun MapPane(
 
 private fun retrieveData(
     locationsViewState: LocationsViewState
-): Pair<List<Location>?, Location?> {
+): Pair<List<LocationModel>?, LocationModel?> {
     return when (locationsViewState) {
         is LocationsViewState.Success -> Pair(
             locationsViewState.locationList,

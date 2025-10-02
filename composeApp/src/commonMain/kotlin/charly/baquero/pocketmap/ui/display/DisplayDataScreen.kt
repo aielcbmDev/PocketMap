@@ -15,8 +15,8 @@ import androidx.compose.ui.backhandler.BackHandler
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.ViewEvent
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.GroupModel
+import charly.baquero.pocketmap.ui.model.LocationModel
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch
@@ -25,9 +25,9 @@ import kotlinx.coroutines.launch
 fun DisplayDataScreen(
     groupViewState: GroupViewState,
     locationsViewState: LocationsViewState,
-    onGroupClick: (Group) -> Unit,
-    onGroupLongClick: (Group) -> Unit,
-    onLocationClick: (Location) -> Unit,
+    onGroupClick: (GroupModel) -> Unit,
+    onGroupLongClick: (GroupModel) -> Unit,
+    onLocationClick: (LocationModel) -> Unit,
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
@@ -72,9 +72,9 @@ fun DisplayDataScreen(
 fun GroupsAppContent(
     groupViewState: GroupViewState.Success,
     locationsViewState: LocationsViewState,
-    onGroupClick: (Group) -> Unit,
-    onGroupLongClick: (Group) -> Unit,
-    onLocationClick: (Location) -> Unit,
+    onGroupClick: (GroupModel) -> Unit,
+    onGroupLongClick: (GroupModel) -> Unit,
+    onLocationClick: (LocationModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
     viewEvent: ViewEvent?,

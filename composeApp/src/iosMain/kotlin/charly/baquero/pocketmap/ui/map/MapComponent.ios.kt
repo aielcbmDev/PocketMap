@@ -5,12 +5,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitViewController
 import charly.baquero.pocketmap.mapViewController
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 
 @Composable
 actual fun MapComponent(
-    locationList: List<Location>?,
-    locationSelected: Location?
+    locationList: List<LocationModel>?,
+    locationSelected: LocationModel?
 ) {
     UIKitViewController(
         factory = mapViewController,

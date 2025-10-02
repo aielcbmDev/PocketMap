@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.charly.domain.model.Location
+import charly.baquero.pocketmap.ui.model.LocationModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 actual fun MapComponent(
-    locationList: List<Location>?,
-    locationSelected: Location?
+    locationList: List<LocationModel>?,
+    locationSelected: LocationModel?
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -51,8 +51,8 @@ actual fun MapComponent(
 
 @Composable
 fun DisplayMarkers(
-    locationList: List<Location>?,
-    locationSelected: Location?
+    locationList: List<LocationModel>?,
+    locationSelected: LocationModel?
 ) {
     locationList?.forEach {
         val markerState = rememberUpdatedMarkerState(
@@ -72,7 +72,7 @@ fun DisplayMarkers(
 @Composable
 fun MoveCameraToSelectedLocation(
     cameraPositionState: CameraPositionState,
-    locationSelected: Location?
+    locationSelected: LocationModel?
 ) {
     locationSelected?.let {
         val coroutineScope = rememberCoroutineScope()

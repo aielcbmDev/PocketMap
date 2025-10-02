@@ -2,11 +2,13 @@ package charly.baquero.pocketmap.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import charly.baquero.pocketmap.ui.model.GroupModel
+import charly.baquero.pocketmap.ui.model.LocationModel
+import charly.baquero.pocketmap.ui.utils.mapToGroupModelList
+import charly.baquero.pocketmap.ui.utils.mapToLocationModelList
 import com.charly.domain.usecases.add.AddGroupUseCase
 import com.charly.domain.usecases.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
@@ -39,7 +41,7 @@ class MainViewModel(
         }
     }
 
-    fun onLocationClick(location: Location) {
+    fun onLocationClick(location: LocationModel) {
         _state.update { state ->
             state.copy(
                 locationsViewState = state.locationsViewState.getOnLocationClickViewState(
@@ -56,7 +58,7 @@ class MainViewModel(
                     state.copy(groupViewState = GroupViewState.Loading)
                 }
                 try {
-                    val groupList = getAllGroupsUseCase.execute()
+                    val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
                     if (groupList.isEmpty()) {
                         _state.update { state ->
                             state.copy(groupViewState = GroupViewState.Empty)
@@ -79,11 +81,12 @@ class MainViewModel(
         }
     }
 
-    fun fetchLocationsForGroup(group: Group) {
+    fun fetchLocationsForGroup(group: GroupModel) {
         viewModelScope.launch {
             setLocationsLoading(group)
             try {
-                val locationList = getAllLocationsForGroupUseCase.execute(group.id)
+                val locationList =
+                    getAllLocationsForGroupUseCase.execute(group.id).mapToLocationModelList()
                 setLocationsForGroup(group, locationList)
             } catch (_: Exception) {
                 setLocationsError(group)
@@ -91,7 +94,7 @@ class MainViewModel(
         }
     }
 
-    fun displayGroupOptionsMenu(group: Group) {
+    fun displayGroupOptionsMenu(group: GroupModel) {
         _state.update { state ->
             val currentGroupViewState = state.groupViewState as? GroupViewState.Success
             currentGroupViewState?.let {
@@ -128,8 +131,8 @@ class MainViewModel(
     }
 
     private fun setLocationsForGroup(
-        group: Group,
-        locationList: List<Location>
+        group: GroupModel,
+        locationList: List<LocationModel>
     ) {
         _state.update { state ->
             state.copy(
@@ -141,7 +144,7 @@ class MainViewModel(
         }
     }
 
-    private fun setLocationsLoading(group: Group) {
+    private fun setLocationsLoading(group: GroupModel) {
         _state.update { state ->
             state.copy(
                 locationsViewState = LocationsViewState.Loading(
@@ -151,7 +154,7 @@ class MainViewModel(
         }
     }
 
-    private fun setLocationsError(group: Group) {
+    private fun setLocationsError(group: GroupModel) {
         _state.update { state ->
             state.copy(
                 locationsViewState = LocationsViewState.Error
@@ -209,8 +212,8 @@ sealed interface GroupViewState {
     data object Loading : GroupViewState
     data class Success(
         val displayOptionsMenu: Boolean = false,
-        val groupSelected: Group? = null,
-        val groupList: List<Group>
+        val groupSelected: GroupModel? = null,
+        val groupList: List<GroupModel>
     ) : GroupViewState
 
     data object Error : GroupViewState
@@ -228,8 +231,8 @@ sealed interface LocationsViewState {
 
     data class Success(
         val groupName: String,
-        val locationList: List<Location>,
-        val locationSelected: Location? = null
+        val locationList: List<LocationModel>,
+        val locationSelected: LocationModel? = null
     ) : LocationsViewState
 
     data object Error : LocationsViewState
