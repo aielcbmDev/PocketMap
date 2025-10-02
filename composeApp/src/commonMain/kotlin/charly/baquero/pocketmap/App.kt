@@ -13,6 +13,7 @@ import androidx.navigation.compose.rememberNavController
 import charly.baquero.pocketmap.di.appModule
 import charly.baquero.pocketmap.ui.MainScreen
 import charly.baquero.pocketmap.ui.MainViewModel
+import charly.baquero.pocketmap.ui.ViewEvent
 import charly.baquero.pocketmap.ui.navigation.Screen
 import com.charly.database.di.databaseModule
 import com.charly.domain.di.domainModule
@@ -66,15 +67,23 @@ private fun MainNavigationHost() {
                 groupViewState = groupViewState,
                 locationsViewState = locationsViewState,
                 viewState = viewState,
-                onGroupClick = mainViewModel::fetchLocationsForGroup,
-                onGroupLongClick = mainViewModel::displayGroupOptionsMenu,
-                onLocationClick = mainViewModel::onLocationClick,
-                onClearMapClick = mainViewModel::onClearMapClick,
-                fetchAllGroups = mainViewModel::fetchAllGroups,
-                onCreateGroupClick = mainViewModel::showCreateGroupDialog,
-                onGroupOptionsMenuBackClick = mainViewModel::dismissGroupOptionsMenu,
-                createGroup = mainViewModel::createGroup,
-                onDismissCreateGroupDialog = mainViewModel::dismissCreateGroupDialog
+                onGroupClick = { group ->
+                    mainViewModel.onEvent(ViewEvent.FetchLocationsForGroup(group))
+                },
+                onGroupLongClick = { group ->
+                    mainViewModel.onEvent(ViewEvent.DisplayGroupOptionsMenu(group))
+                },
+                onLocationClick = { location ->
+                    mainViewModel.onEvent(ViewEvent.LocationClick(location))
+                },
+                onClearMapClick = { mainViewModel.onEvent(ViewEvent.ClearMap) },
+                fetchAllGroups = { mainViewModel.onEvent(ViewEvent.FetchAllGroups(true)) },
+                onCreateGroupClick = { mainViewModel.onEvent(ViewEvent.ShowCreateGroupDialog) },
+                onGroupOptionsMenuBackClick = { mainViewModel.onEvent(ViewEvent.DismissGroupOptionsMenu) },
+                createGroup = { groupName ->
+                    mainViewModel.onEvent(ViewEvent.CreateGroup(groupName))
+                },
+                onDismissCreateGroupDialog = { mainViewModel.onEvent(ViewEvent.DismissCreateGroupDialog) }
             )
         }
     }

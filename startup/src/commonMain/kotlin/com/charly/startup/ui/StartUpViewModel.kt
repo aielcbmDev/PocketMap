@@ -18,7 +18,13 @@ class StartUpViewModel(
         prePopulateDatabase()
     }
 
-    fun prePopulateDatabase() {
+    fun onEvent(viewEvent: ViewEvent) {
+        when (viewEvent) {
+            is ViewEvent.PrePopulateDatabase -> prePopulateDatabase()
+        }
+    }
+
+    private fun prePopulateDatabase() {
         viewModelScope.launch {
             _state.value = StartUpViewState.Loading
             try {
@@ -35,4 +41,8 @@ sealed interface StartUpViewState {
     data object Loading : StartUpViewState
     data object Success : StartUpViewState
     data object Error : StartUpViewState
+}
+
+sealed interface ViewEvent {
+    data object PrePopulateDatabase : ViewEvent
 }

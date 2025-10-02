@@ -44,7 +44,7 @@ fun StartUpScreen(
 
                 is StartUpViewState.Error -> {
                     ErrorContent(
-                        { viewModel.prePopulateDatabase() }
+                        { viewModel.onEvent(ViewEvent.PrePopulateDatabase) }
                     )
                 }
             }

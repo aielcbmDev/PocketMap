@@ -33,7 +33,21 @@ class MainViewModel(
         fetchAllGroups()
     }
 
-    fun onClearMapClick() {
+    fun onEvent(viewEvent: ViewEvent) {
+        when (viewEvent) {
+            is ViewEvent.ClearMap -> onClearMapClick()
+            is ViewEvent.LocationClick -> onLocationClick(viewEvent.location)
+            is ViewEvent.FetchAllGroups -> fetchAllGroups(viewEvent.updateGroupData)
+            is ViewEvent.FetchLocationsForGroup -> fetchLocationsForGroup(viewEvent.group)
+            is ViewEvent.DisplayGroupOptionsMenu -> displayGroupOptionsMenu(viewEvent.group)
+            is ViewEvent.DismissGroupOptionsMenu -> dismissGroupOptionsMenu()
+            is ViewEvent.ShowCreateGroupDialog -> showCreateGroupDialog()
+            is ViewEvent.DismissCreateGroupDialog -> dismissCreateGroupDialog()
+            is ViewEvent.CreateGroup -> createGroup(viewEvent.groupName)
+        }
+    }
+
+    private fun onClearMapClick() {
         _state.update { state ->
             state.copy(
                 locationsViewState = LocationsViewState.NoGroupSelected
@@ -41,7 +55,7 @@ class MainViewModel(
         }
     }
 
-    fun onLocationClick(location: LocationModel) {
+    private fun onLocationClick(location: LocationModel) {
         _state.update { state ->
             state.copy(
                 locationsViewState = state.locationsViewState.getOnLocationClickViewState(
@@ -51,7 +65,7 @@ class MainViewModel(
         }
     }
 
-    fun fetchAllGroups(updateGroupData: Boolean = false) {
+    private fun fetchAllGroups(updateGroupData: Boolean = false) {
         if (_state.value.groupViewState !is GroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
                 _state.update { state ->
@@ -81,7 +95,7 @@ class MainViewModel(
         }
     }
 
-    fun fetchLocationsForGroup(group: GroupModel) {
+    private fun fetchLocationsForGroup(group: GroupModel) {
         viewModelScope.launch {
             setLocationsLoading(group)
             try {
@@ -94,7 +108,7 @@ class MainViewModel(
         }
     }
 
-    fun displayGroupOptionsMenu(group: GroupModel) {
+    private fun displayGroupOptionsMenu(group: GroupModel) {
         _state.update { state ->
             val currentGroupViewState = state.groupViewState as? GroupViewState.Success
             currentGroupViewState?.let {
@@ -112,7 +126,7 @@ class MainViewModel(
         }
     }
 
-    fun dismissGroupOptionsMenu() {
+    private fun dismissGroupOptionsMenu() {
         _state.update { state ->
             val currentGroupViewState = state.groupViewState as? GroupViewState.Success
             currentGroupViewState?.let {
@@ -162,7 +176,7 @@ class MainViewModel(
         }
     }
 
-    fun showCreateGroupDialog() {
+    private fun showCreateGroupDialog() {
         _state.update { state ->
             state.copy(
                 viewState = ViewState.CreateGroupDialog()
@@ -170,7 +184,7 @@ class MainViewModel(
         }
     }
 
-    fun dismissCreateGroupDialog() {
+    private fun dismissCreateGroupDialog() {
         _state.update { state ->
             state.copy(
                 viewState = null
@@ -178,7 +192,7 @@ class MainViewModel(
         }
     }
 
-    fun createGroup(groupName: String) {
+    private fun createGroup(groupName: String) {
         viewModelScope.launch {
             try {
                 addGroupUseCase.execute(groupName)
@@ -201,10 +215,20 @@ data class MainViewState(
     val locationsViewState: LocationsViewState
 )
 
-sealed class ViewState {
-    data class CreateGroupDialog(
-        val displayError: Boolean = false
-    ) : ViewState()
+sealed interface ViewState {
+    data class CreateGroupDialog(val displayError: Boolean = false) : ViewState
+}
+
+sealed interface ViewEvent {
+    data object ClearMap : ViewEvent
+    data class LocationClick(val location: LocationModel) : ViewEvent
+    data class FetchAllGroups(val updateGroupData: Boolean = false) : ViewEvent
+    data class FetchLocationsForGroup(val group: GroupModel) : ViewEvent
+    data class DisplayGroupOptionsMenu(val group: GroupModel) : ViewEvent
+    data object DismissGroupOptionsMenu : ViewEvent
+    data object ShowCreateGroupDialog : ViewEvent
+    data object DismissCreateGroupDialog : ViewEvent
+    data class CreateGroup(val groupName: String) : ViewEvent
 }
 
 sealed interface GroupViewState {
