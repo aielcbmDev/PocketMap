@@ -28,9 +28,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
+import com.charly.domain.model.Location
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.location_screen_delete_location_option

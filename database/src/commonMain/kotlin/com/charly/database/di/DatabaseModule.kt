@@ -5,13 +5,17 @@ import com.charly.database.GroupDataSource
 import com.charly.database.LocationDataSource
 import com.charly.database.MembershipDataSource
 import com.charly.database.PocketMapDatabase
-import com.charly.database.repositories.add.AddGroupRepository
-import com.charly.database.repositories.getall.GetAllGroupsRepository
-import com.charly.database.repositories.getall.GetAllLocationsForGroupRepository
-import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.database.repositories.add.AddGroupRepositoryImpl
+import com.charly.database.repositories.getall.GetAllGroupsRepositoryImpl
+import com.charly.database.repositories.getall.GetAllLocationsForGroupRepositoryImpl
+import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepositoryImpl
 import com.charly.database.repositories.prepopulate.PrePopulateTables
 import com.charly.database.utils.AssetFileProvider
 import com.charly.database.utils.getRoomDatabase
+import com.charly.domain.repositories.add.AddGroupRepository
+import com.charly.domain.repositories.get.GetAllGroupsRepository
+import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository
+import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
 import org.koin.core.module.Module
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
@@ -55,21 +59,21 @@ val databaseModule = module {
     }
 
     factory<PrePopulateDatabaseRepository> {
-        PrePopulateDatabaseRepository(
+        PrePopulateDatabaseRepositoryImpl(
             get(named("isDatabaseCreated")),
             lazy { get() }
         )
     }
 
     factory<GetAllGroupsRepository> {
-        GetAllGroupsRepository(get())
+        GetAllGroupsRepositoryImpl(get())
     }
 
     factory<GetAllLocationsForGroupRepository> {
-        GetAllLocationsForGroupRepository(get())
+        GetAllLocationsForGroupRepositoryImpl(get())
     }
 
     factory<AddGroupRepository> {
-        AddGroupRepository(get())
+        AddGroupRepositoryImpl(get())
     }
 }

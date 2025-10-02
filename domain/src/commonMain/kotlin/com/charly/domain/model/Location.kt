@@ -1,8 +1,5 @@
-package charly.baquero.pocketmap.domain.model
+package com.charly.domain.model
 
-import kotlinx.serialization.Serializable
-
-@Serializable
 data class Location(
     val id: Long,
     val title: String,

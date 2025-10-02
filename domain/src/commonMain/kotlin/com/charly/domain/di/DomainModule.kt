@@ -1,15 +1,14 @@
-package charly.baquero.pocketmap.di
+package com.charly.domain.di
 
-import charly.baquero.pocketmap.ui.MainViewModel
 import com.charly.domain.usecases.add.AddGroupUseCase
 import com.charly.domain.usecases.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
-import org.koin.core.module.dsl.viewModel
+import com.charly.domain.usecases.prepopulate.PrePopulateDatabaseUseCase
 import org.koin.dsl.module
 
-val appModule = module {
+val domainModule = module {
     factory<GetAllGroupsUseCase> { GetAllGroupsUseCase(get()) }
     factory<GetAllLocationsForGroupUseCase> { GetAllLocationsForGroupUseCase(get()) }
     factory<AddGroupUseCase> { AddGroupUseCase(get()) }
-    viewModel { MainViewModel(get(), get(), get()) }
+    factory<PrePopulateDatabaseUseCase> { PrePopulateDatabaseUseCase(get()) }
 }

@@ -1,9 +1,7 @@
-package com.charly.startup.domain
+package com.charly.domain.usecases.prepopulate
 
-import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
-import com.charly.startup.OpenClassForMocking
+import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
 
-@OpenClassForMocking
 class PrePopulateDatabaseUseCase(
     private val prePopulateDatabaseRepository: PrePopulateDatabaseRepository
 ) {

@@ -1,6 +1,6 @@
 package charly.baquero.pocketmap.ui
 
-import charly.baquero.pocketmap.domain.model.Location
+import com.charly.domain.model.Location
 
 fun LocationsViewState.getOnLocationClickViewState(
     location: Location

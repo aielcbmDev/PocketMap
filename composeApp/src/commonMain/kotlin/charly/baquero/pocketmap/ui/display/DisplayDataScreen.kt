@@ -12,11 +12,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
-import charly.baquero.pocketmap.domain.model.Group
-import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.ViewEvent
+import com.charly.domain.model.Group
+import com.charly.domain.model.Location
 import com.charly.startup.ui.ErrorContent
 import com.charly.startup.ui.LoadingContent
 import kotlinx.coroutines.launch

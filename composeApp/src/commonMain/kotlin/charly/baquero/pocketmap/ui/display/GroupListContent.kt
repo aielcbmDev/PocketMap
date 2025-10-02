@@ -25,11 +25,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import charly.baquero.pocketmap.domain.model.Group
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.ViewEvent
 import charly.baquero.pocketmap.ui.common.DisplayViewEvent
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
+import com.charly.domain.model.Group
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.groups_screen_add_group_tooltip_text

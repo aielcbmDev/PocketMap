@@ -1,6 +1,6 @@
 package com.charly.database.prepopulate
 
-import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepositoryImpl
 import com.charly.database.repositories.prepopulate.PrePopulateTables
 import dev.mokkery.answering.returns
 import dev.mokkery.every
@@ -43,7 +43,7 @@ class PrePopulateDatabaseRepositoryTest {
         val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
             every { value } returns prePopulateTables
         }
-        val prePopulateDatabaseRepository = PrePopulateDatabaseRepository(
+        val prePopulateDatabaseRepository = PrePopulateDatabaseRepositoryImpl(
             isDatabaseCreated = isDatabaseCreated,
             prePopulateTablesLazy = prePopulateTablesLazy
         )
@@ -66,7 +66,7 @@ class PrePopulateDatabaseRepositoryTest {
         val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
             every { value } returns prePopulateTables
         }
-        val prePopulateDatabaseRepository = PrePopulateDatabaseRepository(
+        val prePopulateDatabaseRepository = PrePopulateDatabaseRepositoryImpl(
             isDatabaseCreated = isDatabaseCreated,
             prePopulateTablesLazy = prePopulateTablesLazy
         )

@@ -1,8 +1,8 @@
 package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
-import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.LocationsViewState
+import com.charly.domain.model.Location
 
 @Composable
 fun MapPane(

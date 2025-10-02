@@ -16,12 +16,12 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import charly.baquero.pocketmap.domain.model.Group
-import charly.baquero.pocketmap.domain.model.Location
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.display.DisplayDataScreen
 import charly.baquero.pocketmap.ui.map.MapScreen
 import charly.baquero.pocketmap.ui.navigation.BottomTab
+import com.charly.domain.model.Group
+import com.charly.domain.model.Location
 import org.jetbrains.compose.resources.stringResource
 
 @Composable

@@ -1,7 +1,7 @@
 package charly.baquero.pocketmap.ui.map
 
 import androidx.compose.runtime.Composable
-import charly.baquero.pocketmap.domain.model.Location
+import com.charly.domain.model.Location
 
 @Composable
 expect fun MapComponent(

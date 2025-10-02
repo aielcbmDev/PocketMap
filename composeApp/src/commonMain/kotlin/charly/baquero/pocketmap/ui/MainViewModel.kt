@@ -2,11 +2,11 @@ package charly.baquero.pocketmap.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import charly.baquero.pocketmap.domain.add.AddGroupUseCase
-import charly.baquero.pocketmap.domain.get.GetAllGroupsUseCase
-import charly.baquero.pocketmap.domain.get.GetAllLocationsForGroupUseCase
-import charly.baquero.pocketmap.domain.model.Group
-import charly.baquero.pocketmap.domain.model.Location
+import com.charly.domain.usecases.add.AddGroupUseCase
+import com.charly.domain.usecases.get.GetAllGroupsUseCase
+import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.model.Group
+import com.charly.domain.model.Location
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update

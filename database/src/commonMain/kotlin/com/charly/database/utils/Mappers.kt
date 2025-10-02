@@ -1,7 +1,7 @@
-package charly.baquero.pocketmap.domain.utils
+package com.charly.database.utils
 
-import charly.baquero.pocketmap.domain.model.Group
-import charly.baquero.pocketmap.domain.model.Location
+import com.charly.domain.model.Group
+import com.charly.domain.model.Location
 import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
 
