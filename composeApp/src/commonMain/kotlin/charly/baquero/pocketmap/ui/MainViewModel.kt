@@ -22,7 +22,7 @@ class MainViewModel(
 
     private val _state = MutableStateFlow(
         MainViewState(
-            viewEvent = null,
+            viewState = null,
             groupViewState = GroupViewState.Loading,
             locationsViewState = LocationsViewState.NoGroupSelected
         )
@@ -165,7 +165,7 @@ class MainViewModel(
     fun showCreateGroupDialog() {
         _state.update { state ->
             state.copy(
-                viewEvent = ViewEvent.CreateGroupDialog()
+                viewState = ViewState.CreateGroupDialog()
             )
         }
     }
@@ -173,7 +173,7 @@ class MainViewModel(
     fun dismissCreateGroupDialog() {
         _state.update { state ->
             state.copy(
-                viewEvent = null
+                viewState = null
             )
         }
     }
@@ -184,11 +184,11 @@ class MainViewModel(
                 addGroupUseCase.execute(groupName)
                 fetchAllGroups(updateGroupData = true)
                 _state.update { state ->
-                    state.copy(viewEvent = null)
+                    state.copy(viewState = null)
                 }
             } catch (_: Exception) {
                 _state.update { state ->
-                    state.copy(viewEvent = ViewEvent.CreateGroupDialog(displayError = true))
+                    state.copy(viewState = ViewState.CreateGroupDialog(displayError = true))
                 }
             }
         }
@@ -196,15 +196,15 @@ class MainViewModel(
 }
 
 data class MainViewState(
-    val viewEvent: ViewEvent? = null,
+    val viewState: ViewState? = null,
     val groupViewState: GroupViewState,
     val locationsViewState: LocationsViewState
 )
 
-sealed class ViewEvent {
+sealed class ViewState {
     data class CreateGroupDialog(
         val displayError: Boolean = false
-    ) : ViewEvent()
+    ) : ViewState()
 }
 
 sealed interface GroupViewState {

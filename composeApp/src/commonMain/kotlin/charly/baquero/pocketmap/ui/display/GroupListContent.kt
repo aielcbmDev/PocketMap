@@ -26,7 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import charly.baquero.pocketmap.ui.GroupViewState
-import charly.baquero.pocketmap.ui.ViewEvent
+import charly.baquero.pocketmap.ui.ViewState
 import charly.baquero.pocketmap.ui.common.DisplayViewEvent
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import charly.baquero.pocketmap.ui.model.GroupModel
@@ -47,7 +47,7 @@ fun GroupListPane(
     onGroupLongClick: (GroupModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    viewEvent: ViewEvent?,
+    viewState: ViewState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit,
     modifier: Modifier = Modifier
@@ -78,7 +78,7 @@ fun GroupListPane(
             }
         }
         DisplayViewEvent(
-            viewEvent = viewEvent,
+            viewState = viewState,
             createGroup = createGroup,
             onDismissCreateGroupDialog = onDismissCreateGroupDialog
         )

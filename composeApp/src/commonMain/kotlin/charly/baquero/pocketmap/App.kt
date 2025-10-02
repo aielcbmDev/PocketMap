@@ -61,11 +61,11 @@ private fun MainNavigationHost() {
             val mainViewState by mainViewModel.state.collectAsStateWithLifecycle()
             val groupViewState = mainViewState.groupViewState
             val locationsViewState = mainViewState.locationsViewState
-            val viewEvent = mainViewState.viewEvent
+            val viewState = mainViewState.viewState
             MainScreen(
                 groupViewState = groupViewState,
                 locationsViewState = locationsViewState,
-                viewEvent = viewEvent,
+                viewState = viewState,
                 onGroupClick = mainViewModel::fetchLocationsForGroup,
                 onGroupLongClick = mainViewModel::displayGroupOptionsMenu,
                 onLocationClick = mainViewModel::onLocationClick,

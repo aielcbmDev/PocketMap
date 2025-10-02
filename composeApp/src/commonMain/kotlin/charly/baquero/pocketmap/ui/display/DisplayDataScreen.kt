@@ -14,7 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.LocationsViewState
-import charly.baquero.pocketmap.ui.ViewEvent
+import charly.baquero.pocketmap.ui.ViewState
 import charly.baquero.pocketmap.ui.model.GroupModel
 import charly.baquero.pocketmap.ui.model.LocationModel
 import com.charly.startup.ui.ErrorContent
@@ -31,7 +31,7 @@ fun DisplayDataScreen(
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    viewEvent: ViewEvent?,
+    viewState: ViewState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
 ) {
@@ -50,7 +50,7 @@ fun DisplayDataScreen(
                     onLocationClick = onLocationClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
-                    viewEvent = viewEvent,
+                    viewState = viewState,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
@@ -77,7 +77,7 @@ fun GroupsAppContent(
     onLocationClick: (LocationModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
-    viewEvent: ViewEvent?,
+    viewState: ViewState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
 ) {
@@ -105,7 +105,7 @@ fun GroupsAppContent(
                     onGroupLongClick = onGroupLongClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
-                    viewEvent = viewEvent,
+                    viewState = viewState,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog
                 )
