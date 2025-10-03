@@ -1,15 +1,9 @@
 package charly.baquero.pocketmap.di
 
 import charly.baquero.pocketmap.ui.MainViewModel
-import com.charly.domain.usecases.add.AddGroupUseCase
-import com.charly.domain.usecases.get.GetAllGroupsUseCase
-import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val appModule = module {
-    factory<GetAllGroupsUseCase> { GetAllGroupsUseCase(get()) }
-    factory<GetAllLocationsForGroupUseCase> { GetAllLocationsForGroupUseCase(get()) }
-    factory<AddGroupUseCase> { AddGroupUseCase(get()) }
     viewModel { MainViewModel(get(), get(), get()) }
 }
