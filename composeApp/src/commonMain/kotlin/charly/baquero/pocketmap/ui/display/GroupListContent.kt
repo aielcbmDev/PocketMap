@@ -14,7 +14,6 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -131,8 +130,8 @@ private fun GroupListPaneTopBar(
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit
 ) {
-    if (groupViewState.groupsSelected.isEmpty()) {
-        TopAppBar(
+    when (groupViewState.groupsSelected.size) {
+        0 -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
             actions = {
                 IconButtonWithRichTooltip(
@@ -144,8 +143,8 @@ private fun GroupListPaneTopBar(
                 )
             }
         )
-    } else {
-        TopAppBar(
+
+        1 -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
@@ -160,6 +159,24 @@ private fun GroupListPaneTopBar(
                     contentDescription = stringResource(Res.string.groups_screen_edit_group_tooltip_title),
                     onClick = { }
                 )
+                IconButtonWithRichTooltip(
+                    tooltipTitle = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
+                    tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
+                    onClick = { }
+                )
+            },
+        )
+
+        else -> TopAppBar(
+            title = { Text(stringResource(Res.string.groups_screen_title)) },
+            navigationIcon = {
+                IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                }
+            },
+            actions = {
                 IconButtonWithRichTooltip(
                     tooltipTitle = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
                     tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
