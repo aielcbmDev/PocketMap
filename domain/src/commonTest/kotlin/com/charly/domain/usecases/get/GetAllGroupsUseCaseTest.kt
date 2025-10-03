@@ -1,6 +1,7 @@
-package com.charly.domain.usecases.prepopulate
+package com.charly.domain.usecases.get
 
-import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.domain.model.Group
+import com.charly.domain.repositories.get.GetAllGroupsRepository
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
@@ -22,7 +23,7 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertSame
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class PrePopulateDatabaseUseCaseTest {
+class GetAllGroupsUseCaseTest {
 
     @BeforeTest
     fun setUp() {
@@ -37,42 +38,50 @@ class PrePopulateDatabaseUseCaseTest {
     @Test
     fun `Verify that execute succeeds`() = runTest {
         // GIVEN
-        val prePopulateDatabaseRepository = mock<PrePopulateDatabaseRepository>() {
-            everySuspend { execute() } returns Unit
+        val listOfGroups = listOf(
+            Group(id = 1, name = "Group 1"),
+            Group(id = 2, name = "Group 2")
+        )
+
+        val getAllGroupsRepository = mock<GetAllGroupsRepository>() {
+            everySuspend { execute() } returns listOfGroups
         }
-        val prePopulateDatabaseUseCase = PrePopulateDatabaseUseCase(prePopulateDatabaseRepository)
+
+        val getAllGroupsUseCase = GetAllGroupsUseCase(getAllGroupsRepository)
 
         // WHEN
-        prePopulateDatabaseUseCase.execute()
+        val result = getAllGroupsUseCase.execute()
         runCurrent()
 
         // THEN
+        assertSame(listOfGroups, result)
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
-            prePopulateDatabaseRepository.execute()
+            getAllGroupsRepository.execute()
         }
-        verifyNoMoreCalls(prePopulateDatabaseRepository)
+        verifyNoMoreCalls(getAllGroupsRepository)
     }
 
     @Test
     fun `Verify that execute fails`() = runTest {
         // GIVEN
         val expectedException = Exception("Error")
-        val prePopulateDatabaseRepository = mock<PrePopulateDatabaseRepository>() {
+        val getAllGroupsRepository = mock<GetAllGroupsRepository>() {
             everySuspend { execute() } throws expectedException
         }
-        val prePopulateDatabaseUseCase = PrePopulateDatabaseUseCase(prePopulateDatabaseRepository)
+
+        val getAllGroupsUseCase = GetAllGroupsUseCase(getAllGroupsRepository)
 
         // WHEN
         val actualException = assertFailsWith<Exception> {
-            prePopulateDatabaseUseCase.execute()
+            getAllGroupsUseCase.execute()
             runCurrent()
         }
 
         // THEN
         assertSame(expectedException, actualException)
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
-            prePopulateDatabaseRepository.execute()
+            getAllGroupsRepository.execute()
         }
-        verifyNoMoreCalls(prePopulateDatabaseRepository)
+        verifyNoMoreCalls(getAllGroupsRepository)
     }
 }
