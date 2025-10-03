@@ -11,12 +11,11 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     alias(libs.plugins.mokkeryPlugin)
-    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
+    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
@@ -33,7 +32,6 @@ kotlin {
         }
     }
 
-    @OptIn(ExperimentalKotlinGradlePluginApi::class)
     compilerOptions {
         // Removes the following warning when executing unit tests:
         //

@@ -10,7 +10,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.mokkeryPlugin)
-    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
+    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {
@@ -24,10 +24,11 @@ kotlin {
         minSdk = libs.versions.android.minSdk.get().toInt()
         androidResources.enable = true
         withHostTestBuilder {
+            sourceSetTreeName = "test"
         }
 
         withDeviceTestBuilder {
-            sourceSetTreeName = "test"
+            sourceSetTreeName = "androidDeviceTest"
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }

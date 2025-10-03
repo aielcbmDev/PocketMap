@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.mokkeryPlugin)
-    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
+    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {

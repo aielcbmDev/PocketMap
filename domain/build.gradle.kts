@@ -5,7 +5,7 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
     alias(libs.plugins.mokkeryPlugin)
-    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
+    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {
