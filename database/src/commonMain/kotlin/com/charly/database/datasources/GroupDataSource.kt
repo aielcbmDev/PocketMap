@@ -1,4 +1,4 @@
-package com.charly.database
+package com.charly.database.datasources
 
 import com.charly.database.model.groups.GroupDao
 import com.charly.database.model.groups.GroupEntity

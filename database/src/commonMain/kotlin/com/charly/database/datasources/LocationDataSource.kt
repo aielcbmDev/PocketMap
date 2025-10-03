@@ -1,4 +1,4 @@
-package com.charly.database
+package com.charly.database.datasources
 
 import com.charly.database.model.locations.LocationDao
 import com.charly.database.model.locations.LocationEntity

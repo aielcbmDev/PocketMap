@@ -2,9 +2,9 @@ package com.charly.database.repositories.prepopulate
 
 import androidx.room.exclusiveTransaction
 import androidx.room.useWriterConnection
-import com.charly.database.GroupDataSource
-import com.charly.database.LocationDataSource
-import com.charly.database.MembershipDataSource
+import com.charly.database.datasources.GroupDataSource
+import com.charly.database.datasources.LocationDataSource
+import com.charly.database.datasources.MembershipDataSource
 import com.charly.database.OpenClassForMocking
 import com.charly.database.PocketMapDatabase
 import com.charly.database.utils.AssetFileProvider

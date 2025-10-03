@@ -1,6 +1,6 @@
 package com.charly.database.repositories.getall
 
-import com.charly.database.MembershipDataSource
+import com.charly.database.datasources.MembershipDataSource
 import com.charly.database.utils.mapToLocationList
 import com.charly.domain.model.Location
 import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository

@@ -1,10 +1,10 @@
 package com.charly.database.di
 
 import androidx.room.RoomDatabase
-import com.charly.database.GroupDataSource
-import com.charly.database.LocationDataSource
-import com.charly.database.MembershipDataSource
 import com.charly.database.PocketMapDatabase
+import com.charly.database.datasources.GroupDataSource
+import com.charly.database.datasources.LocationDataSource
+import com.charly.database.datasources.MembershipDataSource
 import com.charly.database.repositories.add.AddGroupRepositoryImpl
 import com.charly.database.repositories.getall.GetAllGroupsRepositoryImpl
 import com.charly.database.repositories.getall.GetAllLocationsForGroupRepositoryImpl

@@ -1,6 +1,6 @@
 package com.charly.database.repositories.getall
 
-import com.charly.database.GroupDataSource
+import com.charly.database.datasources.GroupDataSource
 import com.charly.database.utils.mapToGroupList
 import com.charly.domain.model.Group
 import com.charly.domain.repositories.get.GetAllGroupsRepository
