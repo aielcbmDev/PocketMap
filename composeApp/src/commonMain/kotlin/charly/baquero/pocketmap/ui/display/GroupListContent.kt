@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -133,6 +134,7 @@ private fun GroupListPaneTopBar(
     when (groupViewState.groupsSelected.size) {
         0 -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
+            colors = TopAppBarDefaults.topAppBarColors(),
             actions = {
                 IconButtonWithRichTooltip(
                     tooltipTitle = stringResource(Res.string.groups_screen_add_group_tooltip_title),
@@ -151,6 +153,7 @@ private fun GroupListPaneTopBar(
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                 }
             },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
             actions = {
                 IconButtonWithRichTooltip(
                     tooltipTitle = stringResource(Res.string.groups_screen_edit_group_tooltip_title),
@@ -171,6 +174,7 @@ private fun GroupListPaneTopBar(
 
         else -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
+            colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
