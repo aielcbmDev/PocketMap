@@ -83,7 +83,8 @@ private fun MainNavigationHost() {
                 createGroup = { groupName ->
                     mainViewModel.onEvent(ViewEvent.CreateGroup(groupName))
                 },
-                onDismissCreateGroupDialog = { mainViewModel.onEvent(ViewEvent.DismissCreateGroupDialog) }
+                onDismissCreateGroupDialog = { mainViewModel.onEvent(ViewEvent.DismissCreateGroupDialog) },
+                deleteGroups = { mainViewModel.onEvent(ViewEvent.DeleteGroups) }
             )
         }
     }

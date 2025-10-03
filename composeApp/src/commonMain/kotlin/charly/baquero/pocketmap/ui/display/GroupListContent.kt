@@ -52,6 +52,7 @@ fun GroupListPane(
     viewState: ViewState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit,
+    deleteGroups: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -59,7 +60,8 @@ fun GroupListPane(
             GroupListPaneTopBar(
                 groupViewState = groupViewState,
                 onCreateGroupClick = onCreateGroupClick,
-                onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick
+                onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
+                deleteGroups = deleteGroups
             )
         }
     ) { padding ->
@@ -74,7 +76,7 @@ fun GroupListPane(
             ) { group ->
                 GroupListItem(
                     group = group,
-                    groupsSelected = groupViewState.groupsSelected,
+                    selectedGroupIds = groupViewState.selectedGroupIds,
                     onGroupClick = onGroupClick,
                     onGroupLongClick = onGroupLongClick
                 )
@@ -91,7 +93,7 @@ fun GroupListPane(
 @Composable
 fun GroupListItem(
     group: GroupModel,
-    groupsSelected: Set<GroupModel>,
+    selectedGroupIds: Set<Long>,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     modifier: Modifier = Modifier
@@ -103,7 +105,7 @@ fun GroupListItem(
                 onClick = { onGroupClick(group) },
                 onLongClick = { onGroupLongClick(group) }
             ),
-        colors = if (groupsSelected.contains(group)) {
+        colors = if (selectedGroupIds.contains(group.id)) {
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
         } else {
             CardDefaults.cardColors()
@@ -129,9 +131,10 @@ fun GroupListItem(
 private fun GroupListPaneTopBar(
     groupViewState: GroupViewState.Success,
     onCreateGroupClick: () -> Unit,
-    onGroupOptionsMenuBackClick: () -> Unit
+    onGroupOptionsMenuBackClick: () -> Unit,
+    deleteGroups: () -> Unit,
 ) {
-    when (groupViewState.groupsSelected.size) {
+    when (groupViewState.selectedGroupIds.size) {
         0 -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
             colors = TopAppBarDefaults.topAppBarColors(),
@@ -167,7 +170,7 @@ private fun GroupListPaneTopBar(
                     tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
-                    onClick = { }
+                    onClick = { deleteGroups.invoke() }
                 )
             },
         )
@@ -186,7 +189,7 @@ private fun GroupListPaneTopBar(
                     tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
-                    onClick = { }
+                    onClick = { deleteGroups.invoke() }
                 )
             },
         )

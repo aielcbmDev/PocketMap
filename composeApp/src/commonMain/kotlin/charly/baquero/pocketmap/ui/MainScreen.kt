@@ -37,7 +37,8 @@ fun MainScreen(
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit
+    onDismissCreateGroupDialog: () -> Unit,
+    deleteGroups: () -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -107,7 +108,8 @@ fun MainScreen(
                     onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     viewState = viewState,
                     createGroup = createGroup,
-                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog,
+                    deleteGroups = deleteGroups
                 )
             }
         }

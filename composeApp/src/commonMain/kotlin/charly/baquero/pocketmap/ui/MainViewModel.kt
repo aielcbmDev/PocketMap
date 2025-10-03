@@ -7,6 +7,7 @@ import charly.baquero.pocketmap.ui.model.LocationModel
 import charly.baquero.pocketmap.ui.utils.mapToGroupModelList
 import charly.baquero.pocketmap.ui.utils.mapToLocationModelList
 import com.charly.domain.usecases.add.AddGroupUseCase
+import com.charly.domain.usecases.delete.DeleteGroupsUseCase
 import com.charly.domain.usecases.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import kotlinx.coroutines.launch
 class MainViewModel(
     private val getAllGroupsUseCase: GetAllGroupsUseCase,
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase,
-    private val addGroupUseCase: AddGroupUseCase
+    private val addGroupUseCase: AddGroupUseCase,
+    private val deleteGroupsUseCase: DeleteGroupsUseCase,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(
@@ -44,6 +46,7 @@ class MainViewModel(
             is ViewEvent.ShowCreateGroupDialog -> showCreateGroupDialog()
             is ViewEvent.DismissCreateGroupDialog -> dismissCreateGroupDialog()
             is ViewEvent.CreateGroup -> createGroup(viewEvent.groupName)
+            is ViewEvent.DeleteGroups -> deleteGroups()
         }
     }
 
@@ -91,7 +94,7 @@ class MainViewModel(
                             state.copy(
                                 groupViewState = GroupViewState.Success(
                                     groupList = groupList,
-                                    groupsSelected = emptySet()
+                                    selectedGroupIds = emptySet()
                                 )
                             )
                         }
@@ -124,7 +127,7 @@ class MainViewModel(
             currentGroupViewState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        groupsSelected = handleGroupSelected(it.groupsSelected, group)
+                        selectedGroupIds = handleSelectedGroupIds(it.selectedGroupIds, group)
                     )
                 )
             } ?: run {
@@ -135,15 +138,15 @@ class MainViewModel(
         }
     }
 
-    private fun handleGroupSelected(
-        oldSet: Set<GroupModel>,
+    private fun handleSelectedGroupIds(
+        oldSet: Set<Long>,
         group: GroupModel
-    ): Set<GroupModel> {
+    ): Set<Long> {
         val newSet = HashSet(oldSet)
-        if (oldSet.contains(group)) {
-            newSet.remove(group)
+        if (oldSet.contains(group.id)) {
+            newSet.remove(group.id)
         } else {
-            newSet.add(group)
+            newSet.add(group.id)
         }
         return newSet
     }
@@ -154,7 +157,7 @@ class MainViewModel(
             currentGroupViewState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        groupsSelected = emptySet()
+                        selectedGroupIds = emptySet()
                     )
                 )
             } ?: run {
@@ -228,12 +231,32 @@ class MainViewModel(
             }
         }
     }
+
+    private fun deleteGroups() {
+        viewModelScope.launch {
+            try {
+                _state.update { state ->
+                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Loading)
+                }
+                deleteGroupsUseCase.execute((_state.value.groupViewState as GroupViewState.Success).selectedGroupIds)
+                fetchAllGroups(updateGroupData = true)
+                _state.update { state ->
+                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Success)
+                }
+            } catch (_: Exception) {
+                _state.update { state ->
+                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Error)
+                }
+            }
+        }
+    }
 }
 
 data class MainViewState(
     val viewState: ViewState? = null,
     val groupViewState: GroupViewState,
-    val locationsViewState: LocationsViewState
+    val locationsViewState: LocationsViewState,
+    val deleteGroupsViewState: DeleteGroupsViewState? = null
 )
 
 sealed interface ViewState {
@@ -250,6 +273,13 @@ sealed interface ViewEvent {
     data object ShowCreateGroupDialog : ViewEvent
     data object DismissCreateGroupDialog : ViewEvent
     data class CreateGroup(val groupName: String) : ViewEvent
+    data object DeleteGroups : ViewEvent
+}
+
+sealed interface DeleteGroupsViewState {
+    data object Loading : DeleteGroupsViewState
+    data object Success : DeleteGroupsViewState
+    data object Error : DeleteGroupsViewState
 }
 
 sealed interface GroupViewState {
@@ -257,7 +287,7 @@ sealed interface GroupViewState {
     data object Loading : GroupViewState
     data class Success(
         val groupList: List<GroupModel>,
-        val groupsSelected: Set<GroupModel>
+        val selectedGroupIds: Set<Long>
     ) : GroupViewState
 
     data object Error : GroupViewState

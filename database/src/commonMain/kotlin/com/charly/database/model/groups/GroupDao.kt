@@ -16,4 +16,7 @@ interface GroupDao {
 
     @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertOrReplaceListOfGroups(groupEntityList: List<GroupEntity>)
+
+    @Query("DELETE from groups_table where id in (:groupIdsSelected)")
+    suspend fun deleteGroups(groupIdsSelected: Set<Long>)
 }

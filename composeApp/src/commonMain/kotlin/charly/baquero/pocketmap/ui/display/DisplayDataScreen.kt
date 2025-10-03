@@ -33,7 +33,8 @@ fun DisplayDataScreen(
     onGroupOptionsMenuBackClick: () -> Unit,
     viewState: ViewState?,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit
+    onDismissCreateGroupDialog: () -> Unit,
+    deleteGroups: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = groupViewState) {
@@ -52,7 +53,8 @@ fun DisplayDataScreen(
                     onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     viewState = viewState,
                     createGroup = createGroup,
-                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog,
+                    deleteGroups = deleteGroups
                 )
             }
 
@@ -79,7 +81,8 @@ fun GroupsAppContent(
     onOptionsMenuBackClick: () -> Unit,
     viewState: ViewState?,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit
+    onDismissCreateGroupDialog: () -> Unit,
+    deleteGroups: () -> Unit
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
@@ -107,7 +110,8 @@ fun GroupsAppContent(
                     onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
                     viewState = viewState,
                     createGroup = createGroup,
-                    onDismissCreateGroupDialog = onDismissCreateGroupDialog
+                    onDismissCreateGroupDialog = onDismissCreateGroupDialog,
+                    deleteGroups = deleteGroups
                 )
             }
         },

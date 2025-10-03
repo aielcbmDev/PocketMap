@@ -19,4 +19,8 @@ class GroupDataSource(private val groupDao: GroupDao) {
     suspend fun insertOrReplaceListOfGroups(groupEntityList: List<GroupEntity>) {
         groupDao.insertOrReplaceListOfGroups(groupEntityList)
     }
+
+    suspend fun deleteGroups(groupIdsSelected: Set<Long>) {
+        groupDao.deleteGroups(groupIdsSelected)
+    }
 }
