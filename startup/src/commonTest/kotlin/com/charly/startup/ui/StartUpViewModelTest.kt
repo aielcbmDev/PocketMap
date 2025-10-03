@@ -5,6 +5,7 @@ import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
+import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
@@ -33,45 +34,67 @@ class StartUpViewModelTest {
     }
 
     @Test
-    fun `Verify that the database is successfully pre-populated`() = runTest {
-        // GIVEN
-        val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
-            everySuspend { execute() } returns Unit
+    fun `Verify that the database is successfully pre-populated when the view model is initialized`() =
+        runTest {
+            // GIVEN
+            val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
+                everySuspend { execute() } returns Unit
+            }
+
+            // WHEN
+            val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
+            assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
+            runCurrent()
+
+            // THEN
+            assertEquals(StartUpViewState.Success, startUpViewModel.state.value)
+            verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
+                prePopulateDatabaseUseCase.execute()
+            }
+            verifyNoMoreCalls(prePopulateDatabaseUseCase)
         }
-        val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
-        assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
-
-        // WHEN
-        startUpViewModel.onEvent(ViewEvent.PrePopulateDatabase)
-        runCurrent()
-
-        // THEN
-        assertEquals(StartUpViewState.Success, startUpViewModel.state.value)
-        verifySuspend {
-            prePopulateDatabaseUseCase.execute()
-        }
-        verifyNoMoreCalls(prePopulateDatabaseUseCase)
-
-    }
 
     @Test
-    fun `Verify that the database fails to be pre-populated if an exception is thrown`() = runTest {
-        // GIVEN
-        val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
-            everySuspend { execute() } throws Exception()
-        }
-        val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
-        assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
+    fun `Verify that the database is pre-populated twice if we call onEvent`() =
+        runTest {
+            // GIVEN
+            val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
+                everySuspend { execute() } returns Unit
+            }
+            val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
+            assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
 
-        // WHEN
-        startUpViewModel.onEvent(ViewEvent.PrePopulateDatabase)
-        runCurrent()
+            // WHEN
+            startUpViewModel.onEvent(ViewEvent.PrePopulateDatabase)
+            runCurrent()
 
-        // THEN
-        assertEquals(StartUpViewState.Error, startUpViewModel.state.value)
-        verifySuspend {
-            prePopulateDatabaseUseCase.execute()
+            // THEN
+            assertEquals(StartUpViewState.Success, startUpViewModel.state.value)
+            verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
+                prePopulateDatabaseUseCase.execute()
+                prePopulateDatabaseUseCase.execute()
+            }
+            verifyNoMoreCalls(prePopulateDatabaseUseCase)
         }
-        verifyNoMoreCalls(prePopulateDatabaseUseCase)
-    }
+
+    @Test
+    fun `Verify that the database fails to be pre-populated if an exception is thrown when the view model is initialized`() =
+        runTest {
+            // GIVEN
+            val prePopulateDatabaseUseCase = mock<PrePopulateDatabaseUseCase>() {
+                everySuspend { execute() } throws Exception()
+            }
+
+            // WHEN
+            val startUpViewModel = StartUpViewModel(prePopulateDatabaseUseCase)
+            assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
+            runCurrent()
+
+            // THEN
+            assertEquals(StartUpViewState.Error, startUpViewModel.state.value)
+            verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
+                prePopulateDatabaseUseCase.execute()
+            }
+            verifyNoMoreCalls(prePopulateDatabaseUseCase)
+        }
 }
