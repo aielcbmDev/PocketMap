@@ -1,6 +1,6 @@
-package com.charly.startup.domain
+package com.charly.domain.usecases.prepopulate
 
-import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
@@ -44,7 +44,7 @@ class PrePopulateDatabaseUseCaseTest {
         runCurrent()
 
         // THEN
-        verifySuspend(mode = VerifyMode.exhaustiveOrder) {
+        verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
             prePopulateDatabaseRepository.execute()
         }
         verifyNoMoreCalls(prePopulateDatabaseRepository)

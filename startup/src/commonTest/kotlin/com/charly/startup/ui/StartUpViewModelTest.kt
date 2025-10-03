@@ -1,6 +1,6 @@
 package com.charly.startup.ui
 
-import com.charly.startup.domain.PrePopulateDatabaseUseCase
+import com.charly.domain.usecases.prepopulate.PrePopulateDatabaseUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
@@ -42,7 +42,7 @@ class StartUpViewModelTest {
         assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
 
         // WHEN
-        startUpViewModel.prePopulateDatabase()
+        startUpViewModel.onEvent(ViewEvent.PrePopulateDatabase)
         runCurrent()
 
         // THEN
@@ -64,7 +64,7 @@ class StartUpViewModelTest {
         assertEquals(StartUpViewState.Loading, startUpViewModel.state.value)
 
         // WHEN
-        startUpViewModel.prePopulateDatabase()
+        startUpViewModel.onEvent(ViewEvent.PrePopulateDatabase)
         runCurrent()
 
         // THEN

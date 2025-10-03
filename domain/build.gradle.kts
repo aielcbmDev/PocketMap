@@ -1,7 +1,11 @@
+import dev.mokkery.gradle.mokkery
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.mokkeryPlugin)
+    kotlin("plugin.allopen") version libs.versions.kotlin.asProvider().get()
 }
 
 kotlin {
@@ -15,10 +19,11 @@ kotlin {
         minSdk = libs.versions.android.minSdk.get().toInt()
 
         withHostTestBuilder {
+            sourceSetTreeName = "test"
         }
 
         withDeviceTestBuilder {
-            sourceSetTreeName = "test"
+            sourceSetTreeName = "androidDeviceTest"
         }.configure {
             instrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         }
@@ -69,7 +74,9 @@ kotlin {
 
         commonTest {
             dependencies {
+                implementation(mokkery("coroutines"))
                 implementation(libs.jetbrains.kotlin.test)
+                implementation(libs.jetbrains.kotlinx.coroutines.test)
             }
         }
 
@@ -99,5 +106,20 @@ kotlin {
             }
         }
     }
+}
 
+// this check might require adjustment depending on your project type and the tasks that you use
+// `endsWith("Test")` works with "*Test" tasks from Multiplatform projects, but it does not include
+// tasks like `check`
+fun isTestingTask(name: String) = name.endsWith("Test")
+
+val isTesting = gradle
+    .startParameter
+    .taskNames
+    .any(::isTestingTask)
+
+if (isTesting) {
+    allOpen {
+        annotation("com.charly.domain.OpenClassForMocking")
+    }
 }
