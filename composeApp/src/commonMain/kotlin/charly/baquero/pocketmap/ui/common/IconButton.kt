@@ -59,7 +59,8 @@ fun IconButtonWithRichTooltip(
                 Text(tooltipText)
             }
         },
-        state = rememberTooltipState()
+        state = rememberTooltipState(),
+        focusable = false
     ) {
         IconButton(onClick = { onClick.invoke() }) {
             Icon(
