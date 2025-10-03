@@ -30,7 +30,7 @@ class MainViewModel(
     val state: StateFlow<MainViewState> = _state
 
     init {
-        fetchAllGroups()
+        onEvent(ViewEvent.FetchAllGroups())
     }
 
     fun onEvent(viewEvent: ViewEvent) {

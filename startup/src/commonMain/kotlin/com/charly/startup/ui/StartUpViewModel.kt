@@ -15,7 +15,7 @@ class StartUpViewModel(
     val state: StateFlow<StartUpViewState> = _state
 
     init {
-        prePopulateDatabase()
+        onEvent(ViewEvent.PrePopulateDatabase)
     }
 
     fun onEvent(viewEvent: ViewEvent) {
