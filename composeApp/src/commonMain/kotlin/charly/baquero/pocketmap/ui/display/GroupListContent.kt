@@ -14,6 +14,8 @@ import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -72,6 +74,7 @@ fun GroupListPane(
             ) { group ->
                 GroupListItem(
                     group = group,
+                    groupsSelected = groupViewState.groupsSelected,
                     onGroupClick = onGroupClick,
                     onGroupLongClick = onGroupLongClick
                 )
@@ -88,6 +91,7 @@ fun GroupListPane(
 @Composable
 fun GroupListItem(
     group: GroupModel,
+    groupsSelected: Set<GroupModel>,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     modifier: Modifier = Modifier
@@ -98,7 +102,12 @@ fun GroupListItem(
                 interactionSource = remember { MutableInteractionSource() },
                 onClick = { onGroupClick(group) },
                 onLongClick = { onGroupLongClick(group) }
-            )
+            ),
+        colors = if (groupsSelected.contains(group)) {
+            CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
+        } else {
+            CardDefaults.cardColors()
+        }
     ) {
         Column(
             modifier = Modifier
@@ -122,7 +131,20 @@ private fun GroupListPaneTopBar(
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit
 ) {
-    if (groupViewState.displayOptionsMenu) {
+    if (groupViewState.groupsSelected.isEmpty()) {
+        TopAppBar(
+            title = { Text(stringResource(Res.string.groups_screen_title)) },
+            actions = {
+                IconButtonWithRichTooltip(
+                    tooltipTitle = stringResource(Res.string.groups_screen_add_group_tooltip_title),
+                    tooltipText = stringResource(Res.string.groups_screen_add_group_tooltip_text),
+                    imageVector = Icons.Outlined.Add,
+                    contentDescription = stringResource(Res.string.groups_screen_add_group_tooltip_title),
+                    onClick = { onCreateGroupClick.invoke() }
+                )
+            }
+        )
+    } else {
         TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
             navigationIcon = {
@@ -146,19 +168,6 @@ private fun GroupListPaneTopBar(
                     onClick = { }
                 )
             },
-        )
-    } else {
-        TopAppBar(
-            title = { Text(stringResource(Res.string.groups_screen_title)) },
-            actions = {
-                IconButtonWithRichTooltip(
-                    tooltipTitle = stringResource(Res.string.groups_screen_add_group_tooltip_title),
-                    tooltipText = stringResource(Res.string.groups_screen_add_group_tooltip_text),
-                    imageVector = Icons.Outlined.Add,
-                    contentDescription = stringResource(Res.string.groups_screen_add_group_tooltip_title),
-                    onClick = { onCreateGroupClick.invoke() }
-                )
-            }
         )
     }
 }

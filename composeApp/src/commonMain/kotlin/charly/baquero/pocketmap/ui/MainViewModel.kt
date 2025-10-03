@@ -65,6 +65,15 @@ class MainViewModel(
         }
     }
 
+    private fun LocationsViewState.getOnLocationClickViewState(
+        location: LocationModel
+    ): LocationsViewState {
+        val currentLocationsState = this as? LocationsViewState.Success
+        return currentLocationsState?.copy(
+            locationSelected = location
+        ) ?: LocationsViewState.Error
+    }
+
     private fun fetchAllGroups(updateGroupData: Boolean = false) {
         if (_state.value.groupViewState !is GroupViewState.Success || updateGroupData) {
             viewModelScope.launch {
@@ -81,7 +90,8 @@ class MainViewModel(
                         _state.update { state ->
                             state.copy(
                                 groupViewState = GroupViewState.Success(
-                                    groupList = groupList
+                                    groupList = groupList,
+                                    groupsSelected = emptySet()
                                 )
                             )
                         }
@@ -103,7 +113,7 @@ class MainViewModel(
                     getAllLocationsForGroupUseCase.execute(group.id).mapToLocationModelList()
                 setLocationsForGroup(group, locationList)
             } catch (_: Exception) {
-                setLocationsError(group)
+                setLocationsError()
             }
         }
     }
@@ -114,8 +124,7 @@ class MainViewModel(
             currentGroupViewState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        groupSelected = group,
-                        displayOptionsMenu = true
+                        groupsSelected = handleGroupSelected(it.groupsSelected, group)
                     )
                 )
             } ?: run {
@@ -126,14 +135,26 @@ class MainViewModel(
         }
     }
 
+    private fun handleGroupSelected(
+        oldSet: Set<GroupModel>,
+        group: GroupModel
+    ): Set<GroupModel> {
+        val newSet = HashSet(oldSet)
+        if (oldSet.contains(group)) {
+            newSet.remove(group)
+        } else {
+            newSet.add(group)
+        }
+        return newSet
+    }
+
     private fun dismissGroupOptionsMenu() {
         _state.update { state ->
             val currentGroupViewState = state.groupViewState as? GroupViewState.Success
             currentGroupViewState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        groupSelected = null,
-                        displayOptionsMenu = false
+                        groupsSelected = emptySet()
                     )
                 )
             } ?: run {
@@ -168,7 +189,7 @@ class MainViewModel(
         }
     }
 
-    private fun setLocationsError(group: GroupModel) {
+    private fun setLocationsError() {
         _state.update { state ->
             state.copy(
                 locationsViewState = LocationsViewState.Error
@@ -235,9 +256,8 @@ sealed interface GroupViewState {
     data object Empty : GroupViewState
     data object Loading : GroupViewState
     data class Success(
-        val displayOptionsMenu: Boolean = false,
-        val groupSelected: GroupModel? = null,
-        val groupList: List<GroupModel>
+        val groupList: List<GroupModel>,
+        val groupsSelected: Set<GroupModel>
     ) : GroupViewState
 
     data object Error : GroupViewState
