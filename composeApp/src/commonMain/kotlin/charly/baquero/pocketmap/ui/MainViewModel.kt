@@ -38,7 +38,8 @@ class MainViewModel(
             is ViewEvent.DisplayGroupOptionsMenu -> displayGroupOptionsMenu(viewEvent.group)
             is ViewEvent.DismissGroupOptionsMenu -> dismissGroupOptionsMenu()
             is ViewEvent.ShowCreateGroupDialog -> showCreateGroupDialog()
-            is ViewEvent.DismissCreateGroupDialog -> dismissCreateGroupDialog()
+            is ViewEvent.ShowDeleteGroupsDialog -> showDeleteGroupDialog()
+            is ViewEvent.DismissDialog -> dismissDialog()
             is ViewEvent.CreateGroup -> createGroup(viewEvent.groupName)
             is ViewEvent.DeleteGroups -> deleteGroups()
         }
@@ -159,7 +160,11 @@ class MainViewModel(
         _state.update { it.copy(dialogState = DialogState.CreateGroup()) }
     }
 
-    private fun dismissCreateGroupDialog() {
+    private fun showDeleteGroupDialog() {
+        _state.update { it.copy(dialogState = DialogState.DeleteGroups) }
+    }
+
+    private fun dismissDialog() {
         _state.update { it.copy(dialogState = null) }
     }
 
@@ -203,7 +208,10 @@ class MainViewModel(
                             deleteState = DeleteGroupState.Success
                         )
                     }
-                    state.copy(groupViewState = newGroupState)
+                    state.copy(
+                        dialogState = null,
+                        groupViewState = newGroupState
+                    )
                 }
             } catch (_: Exception) {
                 _state.update {
@@ -253,6 +261,7 @@ sealed interface LocationsViewState {
 
 sealed interface DialogState {
     data class CreateGroup(val displayError: Boolean = false) : DialogState
+    data object DeleteGroups : DialogState
 }
 
 sealed interface ViewEvent {
@@ -263,7 +272,8 @@ sealed interface ViewEvent {
     data class DisplayGroupOptionsMenu(val group: GroupModel) : ViewEvent
     data object DismissGroupOptionsMenu : ViewEvent
     data object ShowCreateGroupDialog : ViewEvent
-    data object DismissCreateGroupDialog : ViewEvent
+    data object ShowDeleteGroupsDialog : ViewEvent
+    data object DismissDialog : ViewEvent
     data class CreateGroup(val groupName: String) : ViewEvent
     data object DeleteGroups : ViewEvent
 }

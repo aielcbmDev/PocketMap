@@ -30,10 +30,11 @@ fun DisplayDataScreen(
     onLocationClick: (LocationModel) -> Unit,
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
+    onDeleteGroupsClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState?,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit,
+    onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
@@ -50,10 +51,11 @@ fun DisplayDataScreen(
                     onGroupLongClick = onGroupLongClick,
                     onLocationClick = onLocationClick,
                     onCreateGroupClick = onCreateGroupClick,
+                    onDeleteGroupsClick = onDeleteGroupsClick,
                     onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     dialogState = dialogState,
                     createGroup = createGroup,
-                    onDismissCreateGroupDialog = onDismissCreateGroupDialog,
+                    onDismissDialog = onDismissDialog,
                     deleteGroups = deleteGroups
                 )
             }
@@ -78,10 +80,11 @@ fun GroupsAppContent(
     onGroupLongClick: (GroupModel) -> Unit,
     onLocationClick: (LocationModel) -> Unit,
     onCreateGroupClick: () -> Unit,
+    onDeleteGroupsClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState?,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit,
+    onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
@@ -107,10 +110,11 @@ fun GroupsAppContent(
                     },
                     onGroupLongClick = onGroupLongClick,
                     onCreateGroupClick = onCreateGroupClick,
+                    onDeleteGroupsClick = onDeleteGroupsClick,
                     onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
                     dialogState = dialogState,
                     createGroup = createGroup,
-                    onDismissCreateGroupDialog = onDismissCreateGroupDialog,
+                    onDismissDialog = onDismissDialog,
                     deleteGroups = deleteGroups
                 )
             }

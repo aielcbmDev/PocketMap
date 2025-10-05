@@ -37,7 +37,7 @@ fun MapScreen(
     onClearMapClick: () -> Unit,
     onCreateGroupClick: () -> Unit,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit
+    onDismissDialog: () -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -52,7 +52,7 @@ fun MapScreen(
             DisplayDialog(
                 dialogState = dialogState,
                 createGroup = createGroup,
-                onDismissCreateGroupDialog = onDismissCreateGroupDialog
+                onDismissDialog = onDismissDialog
             )
         }
     }

@@ -40,3 +40,25 @@ fun CreateGroupDialog(
         }
     )
 }
+
+@Composable
+fun ConfirmGroupDeletionDialog(
+    deleteGroups: () -> Unit,
+    dismissDialog: () -> Unit
+) {
+    AlertDialog(
+        onDismissRequest = { dismissDialog.invoke() },
+        title = { Text("Delete Groups") },
+        text = { Text("Are you sure that you want to delete the selected groups? This action cannot be undone.") },
+        confirmButton = {
+            Button(onClick = { deleteGroups.invoke() }) {
+                Text("Delete")
+            }
+        },
+        dismissButton = {
+            Button(onClick = { dismissDialog.invoke() }) {
+                Text("Cancel")
+            }
+        }
+    )
+}

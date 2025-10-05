@@ -79,11 +79,12 @@ private fun MainNavigationHost() {
                 onClearMapClick = { mainViewModel.onEvent(ViewEvent.ClearMap) },
                 fetchAllGroups = { mainViewModel.onEvent(ViewEvent.FetchAllGroups) },
                 onCreateGroupClick = { mainViewModel.onEvent(ViewEvent.ShowCreateGroupDialog) },
+                onDeleteGroupsClick = { mainViewModel.onEvent(ViewEvent.ShowDeleteGroupsDialog) },
                 onGroupOptionsMenuBackClick = { mainViewModel.onEvent(ViewEvent.DismissGroupOptionsMenu) },
                 createGroup = { groupName ->
                     mainViewModel.onEvent(ViewEvent.CreateGroup(groupName))
                 },
-                onDismissCreateGroupDialog = { mainViewModel.onEvent(ViewEvent.DismissCreateGroupDialog) },
+                onDismissDialog = { mainViewModel.onEvent(ViewEvent.DismissDialog) },
                 deleteGroups = { mainViewModel.onEvent(ViewEvent.DeleteGroups) }
             )
         }

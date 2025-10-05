@@ -48,10 +48,11 @@ fun GroupListPane(
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     onCreateGroupClick: () -> Unit,
+    onDeleteGroupsClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState?,
     createGroup: (String) -> Unit,
-    onDismissCreateGroupDialog: () -> Unit,
+    onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -61,7 +62,7 @@ fun GroupListPane(
                 groupViewState = groupViewState,
                 onCreateGroupClick = onCreateGroupClick,
                 onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
-                deleteGroups = deleteGroups
+                onDeleteGroupsClick = onDeleteGroupsClick
             )
         }
     ) { padding ->
@@ -85,7 +86,8 @@ fun GroupListPane(
         DisplayDialog(
             dialogState = dialogState,
             createGroup = createGroup,
-            onDismissCreateGroupDialog = onDismissCreateGroupDialog
+            deleteGroups = deleteGroups,
+            onDismissDialog = onDismissDialog
         )
     }
 }
@@ -132,7 +134,7 @@ private fun GroupListPaneTopBar(
     groupViewState: GroupViewState.Success,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    deleteGroups: () -> Unit,
+    onDeleteGroupsClick: () -> Unit,
 ) {
     when (groupViewState.selectedGroupIds.size) {
         0 -> TopAppBar(
@@ -170,7 +172,7 @@ private fun GroupListPaneTopBar(
                     tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
-                    onClick = { deleteGroups.invoke() }
+                    onClick = { onDeleteGroupsClick.invoke() }
                 )
             },
         )
@@ -189,7 +191,7 @@ private fun GroupListPaneTopBar(
                     tooltipText = stringResource(Res.string.groups_screen_delete_group_tooltip_text),
                     imageVector = Icons.Outlined.Delete,
                     contentDescription = stringResource(Res.string.groups_screen_delete_group_tooltip_title),
-                    onClick = { deleteGroups.invoke() }
+                    onClick = { onDeleteGroupsClick.invoke() }
                 )
             },
         )
