@@ -50,7 +50,7 @@ fun GroupListPane(
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    dialogState: DialogState?,
+    dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit,

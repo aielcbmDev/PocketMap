@@ -33,7 +33,7 @@ import pocketmap.composeapp.generated.resources.more_options
 @Composable
 fun MapScreen(
     locationsViewState: LocationsViewState,
-    dialogState: DialogState?,
+    dialogState: DialogState,
     onClearMapClick: () -> Unit,
     onCreateGroupClick: () -> Unit,
     createGroup: (String) -> Unit,

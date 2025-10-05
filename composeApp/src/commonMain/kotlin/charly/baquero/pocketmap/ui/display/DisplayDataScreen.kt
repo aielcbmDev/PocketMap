@@ -32,7 +32,7 @@ fun DisplayDataScreen(
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    dialogState: DialogState?,
+    dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit
@@ -82,7 +82,7 @@ fun GroupsAppContent(
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
-    dialogState: DialogState?,
+    dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit

@@ -28,7 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(
     groupViewState: GroupViewState,
     locationsViewState: LocationsViewState,
-    dialogState: DialogState?,
+    dialogState: DialogState,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     onLocationClick: (LocationModel) -> Unit,
