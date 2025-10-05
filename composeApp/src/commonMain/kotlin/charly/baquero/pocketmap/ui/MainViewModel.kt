@@ -165,7 +165,7 @@ class MainViewModel(
     }
 
     private fun dismissDialog() {
-        _state.update { it.copy(dialogState = null) }
+        _state.update { it.copy(dialogState = DialogState.NoDialog) }
     }
 
     private fun createGroup(groupName: String) {
@@ -180,7 +180,7 @@ class MainViewModel(
                         GroupViewState.Success(groupList = groupList)
                     }
                     state.copy(
-                        dialogState = null,
+                        dialogState = DialogState.NoDialog,
                         groupViewState = newGroupState
                     )
                 }
@@ -209,7 +209,7 @@ class MainViewModel(
                         )
                     }
                     state.copy(
-                        dialogState = null,
+                        dialogState = DialogState.NoDialog,
                         groupViewState = newGroupState
                     )
                 }
@@ -225,7 +225,7 @@ class MainViewModel(
 data class MainUiState(
     val groupViewState: GroupViewState = GroupViewState.Loading,
     val locationsViewState: LocationsViewState = LocationsViewState.NoGroupSelected,
-    val dialogState: DialogState? = null,
+    val dialogState: DialogState = DialogState.NoDialog,
 )
 
 sealed interface GroupViewState {
@@ -260,6 +260,7 @@ sealed interface LocationsViewState {
 }
 
 sealed interface DialogState {
+    data object NoDialog : DialogState
     data class CreateGroup(val displayError: Boolean = false) : DialogState
     data object DeleteGroups : DialogState
 }
