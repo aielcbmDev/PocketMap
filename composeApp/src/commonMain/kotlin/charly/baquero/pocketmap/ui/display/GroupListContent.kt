@@ -152,7 +152,7 @@ private fun GroupListPaneTopBar(
         )
 
         1 -> TopAppBar(
-            title = { Text(stringResource(Res.string.groups_screen_title)) },
+            title = { Text(groupViewState.selectedGroupIds.size.toString()) },
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -178,7 +178,7 @@ private fun GroupListPaneTopBar(
         )
 
         else -> TopAppBar(
-            title = { Text(stringResource(Res.string.groups_screen_title)) },
+            title = { Text(groupViewState.selectedGroupIds.size.toString()) },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
