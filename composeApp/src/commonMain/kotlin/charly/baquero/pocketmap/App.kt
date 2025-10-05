@@ -62,11 +62,11 @@ private fun MainNavigationHost() {
             val mainViewState by mainViewModel.state.collectAsStateWithLifecycle()
             val groupViewState = mainViewState.groupViewState
             val locationsViewState = mainViewState.locationsViewState
-            val viewState = mainViewState.viewState
+            val dialogState = mainViewState.dialogState
             MainScreen(
                 groupViewState = groupViewState,
                 locationsViewState = locationsViewState,
-                viewState = viewState,
+                dialogState = dialogState,
                 onGroupClick = { group ->
                     mainViewModel.onEvent(ViewEvent.FetchLocationsForGroup(group))
                 },
@@ -77,7 +77,7 @@ private fun MainNavigationHost() {
                     mainViewModel.onEvent(ViewEvent.LocationClick(location))
                 },
                 onClearMapClick = { mainViewModel.onEvent(ViewEvent.ClearMap) },
-                fetchAllGroups = { mainViewModel.onEvent(ViewEvent.FetchAllGroups(true)) },
+                fetchAllGroups = { mainViewModel.onEvent(ViewEvent.FetchAllGroups) },
                 onCreateGroupClick = { mainViewModel.onEvent(ViewEvent.ShowCreateGroupDialog) },
                 onGroupOptionsMenuBackClick = { mainViewModel.onEvent(ViewEvent.DismissGroupOptionsMenu) },
                 createGroup = { groupName ->

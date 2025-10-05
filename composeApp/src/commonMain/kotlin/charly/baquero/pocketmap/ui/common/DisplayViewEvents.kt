@@ -1,17 +1,17 @@
 package charly.baquero.pocketmap.ui.common
 
 import androidx.compose.runtime.Composable
-import charly.baquero.pocketmap.ui.ViewState
+import charly.baquero.pocketmap.ui.DialogState
 
 @Composable
-fun DisplayViewEvent(
-    viewState: ViewState?,
+fun DisplayDialog(
+    dialogState: DialogState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit
 ) {
-    viewState?.let { it ->
+    dialogState?.let { it ->
         when (it) {
-            is ViewState.CreateGroupDialog -> CreateGroupDialog(
+            is DialogState.CreateGroup -> CreateGroupDialog(
                 createGroup = { groupName ->
                     createGroup.invoke(groupName)
                 },

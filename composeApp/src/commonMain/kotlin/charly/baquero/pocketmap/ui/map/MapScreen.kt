@@ -19,9 +19,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import charly.baquero.pocketmap.ui.DialogState
 import charly.baquero.pocketmap.ui.LocationsViewState
-import charly.baquero.pocketmap.ui.ViewState
-import charly.baquero.pocketmap.ui.common.DisplayViewEvent
+import charly.baquero.pocketmap.ui.common.DisplayDialog
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
@@ -33,7 +33,7 @@ import pocketmap.composeapp.generated.resources.more_options
 @Composable
 fun MapScreen(
     locationsViewState: LocationsViewState,
-    viewState: ViewState?,
+    dialogState: DialogState?,
     onClearMapClick: () -> Unit,
     onCreateGroupClick: () -> Unit,
     createGroup: (String) -> Unit,
@@ -49,8 +49,8 @@ fun MapScreen(
             }
         ) { _ ->
             MapPane(locationsViewState)
-            DisplayViewEvent(
-                viewState = viewState,
+            DisplayDialog(
+                dialogState = dialogState,
                 createGroup = createGroup,
                 onDismissCreateGroupDialog = onDismissCreateGroupDialog
             )

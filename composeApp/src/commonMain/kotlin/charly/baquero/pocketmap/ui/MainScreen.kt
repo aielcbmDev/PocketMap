@@ -28,7 +28,7 @@ import org.jetbrains.compose.resources.stringResource
 fun MainScreen(
     groupViewState: GroupViewState,
     locationsViewState: LocationsViewState,
-    viewState: ViewState?,
+    dialogState: DialogState?,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     onLocationClick: (LocationModel) -> Unit,
@@ -83,7 +83,7 @@ fun MainScreen(
             composable(BottomTab.Map.route) {
                 MapScreen(
                     locationsViewState = locationsViewState,
-                    viewState = viewState,
+                    dialogState = dialogState,
                     onClearMapClick = onClearMapClick,
                     onCreateGroupClick = onCreateGroupClick,
                     createGroup = createGroup,
@@ -106,7 +106,7 @@ fun MainScreen(
                     fetchAllGroups = fetchAllGroups,
                     onCreateGroupClick = onCreateGroupClick,
                     onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
-                    viewState = viewState,
+                    dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog,
                     deleteGroups = deleteGroups

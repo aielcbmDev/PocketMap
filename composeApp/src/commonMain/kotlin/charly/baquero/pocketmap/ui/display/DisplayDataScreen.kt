@@ -12,9 +12,9 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.backhandler.BackHandler
+import charly.baquero.pocketmap.ui.DialogState
 import charly.baquero.pocketmap.ui.GroupViewState
 import charly.baquero.pocketmap.ui.LocationsViewState
-import charly.baquero.pocketmap.ui.ViewState
 import charly.baquero.pocketmap.ui.model.GroupModel
 import charly.baquero.pocketmap.ui.model.LocationModel
 import com.charly.startup.ui.ErrorContent
@@ -31,7 +31,7 @@ fun DisplayDataScreen(
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
-    viewState: ViewState?,
+    dialogState: DialogState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit,
     deleteGroups: () -> Unit
@@ -51,7 +51,7 @@ fun DisplayDataScreen(
                     onLocationClick = onLocationClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
-                    viewState = viewState,
+                    dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog,
                     deleteGroups = deleteGroups
@@ -79,7 +79,7 @@ fun GroupsAppContent(
     onLocationClick: (LocationModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
-    viewState: ViewState?,
+    dialogState: DialogState?,
     createGroup: (String) -> Unit,
     onDismissCreateGroupDialog: () -> Unit,
     deleteGroups: () -> Unit
@@ -108,7 +108,7 @@ fun GroupsAppContent(
                     onGroupLongClick = onGroupLongClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
-                    viewState = viewState,
+                    dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissCreateGroupDialog = onDismissCreateGroupDialog,
                     deleteGroups = deleteGroups
