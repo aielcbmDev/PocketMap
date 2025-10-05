@@ -7,7 +7,6 @@ import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
-import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -71,7 +70,6 @@ class GetAllLocationsForGroupUseCaseTest {
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
             getAllLocationsForGroupRepository.execute(idGroup)
         }
-        verifyNoMoreCalls(getAllLocationsForGroupRepository)
     }
 
     @Test
@@ -96,6 +94,5 @@ class GetAllLocationsForGroupUseCaseTest {
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
             getAllLocationsForGroupRepository.execute(idGroup)
         }
-        verifyNoMoreCalls(getAllLocationsForGroupRepository)
     }
 }

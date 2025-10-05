@@ -6,7 +6,6 @@ import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
-import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,7 +50,6 @@ class StartUpViewModelTest {
             verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
                 prePopulateDatabaseUseCase.execute()
             }
-            verifyNoMoreCalls(prePopulateDatabaseUseCase)
         }
 
     @Test
@@ -74,7 +72,6 @@ class StartUpViewModelTest {
                 prePopulateDatabaseUseCase.execute()
                 prePopulateDatabaseUseCase.execute()
             }
-            verifyNoMoreCalls(prePopulateDatabaseUseCase)
         }
 
     @Test
@@ -95,6 +92,5 @@ class StartUpViewModelTest {
             verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
                 prePopulateDatabaseUseCase.execute()
             }
-            verifyNoMoreCalls(prePopulateDatabaseUseCase)
         }
 }

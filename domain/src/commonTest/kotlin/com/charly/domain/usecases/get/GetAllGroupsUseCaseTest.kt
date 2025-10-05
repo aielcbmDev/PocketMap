@@ -7,7 +7,6 @@ import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
-import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -58,7 +57,6 @@ class GetAllGroupsUseCaseTest {
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
             getAllGroupsRepository.execute()
         }
-        verifyNoMoreCalls(getAllGroupsRepository)
     }
 
     @Test
@@ -82,6 +80,5 @@ class GetAllGroupsUseCaseTest {
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
             getAllGroupsRepository.execute()
         }
-        verifyNoMoreCalls(getAllGroupsRepository)
     }
 }
