@@ -51,11 +51,7 @@ class MainViewModel(
     }
 
     private fun onClearMapClick() {
-        _state.update { state ->
-            state.copy(
-                locationsViewState = LocationsViewState.NoGroupSelected
-            )
-        }
+        _state.update { it.copy(locationsViewState = LocationsViewState.NoGroupSelected) }
     }
 
     private fun onLocationClick(location: LocationModel) {
@@ -79,30 +75,23 @@ class MainViewModel(
 
     private fun fetchAllGroups(updateGroupData: Boolean = false) {
         if (_state.value.groupViewState !is GroupViewState.Success || updateGroupData) {
+            _state.update { it.copy(groupViewState = GroupViewState.Loading) }
             viewModelScope.launch {
-                _state.update { state ->
-                    state.copy(groupViewState = GroupViewState.Loading)
-                }
                 try {
                     val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
-                    if (groupList.isEmpty()) {
-                        _state.update { state ->
-                            state.copy(groupViewState = GroupViewState.Empty)
-                        }
-                    } else {
-                        _state.update { state ->
-                            state.copy(
-                                groupViewState = GroupViewState.Success(
-                                    groupList = groupList,
-                                    selectedGroupIds = emptySet()
-                                )
+                    _state.update { state ->
+                        val newGroupViewState = if (groupList.isEmpty()) {
+                            GroupViewState.Empty
+                        } else {
+                            GroupViewState.Success(
+                                groupList = groupList,
+                                selectedGroupIds = emptySet()
                             )
                         }
+                        state.copy(groupViewState = newGroupViewState)
                     }
                 } catch (_: Exception) {
-                    _state.update { state ->
-                        state.copy(groupViewState = GroupViewState.Error)
-                    }
+                    _state.update { it.copy(groupViewState = GroupViewState.Error) }
                 }
             }
         }
@@ -116,7 +105,7 @@ class MainViewModel(
                     getAllLocationsForGroupUseCase.execute(group.id).mapToLocationModelList()
                 setLocationsForGroup(group, locationList)
             } catch (_: Exception) {
-                setLocationsError()
+                _state.update { it.copy(locationsViewState = LocationsViewState.Error) }
             }
         }
     }
@@ -131,9 +120,7 @@ class MainViewModel(
                     )
                 )
             } ?: run {
-                state.copy(
-                    groupViewState = GroupViewState.Error
-                )
+                state.copy(groupViewState = GroupViewState.Error)
             }
         }
     }
@@ -156,14 +143,10 @@ class MainViewModel(
             val currentGroupViewState = state.groupViewState as? GroupViewState.Success
             currentGroupViewState?.let {
                 state.copy(
-                    groupViewState = it.copy(
-                        selectedGroupIds = emptySet()
-                    )
+                    groupViewState = it.copy(selectedGroupIds = emptySet())
                 )
             } ?: run {
-                state.copy(
-                    groupViewState = GroupViewState.Error
-                )
+                state.copy(groupViewState = GroupViewState.Error)
             }
         }
     }
@@ -192,28 +175,12 @@ class MainViewModel(
         }
     }
 
-    private fun setLocationsError() {
-        _state.update { state ->
-            state.copy(
-                locationsViewState = LocationsViewState.Error
-            )
-        }
-    }
-
     private fun showCreateGroupDialog() {
-        _state.update { state ->
-            state.copy(
-                viewState = ViewState.CreateGroupDialog()
-            )
-        }
+        _state.update { it.copy(viewState = ViewState.CreateGroupDialog()) }
     }
 
     private fun dismissCreateGroupDialog() {
-        _state.update { state ->
-            state.copy(
-                viewState = null
-            )
-        }
+        _state.update { it.copy(viewState = null) }
     }
 
     private fun createGroup(groupName: String) {
@@ -221,32 +188,28 @@ class MainViewModel(
             try {
                 addGroupUseCase.execute(groupName)
                 fetchAllGroups(updateGroupData = true)
-                _state.update { state ->
-                    state.copy(viewState = null)
-                }
+                _state.update { it.copy(viewState = null) }
             } catch (_: Exception) {
-                _state.update { state ->
-                    state.copy(viewState = ViewState.CreateGroupDialog(displayError = true))
-                }
+                _state.update { it.copy(viewState = ViewState.CreateGroupDialog(displayError = true)) }
             }
         }
     }
 
     private fun deleteGroups() {
+        _state.update { it.copy(deleteGroupsViewState = DeleteGroupsViewState.Loading) }
         viewModelScope.launch {
             try {
-                _state.update { state ->
-                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Loading)
-                }
-                deleteGroupsUseCase.execute((_state.value.groupViewState as GroupViewState.Success).selectedGroupIds)
-                fetchAllGroups(updateGroupData = true)
-                _state.update { state ->
-                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Success)
+                val selectedGroupIds =
+                    (_state.value.groupViewState as? GroupViewState.Success)?.selectedGroupIds
+                selectedGroupIds?.let {
+                    deleteGroupsUseCase.execute(it)
+                    fetchAllGroups(updateGroupData = true)
+                    _state.update { it.copy(deleteGroupsViewState = DeleteGroupsViewState.Success) }
+                } ?: run {
+                    _state.update { it.copy(deleteGroupsViewState = DeleteGroupsViewState.Error) }
                 }
             } catch (_: Exception) {
-                _state.update { state ->
-                    state.copy(deleteGroupsViewState = DeleteGroupsViewState.Error)
-                }
+                _state.update { it.copy(deleteGroupsViewState = DeleteGroupsViewState.Error) }
             }
         }
     }
