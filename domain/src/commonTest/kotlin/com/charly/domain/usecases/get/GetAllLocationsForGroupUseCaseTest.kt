@@ -12,7 +12,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
@@ -63,7 +62,6 @@ class GetAllLocationsForGroupUseCaseTest {
 
         // WHEN
         val result = getAllLocationsForGroupUseCase.execute(idGroup)
-        runCurrent()
 
         // THEN
         assertSame(listOfLocations, result)
@@ -86,7 +84,6 @@ class GetAllLocationsForGroupUseCaseTest {
         // WHEN
         val actualException = assertFailsWith<Exception> {
             getAllLocationsForGroupUseCase.execute(idGroup)
-            runCurrent()
         }
 
         // THEN

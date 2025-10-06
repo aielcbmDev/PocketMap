@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
@@ -45,7 +44,6 @@ class EditGroupUseCaseTest {
 
         // WHEN
         editGroupUseCase.execute(id, groupName)
-        runCurrent()
 
         // THEN
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
@@ -67,7 +65,6 @@ class EditGroupUseCaseTest {
         // WHEN
         val actualException = assertFailsWith<Exception> {
             editGroupUseCase.execute(id, groupName)
-            runCurrent()
         }
 
         // THEN
