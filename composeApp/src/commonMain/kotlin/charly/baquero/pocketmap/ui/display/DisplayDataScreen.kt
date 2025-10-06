@@ -31,11 +31,13 @@ fun DisplayDataScreen(
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
+    onEditGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
-    deleteGroups: () -> Unit
+    deleteGroups: () -> Unit,
+    editGroup: (String) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         when (val currentState = groupViewState) {
@@ -52,11 +54,13 @@ fun DisplayDataScreen(
                     onLocationClick = onLocationClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onDeleteGroupsClick = onDeleteGroupsClick,
+                    onEditGroupClick = onEditGroupClick,
                     onOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissDialog = onDismissDialog,
-                    deleteGroups = deleteGroups
+                    deleteGroups = deleteGroups,
+                    editGroup = editGroup
                 )
             }
 
@@ -81,11 +85,13 @@ fun GroupsAppContent(
     onLocationClick: (LocationModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
+    onEditGroupClick: () -> Unit,
     onOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
-    deleteGroups: () -> Unit
+    deleteGroups: () -> Unit,
+    editGroup: (String) -> Unit
 ) {
     val navigator = rememberListDetailPaneScaffoldNavigator<Long>()
     val coroutineScope = rememberCoroutineScope()
@@ -111,11 +117,13 @@ fun GroupsAppContent(
                     onGroupLongClick = onGroupLongClick,
                     onCreateGroupClick = onCreateGroupClick,
                     onDeleteGroupsClick = onDeleteGroupsClick,
+                    onEditGroupClick = onEditGroupClick,
                     onGroupOptionsMenuBackClick = onOptionsMenuBackClick,
                     dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissDialog = onDismissDialog,
-                    deleteGroups = deleteGroups
+                    deleteGroups = deleteGroups,
+                    editGroup = editGroup
                 )
             }
         },

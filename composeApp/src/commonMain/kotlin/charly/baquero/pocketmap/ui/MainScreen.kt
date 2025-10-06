@@ -36,10 +36,12 @@ fun MainScreen(
     fetchAllGroups: () -> Unit,
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
+    onEditGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
-    deleteGroups: () -> Unit
+    deleteGroups: () -> Unit,
+    editGroup: (String) -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -107,11 +109,13 @@ fun MainScreen(
                     fetchAllGroups = fetchAllGroups,
                     onCreateGroupClick = onCreateGroupClick,
                     onDeleteGroupsClick = onDeleteGroupsClick,
+                    onEditGroupClick = onEditGroupClick,
                     onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
                     dialogState = dialogState,
                     createGroup = createGroup,
                     onDismissDialog = onDismissDialog,
-                    deleteGroups = deleteGroups
+                    deleteGroups = deleteGroups,
+                    editGroup = editGroup
                 )
             }
         }

@@ -23,4 +23,8 @@ class GroupDataSource(private val groupDao: GroupDao) {
     suspend fun deleteGroups(groupIdsSelected: Set<Long>) {
         groupDao.deleteGroups(groupIdsSelected)
     }
+
+    suspend fun updateGroupName(id: Long, name: String) {
+        groupDao.updateGroupName(id, name)
+    }
 }

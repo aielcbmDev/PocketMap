@@ -7,6 +7,7 @@ import com.charly.database.datasources.LocationDataSource
 import com.charly.database.datasources.MembershipDataSource
 import com.charly.database.repositories.add.AddGroupRepositoryImpl
 import com.charly.database.repositories.delete.DeleteGroupsRepositoryImpl
+import com.charly.database.repositories.edit.EditGroupRepositoryImpl
 import com.charly.database.repositories.getall.GetAllGroupsRepositoryImpl
 import com.charly.database.repositories.getall.GetAllLocationsForGroupRepositoryImpl
 import com.charly.database.repositories.prepopulate.PrePopulateDatabaseRepositoryImpl
@@ -15,6 +16,7 @@ import com.charly.database.utils.AssetFileProvider
 import com.charly.database.utils.getRoomDatabase
 import com.charly.domain.repositories.add.AddGroupRepository
 import com.charly.domain.repositories.delete.DeleteGroupsRepository
+import com.charly.domain.repositories.edit.EditGroupRepository
 import com.charly.domain.repositories.get.GetAllGroupsRepository
 import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository
 import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
@@ -81,5 +83,9 @@ val databaseModule = module {
 
     factory<DeleteGroupsRepository> {
         DeleteGroupsRepositoryImpl(get())
+    }
+
+    factory<EditGroupRepository> {
+        EditGroupRepositoryImpl(get())
     }
 }

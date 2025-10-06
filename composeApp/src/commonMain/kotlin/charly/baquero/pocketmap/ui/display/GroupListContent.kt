@@ -49,11 +49,13 @@ fun GroupListPane(
     onGroupLongClick: (GroupModel) -> Unit,
     onCreateGroupClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
+    onEditGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     dialogState: DialogState,
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit,
+    editGroup: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Scaffold(
@@ -62,7 +64,8 @@ fun GroupListPane(
                 groupViewState = groupViewState,
                 onCreateGroupClick = onCreateGroupClick,
                 onGroupOptionsMenuBackClick = onGroupOptionsMenuBackClick,
-                onDeleteGroupsClick = onDeleteGroupsClick
+                onDeleteGroupsClick = onDeleteGroupsClick,
+                onEditGroupClick = onEditGroupClick
             )
         }
     ) { padding ->
@@ -87,6 +90,7 @@ fun GroupListPane(
             dialogState = dialogState,
             createGroup = createGroup,
             deleteGroups = deleteGroups,
+            editGroup = editGroup,
             onDismissDialog = onDismissDialog
         )
     }
@@ -95,7 +99,7 @@ fun GroupListPane(
 @Composable
 fun GroupListItem(
     group: GroupModel,
-    selectedGroupIds: Set<Long>,
+    selectedGroupIds: Map<Long, GroupModel>,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     modifier: Modifier = Modifier
@@ -135,6 +139,7 @@ private fun GroupListPaneTopBar(
     onCreateGroupClick: () -> Unit,
     onGroupOptionsMenuBackClick: () -> Unit,
     onDeleteGroupsClick: () -> Unit,
+    onEditGroupClick: () -> Unit
 ) {
     when (groupViewState.selectedGroupIds.size) {
         0 -> TopAppBar(
@@ -165,7 +170,7 @@ private fun GroupListPaneTopBar(
                     tooltipText = stringResource(Res.string.groups_screen_edit_group_tooltip_text),
                     imageVector = Icons.Outlined.Edit,
                     contentDescription = stringResource(Res.string.groups_screen_edit_group_tooltip_title),
-                    onClick = { }
+                    onClick = { onEditGroupClick.invoke() }
                 )
                 IconButtonWithRichTooltip(
                     tooltipTitle = stringResource(Res.string.groups_screen_delete_group_tooltip_title),

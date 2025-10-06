@@ -19,4 +19,7 @@ interface GroupDao {
 
     @Query("DELETE from groups_table where id in (:groupIdsSelected)")
     suspend fun deleteGroups(groupIdsSelected: Set<Long>)
+
+    @Query("UPDATE groups_table SET name = :name WHERE id =:id")
+    suspend fun updateGroupName(id: Long, name: String)
 }

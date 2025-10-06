@@ -8,6 +8,7 @@ import charly.baquero.pocketmap.ui.utils.mapToGroupModelList
 import charly.baquero.pocketmap.ui.utils.mapToLocationModelList
 import com.charly.domain.usecases.add.AddGroupUseCase
 import com.charly.domain.usecases.delete.DeleteGroupsUseCase
+import com.charly.domain.usecases.edit.EditGroupUseCase
 import com.charly.domain.usecases.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,6 +21,7 @@ class MainViewModel(
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase,
     private val addGroupUseCase: AddGroupUseCase,
     private val deleteGroupsUseCase: DeleteGroupsUseCase,
+    private val editGroupUseCase: EditGroupUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainUiState())
@@ -39,9 +41,11 @@ class MainViewModel(
             is ViewEvent.DismissGroupOptionsMenu -> dismissGroupOptionsMenu()
             is ViewEvent.ShowCreateGroupDialog -> showCreateGroupDialog()
             is ViewEvent.ShowDeleteGroupsDialog -> showDeleteGroupDialog()
+            is ViewEvent.ShowEditGroupDialog -> showEditGroupDialog()
             is ViewEvent.DismissDialog -> dismissDialog()
             is ViewEvent.CreateGroup -> createGroup(viewEvent.groupName)
             is ViewEvent.DeleteGroups -> deleteGroups()
+            is ViewEvent.EditGroup -> editGroup(viewEvent.groupName)
         }
     }
 
@@ -106,16 +110,16 @@ class MainViewModel(
     }
 
     private fun handleSelectedGroupIds(
-        oldSet: Set<Long>,
+        oldMap: Map<Long, GroupModel>,
         group: GroupModel
-    ): Set<Long> {
-        val newSet = HashSet(oldSet)
-        if (oldSet.contains(group.id)) {
-            newSet.remove(group.id)
+    ): Map<Long, GroupModel> {
+        val newMap = HashMap(oldMap)
+        if (oldMap.contains(group.id)) {
+            newMap.remove(group.id)
         } else {
-            newSet.add(group.id)
+            newMap.put(group.id, group)
         }
-        return newSet
+        return newMap
     }
 
     private fun dismissGroupOptionsMenu() {
@@ -123,7 +127,7 @@ class MainViewModel(
             val currentGroupState = state.groupViewState as? GroupViewState.Success
             currentGroupState?.let {
                 state.copy(
-                    groupViewState = it.copy(selectedGroupIds = emptySet())
+                    groupViewState = it.copy(selectedGroupIds = emptyMap())
                 )
             } ?: state
         }
@@ -164,6 +168,10 @@ class MainViewModel(
         _state.update { it.copy(dialogState = DialogState.DeleteGroups) }
     }
 
+    private fun showEditGroupDialog() {
+        _state.update { it.copy(dialogState = DialogState.EditGroup(getSingleSelectedGroup()?.name ?: "")) }
+    }
+
     private fun dismissDialog() {
         _state.update { it.copy(dialogState = DialogState.NoDialog) }
     }
@@ -197,7 +205,7 @@ class MainViewModel(
         }
         viewModelScope.launch {
             try {
-                deleteGroupsUseCase.execute(currentGroupState.selectedGroupIds)
+                deleteGroupsUseCase.execute(currentGroupState.selectedGroupIds.keys)
                 val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
                 _state.update { state ->
                     val newGroupState = if (groupList.isEmpty()) {
@@ -220,6 +228,49 @@ class MainViewModel(
             }
         }
     }
+
+    private fun editGroup(groupName: String) {
+        val currentGroupState = _state.value.groupViewState as? GroupViewState.Success ?: return
+        _state.update {
+            it.copy(groupViewState = currentGroupState.copy(editState = EditGroupState.Loading))
+        }
+
+        viewModelScope.launch {
+            try {
+                val selectedGroup = currentGroupState.selectedGroupIds.values.toList()[0]
+                editGroupUseCase.execute(selectedGroup.id, groupName)
+                val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
+                _state.update { state ->
+                    val newGroupState = if (groupList.isEmpty()) {
+                        GroupViewState.Empty
+                    } else {
+                        GroupViewState.Success(
+                            groupList = groupList,
+                            deleteState = DeleteGroupState.Success
+                        )
+                    }
+                    state.copy(
+                        dialogState = DialogState.NoDialog,
+                        groupViewState = newGroupState
+                    )
+                }
+            } catch (_: Exception) {
+                _state.update {
+                    it.copy(groupViewState = currentGroupState.copy(deleteState = DeleteGroupState.Error))
+                }
+            }
+        }
+    }
+
+    private fun getSingleSelectedGroup(): GroupModel? {
+        val currentGroupState = _state.value.groupViewState as? GroupViewState.Success
+        val list = currentGroupState?.selectedGroupIds?.values?.toList()
+        return if (list?.isEmpty() == true) {
+            null
+        } else {
+            return list?.get(0)
+        }
+    }
 }
 
 data class MainUiState(
@@ -233,8 +284,9 @@ sealed interface GroupViewState {
     data object Empty : GroupViewState
     data class Success(
         val groupList: List<GroupModel>,
-        val selectedGroupIds: Set<Long> = emptySet(),
-        val deleteState: DeleteGroupState? = null
+        val selectedGroupIds: Map<Long, GroupModel> = emptyMap(),
+        val deleteState: DeleteGroupState? = null,
+        val editState: EditGroupState? = null
     ) : GroupViewState
 
     data object Error : GroupViewState
@@ -244,6 +296,12 @@ sealed interface DeleteGroupState {
     data object Loading : DeleteGroupState
     data object Success : DeleteGroupState
     data object Error : DeleteGroupState
+}
+
+sealed interface EditGroupState {
+    data object Loading : EditGroupState
+    data object Success : EditGroupState
+    data object Error : EditGroupState
 }
 
 sealed interface LocationsViewState {
@@ -263,6 +321,7 @@ sealed interface DialogState {
     data object NoDialog : DialogState
     data class CreateGroup(val displayError: Boolean = false) : DialogState
     data object DeleteGroups : DialogState
+    data class EditGroup(val groupName: String) : DialogState
 }
 
 sealed interface ViewEvent {
@@ -274,7 +333,9 @@ sealed interface ViewEvent {
     data object DismissGroupOptionsMenu : ViewEvent
     data object ShowCreateGroupDialog : ViewEvent
     data object ShowDeleteGroupsDialog : ViewEvent
+    data object ShowEditGroupDialog : ViewEvent
     data object DismissDialog : ViewEvent
     data class CreateGroup(val groupName: String) : ViewEvent
     data object DeleteGroups : ViewEvent
+    data class EditGroup(val groupName: String) : ViewEvent
 }

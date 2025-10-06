@@ -8,6 +8,7 @@ fun DisplayDialog(
     dialogState: DialogState,
     createGroup: (String) -> Unit = {},
     deleteGroups: () -> Unit = {},
+    editGroup: (String) -> Unit = {},
     onDismissDialog: () -> Unit
 ) {
     when (dialogState) {
@@ -21,6 +22,12 @@ fun DisplayDialog(
             dismissDialog = { onDismissDialog.invoke() }
         )
 
-        DialogState.NoDialog -> { /* Do nothing */}
+        is DialogState.EditGroup -> EditGroupDialog(
+            groupName = dialogState.groupName,
+            editGroup = { editGroup.invoke(it) },
+            dismissDialog = { onDismissDialog.invoke() }
+        )
+
+        is DialogState.NoDialog -> { /* Do nothing */ }
     }
 }

@@ -62,3 +62,35 @@ fun ConfirmGroupDeletionDialog(
         }
     )
 }
+
+@Composable
+fun EditGroupDialog(
+    groupName: String,
+    editGroup: (String) -> Unit,
+    dismissDialog: () -> Unit
+) {
+    var text by rememberSaveable { mutableStateOf(groupName) }
+    AlertDialog(
+        onDismissRequest = { dismissDialog.invoke() },
+        title = { Text("Edit Group") },
+        text = {
+            TextField(
+                value = text,
+                onValueChange = {
+                    text = it
+                },
+                label = { Text("Introduce a new group name here") }
+            )
+        },
+        confirmButton = {
+            Button(onClick = { editGroup.invoke(text) }) {
+                Text("Edit")
+            }
+        },
+        dismissButton = {
+            Button(onClick = { dismissDialog.invoke() }) {
+                Text("Cancel")
+            }
+        }
+    )
+}
