@@ -31,4 +31,19 @@
     <string name="map_screen_add_group_tooltip_title">Add group</string>
     <string name="map_screen_add_group_tooltip_description">Allows adding a new group. This is the main way to display locations in the map.</string>
     <string name="map_screen_clear_map_option">Clear map</string>
+
+    <string name="create_group_dialog_title">Create group</string>
+    <string name="create_group_dialog_text_field_label">Introduce group name here</string>
+    <string name="create_group_dialog_confirm_button_text">Create</string>
+    <string name="create_group_dialog_cancel_button_text">Cancel</string>
+
+    <string name="confirm_group_deletion_dialog_title">Delete Groups</string>
+    <string name="confirm_group_deletion_dialog_text">Are you sure that you want to delete the selected groups? This action cannot be undone.</string>
+    <string name="confirm_group_deletion_dialog_confirm_button_text">Delete</string>
+    <string name="confirm_group_deletion_dialog_cancel_button_text">Cancel</string>
+
+    <string name="edit_group_dialog_title">Edit group</string>
+    <string name="edit_group_dialog_text_field_label">Introduce a new name here</string>
+    <string name="edit_group_dialog_confirm_button_text">Edit</string>
+    <string name="edit_group_dialog_cancel_button_text">Cancel</string>
 </resources>

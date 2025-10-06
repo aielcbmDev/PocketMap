@@ -237,7 +237,13 @@ class MainViewModel(
 
         viewModelScope.launch {
             try {
-                val selectedGroup = currentGroupState.selectedGroupIds.values.toList()[0]
+                val selectedGroup = getSingleSelectedGroup()
+                if (selectedGroup == null) {
+                    _state.update {
+                        it.copy(groupViewState = currentGroupState.copy(deleteState = DeleteGroupState.Error))
+                    }
+                    return@launch
+                }
                 editGroupUseCase.execute(selectedGroup.id, groupName)
                 val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
                 _state.update { state ->

@@ -9,6 +9,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import org.jetbrains.compose.resources.stringResource
+import pocketmap.composeapp.generated.resources.Res
+import pocketmap.composeapp.generated.resources.confirm_group_deletion_dialog_cancel_button_text
+import pocketmap.composeapp.generated.resources.confirm_group_deletion_dialog_confirm_button_text
+import pocketmap.composeapp.generated.resources.confirm_group_deletion_dialog_text
+import pocketmap.composeapp.generated.resources.confirm_group_deletion_dialog_title
+import pocketmap.composeapp.generated.resources.create_group_dialog_cancel_button_text
+import pocketmap.composeapp.generated.resources.create_group_dialog_confirm_button_text
+import pocketmap.composeapp.generated.resources.create_group_dialog_text_field_label
+import pocketmap.composeapp.generated.resources.create_group_dialog_title
+import pocketmap.composeapp.generated.resources.edit_group_dialog_cancel_button_text
+import pocketmap.composeapp.generated.resources.edit_group_dialog_confirm_button_text
+import pocketmap.composeapp.generated.resources.edit_group_dialog_text_field_label
+import pocketmap.composeapp.generated.resources.edit_group_dialog_title
 
 @Composable
 fun CreateGroupDialog(
@@ -18,24 +32,24 @@ fun CreateGroupDialog(
     var text by rememberSaveable { mutableStateOf("") }
     AlertDialog(
         onDismissRequest = { dismissDialog.invoke() },
-        title = { Text("Create Group") },
+        title = { Text(stringResource(Res.string.create_group_dialog_title)) },
         text = {
             TextField(
                 value = text,
                 onValueChange = {
                     text = it
                 },
-                label = { Text("Introduce a group name here") }
+                label = { Text(stringResource(Res.string.create_group_dialog_text_field_label)) }
             )
         },
         confirmButton = {
             Button(onClick = { createGroup.invoke(text) }) {
-                Text("Create")
+                Text(stringResource(Res.string.create_group_dialog_confirm_button_text))
             }
         },
         dismissButton = {
             Button(onClick = { dismissDialog.invoke() }) {
-                Text("Cancel")
+                Text(stringResource(Res.string.create_group_dialog_cancel_button_text))
             }
         }
     )
@@ -48,16 +62,16 @@ fun ConfirmGroupDeletionDialog(
 ) {
     AlertDialog(
         onDismissRequest = { dismissDialog.invoke() },
-        title = { Text("Delete Groups") },
-        text = { Text("Are you sure that you want to delete the selected groups? This action cannot be undone.") },
+        title = { Text(stringResource(Res.string.confirm_group_deletion_dialog_title)) },
+        text = { Text(stringResource(Res.string.confirm_group_deletion_dialog_text)) },
         confirmButton = {
             Button(onClick = { deleteGroups.invoke() }) {
-                Text("Delete")
+                Text(stringResource(Res.string.confirm_group_deletion_dialog_confirm_button_text))
             }
         },
         dismissButton = {
             Button(onClick = { dismissDialog.invoke() }) {
-                Text("Cancel")
+                Text(stringResource(Res.string.confirm_group_deletion_dialog_cancel_button_text))
             }
         }
     )
@@ -72,24 +86,24 @@ fun EditGroupDialog(
     var text by rememberSaveable { mutableStateOf(groupName) }
     AlertDialog(
         onDismissRequest = { dismissDialog.invoke() },
-        title = { Text("Edit Group") },
+        title = { Text(stringResource(Res.string.edit_group_dialog_title)) },
         text = {
             TextField(
                 value = text,
                 onValueChange = {
                     text = it
                 },
-                label = { Text("Introduce a new group name here") }
+                label = { Text(stringResource(Res.string.edit_group_dialog_text_field_label)) }
             )
         },
         confirmButton = {
             Button(onClick = { editGroup.invoke(text) }) {
-                Text("Edit")
+                Text(stringResource(Res.string.edit_group_dialog_confirm_button_text))
             }
         },
         dismissButton = {
             Button(onClick = { dismissDialog.invoke() }) {
-                Text("Cancel")
+                Text(stringResource(Res.string.edit_group_dialog_cancel_button_text))
             }
         }
     )
