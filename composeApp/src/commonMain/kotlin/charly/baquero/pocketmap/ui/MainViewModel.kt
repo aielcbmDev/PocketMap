@@ -118,24 +118,22 @@ class MainViewModel(
             currentGroupState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        selectedGroupIds = handleSelectedGroupIds(it.selectedGroupIds, group)
+                        selectedGroupIds = updateSelectedGroupIds(it.selectedGroupIds, group)
                     )
                 )
             } ?: state
         }
     }
 
-    private fun handleSelectedGroupIds(
+    private fun updateSelectedGroupIds(
         oldMap: Map<Long, GroupModel>,
         group: GroupModel
     ): Map<Long, GroupModel> {
-        val newMap = HashMap(oldMap)
-        if (oldMap.contains(group.id)) {
-            newMap.remove(group.id)
+        return if (oldMap.containsKey(group.id)) {
+            oldMap.minus(group.id)
         } else {
-            newMap.put(group.id, group)
+            oldMap.plus((group.id to group))
         }
-        return newMap
     }
 
     private fun dismissGroupOptionsMenu() {
