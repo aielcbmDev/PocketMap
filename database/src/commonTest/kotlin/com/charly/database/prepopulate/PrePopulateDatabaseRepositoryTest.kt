@@ -13,7 +13,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import kotlin.test.AfterTest
@@ -50,9 +49,12 @@ class PrePopulateDatabaseRepositoryTest {
 
         // WHEN
         prePopulateDatabaseRepository.execute()
-        runCurrent()
 
         // THEN
+        verifySuspend(mode = VerifyMode.exactly(0)) {
+            prePopulateTablesLazy.value
+            prePopulateTables.execute()
+        }
         verifyNoMoreCalls(prePopulateTables, prePopulateTablesLazy)
     }
 
@@ -73,13 +75,11 @@ class PrePopulateDatabaseRepositoryTest {
 
         // WHEN
         prePopulateDatabaseRepository.execute()
-        runCurrent()
 
         // THEN
         verifySuspend(mode = VerifyMode.exhaustiveOrder) {
             prePopulateTablesLazy.value
             prePopulateTables.execute()
         }
-        verifyNoMoreCalls(prePopulateTables, prePopulateTablesLazy)
     }
 }
