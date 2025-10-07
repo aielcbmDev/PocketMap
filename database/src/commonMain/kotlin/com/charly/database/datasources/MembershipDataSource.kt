@@ -4,6 +4,7 @@ import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
 import com.charly.database.model.membership.MembershipDao
 import com.charly.database.model.membership.MembershipEntity
+import kotlinx.coroutines.flow.Flow
 
 class MembershipDataSource(private val membershipDao: MembershipDao) {
 
@@ -15,7 +16,7 @@ class MembershipDataSource(private val membershipDao: MembershipDao) {
         return membershipDao.getGroupsForLocation(idLocation)
     }
 
-    suspend fun getLocationsForGroup(idGroup: Long): List<LocationEntity> {
+    fun getLocationsForGroup(idGroup: Long): Flow<List<LocationEntity>> {
         return membershipDao.getLocationsForGroup(idGroup)
     }
 }

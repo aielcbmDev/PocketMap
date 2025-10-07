@@ -3,13 +3,16 @@ package com.charly.domain.usecases.get
 import com.charly.domain.model.Location
 import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository
 import dev.mokkery.answering.returns
-import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
 import dev.mokkery.mock
 import dev.mokkery.verify.VerifyMode
 import dev.mokkery.verifySuspend
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
@@ -53,19 +56,20 @@ class GetAllLocationsForGroupUseCaseTest {
             )
         )
         val idGroup = 3L
-        val getAllLocationsForGroupRepository = mock<GetAllLocationsForGroupRepository>() {
-            everySuspend { execute(idGroup) } returns listOfLocations
+        val getAllLocationsForGroupRepository = mock<GetAllLocationsForGroupRepository> {
+            everySuspend { execute(idGroup) } returns flowOf(listOfLocations)
         }
 
         val getAllLocationsForGroupUseCase =
             GetAllLocationsForGroupUseCase(getAllLocationsForGroupRepository)
 
         // WHEN
-        val result = getAllLocationsForGroupUseCase.execute(idGroup)
+        val result = getAllLocationsForGroupUseCase.execute(idGroup).first()
 
         // THEN
         assertSame(listOfLocations, result)
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
+            @Suppress("UnusedFlow")
             getAllLocationsForGroupRepository.execute(idGroup)
         }
     }
@@ -75,20 +79,21 @@ class GetAllLocationsForGroupUseCaseTest {
         // GIVEN
         val expectedException = Exception("Error")
         val idGroup = 3L
-        val getAllLocationsForGroupRepository = mock<GetAllLocationsForGroupRepository>() {
-            everySuspend { execute(idGroup) } throws expectedException
+        val getAllLocationsForGroupRepository = mock<GetAllLocationsForGroupRepository> {
+            everySuspend { execute(idGroup) } returns flow { throw expectedException }
         }
         val getAllLocationsForGroupUseCase =
             GetAllLocationsForGroupUseCase(getAllLocationsForGroupRepository)
 
         // WHEN
         val actualException = assertFailsWith<Exception> {
-            getAllLocationsForGroupUseCase.execute(idGroup)
+            getAllLocationsForGroupUseCase.execute(idGroup).collect()
         }
 
         // THEN
         assertSame(expectedException, actualException)
         verifySuspend(mode = VerifyMode.Companion.exhaustiveOrder) {
+            @Suppress("UnusedFlow")
             getAllLocationsForGroupRepository.execute(idGroup)
         }
     }

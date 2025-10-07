@@ -13,6 +13,7 @@ import com.charly.domain.usecases.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -65,18 +66,20 @@ class MainViewModel(
     }
 
     private fun fetchAllGroups() {
-        _state.update { it.copy(groupViewState = GroupViewState.Loading) }
         viewModelScope.launch {
+            _state.update { it.copy(groupViewState = GroupViewState.Loading) }
             try {
-                val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
-                _state.update { state ->
-                    val newGroupState = if (groupList.isEmpty()) {
-                        GroupViewState.Empty
-                    } else {
-                        GroupViewState.Success(groupList = groupList)
+                getAllGroupsUseCase.execute().map { it.mapToGroupModelList() }
+                    .collect { groupList ->
+                        _state.update { state ->
+                            val newGroupState = if (groupList.isEmpty()) {
+                                GroupViewState.Empty
+                            } else {
+                                GroupViewState.Success(groupList = groupList)
+                            }
+                            state.copy(groupViewState = newGroupState)
+                        }
                     }
-                    state.copy(groupViewState = newGroupState)
-                }
             } catch (_: Exception) {
                 _state.update { it.copy(groupViewState = GroupViewState.Error) }
             }
@@ -85,27 +88,22 @@ class MainViewModel(
 
     private fun fetchLocationsForGroup(group: GroupModel) {
         viewModelScope.launch {
-            _state.update {
-                it.copy(
-                    locationsViewState = LocationsViewState.Loading(
-                        groupName = group.name
-                    )
-                )
-            }
+            _state.update { it.copy(locationsViewState = LocationsViewState.Loading(groupName = group.name)) }
             try {
-                val locationList =
-                    getAllLocationsForGroupUseCase.execute(group.id).mapToLocationModelList()
-                _state.update { state ->
-                    val newLocationState = if (locationList.isEmpty()) {
-                        LocationsViewState.Empty(group.name)
-                    } else {
-                        LocationsViewState.Success(
-                            groupName = group.name,
-                            locationList = locationList
-                        )
+                getAllLocationsForGroupUseCase.execute(group.id).map { it.mapToLocationModelList() }
+                    .collect { locationList ->
+                        _state.update { state ->
+                            val newLocationState = if (locationList.isEmpty()) {
+                                LocationsViewState.Empty(group.name)
+                            } else {
+                                LocationsViewState.Success(
+                                    groupName = group.name,
+                                    locationList = locationList
+                                )
+                            }
+                            state.copy(locationsViewState = newLocationState)
+                        }
                     }
-                    state.copy(locationsViewState = newLocationState)
-                }
             } catch (_: Exception) {
                 _state.update { it.copy(locationsViewState = LocationsViewState.Error) }
             }
@@ -156,7 +154,7 @@ class MainViewModel(
     }
 
     private fun showEditGroupDialog() {
-        _state.update { it.copy(dialogState = DialogState.EditGroup(getSingleSelectedGroup()?.name ?: "")) }
+        _state.update { it.copy(dialogState = DialogState.EditGroup(getSingleSelectedGroupName())) }
     }
 
     private fun dismissDialog() {
@@ -167,18 +165,7 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 addGroupUseCase.execute(groupName)
-                val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
-                _state.update { state ->
-                    val newGroupState = if (groupList.isEmpty()) {
-                        GroupViewState.Empty
-                    } else {
-                        GroupViewState.Success(groupList = groupList)
-                    }
-                    state.copy(
-                        dialogState = DialogState.NoDialog,
-                        groupViewState = newGroupState
-                    )
-                }
+                _state.update { it.copy(dialogState = DialogState.NoDialog) }
             } catch (_: Exception) {
                 _state.update { it.copy(dialogState = DialogState.CreateGroup(displayError = true)) }
             }
@@ -193,19 +180,12 @@ class MainViewModel(
         viewModelScope.launch {
             try {
                 deleteGroupsUseCase.execute(currentGroupState.selectedGroupIds.keys)
-                val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
-                _state.update { state ->
-                    val newGroupState = if (groupList.isEmpty()) {
-                        GroupViewState.Empty
-                    } else {
-                        GroupViewState.Success(
-                            groupList = groupList,
+                _state.update {
+                    it.copy(
+                        dialogState = DialogState.NoDialog,
+                        groupViewState = currentGroupState.copy(
                             deleteState = DeleteGroupState.Success
                         )
-                    }
-                    state.copy(
-                        dialogState = DialogState.NoDialog,
-                        groupViewState = newGroupState
                     )
                 }
             } catch (_: Exception) {
@@ -240,19 +220,12 @@ class MainViewModel(
                     return@launch
                 }
                 editGroupUseCase.execute(selectedGroup.id, groupName)
-                val groupList = getAllGroupsUseCase.execute().mapToGroupModelList()
-                _state.update { state ->
-                    val newGroupState = if (groupList.isEmpty()) {
-                        GroupViewState.Empty
-                    } else {
-                        GroupViewState.Success(
-                            groupList = groupList,
+                _state.update {
+                    it.copy(
+                        dialogState = DialogState.NoDialog,
+                        groupViewState = currentGroupState.copy(
                             editState = EditGroupState.Success
                         )
-                    }
-                    state.copy(
-                        dialogState = DialogState.NoDialog,
-                        groupViewState = newGroupState
                     )
                 }
             } catch (_: Exception) {
@@ -269,6 +242,10 @@ class MainViewModel(
 
     private fun getSingleSelectedGroup(): GroupModel? {
         return (_state.value.groupViewState as? GroupViewState.Success)?.selectedGroupIds?.values?.firstOrNull()
+    }
+
+    private fun getSingleSelectedGroupName(): String {
+        return getSingleSelectedGroup()?.name ?: ""
     }
 }
 

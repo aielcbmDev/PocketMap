@@ -2,10 +2,11 @@ package com.charly.database.datasources
 
 import com.charly.database.model.groups.GroupDao
 import com.charly.database.model.groups.GroupEntity
+import kotlinx.coroutines.flow.Flow
 
 class GroupDataSource(private val groupDao: GroupDao) {
 
-    suspend fun getAllGroups(): List<GroupEntity> {
+    fun getAllGroups(): Flow<List<GroupEntity>> {
         return groupDao.getAllGroups()
     }
 

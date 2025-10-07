@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface MembershipDao {
@@ -23,5 +24,5 @@ interface MembershipDao {
     suspend fun getGroupsForLocation(idLocation: Long): List<GroupEntity>
 
     @Query("SELECT * FROM locations_table INNER JOIN membership_table ON locations_table.id=membership_table.idLocation WHERE membership_table.idGroup=:idGroup ORDER BY locations_table.title")
-    suspend fun getLocationsForGroup(idGroup: Long): List<LocationEntity>
+    fun getLocationsForGroup(idGroup: Long): Flow<List<LocationEntity>>
 }
