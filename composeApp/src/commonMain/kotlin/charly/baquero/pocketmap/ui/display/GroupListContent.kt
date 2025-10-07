@@ -80,7 +80,7 @@ fun GroupListPane(
             ) { group ->
                 GroupListItem(
                     group = group,
-                    selectedGroupIds = groupViewState.selectedGroupIds,
+                    selectedGroups = groupViewState.selectedGroups,
                     onGroupClick = onGroupClick,
                     onGroupLongClick = onGroupLongClick
                 )
@@ -99,7 +99,7 @@ fun GroupListPane(
 @Composable
 fun GroupListItem(
     group: GroupModel,
-    selectedGroupIds: Map<Long, GroupModel>,
+    selectedGroups: Map<Long, GroupModel>,
     onGroupClick: (GroupModel) -> Unit,
     onGroupLongClick: (GroupModel) -> Unit,
     modifier: Modifier = Modifier
@@ -111,7 +111,7 @@ fun GroupListItem(
                 onClick = { onGroupClick(group) },
                 onLongClick = { onGroupLongClick(group) }
             ),
-        colors = if (selectedGroupIds.contains(group.id)) {
+        colors = if (selectedGroups.contains(group.id)) {
             CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
         } else {
             CardDefaults.cardColors()
@@ -141,7 +141,7 @@ private fun GroupListPaneTopBar(
     onDeleteGroupsClick: () -> Unit,
     onEditGroupClick: () -> Unit
 ) {
-    when (groupViewState.selectedGroupIds.size) {
+    when (groupViewState.selectedGroups.size) {
         0 -> TopAppBar(
             title = { Text(stringResource(Res.string.groups_screen_title)) },
             colors = TopAppBarDefaults.topAppBarColors(),
@@ -157,7 +157,7 @@ private fun GroupListPaneTopBar(
         )
 
         1 -> TopAppBar(
-            title = { Text(groupViewState.selectedGroupIds.size.toString()) },
+            title = { Text(groupViewState.selectedGroups.size.toString()) },
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {
                     Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -183,7 +183,7 @@ private fun GroupListPaneTopBar(
         )
 
         else -> TopAppBar(
-            title = { Text(groupViewState.selectedGroupIds.size.toString()) },
+            title = { Text(groupViewState.selectedGroups.size.toString()) },
             colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.secondaryContainer),
             navigationIcon = {
                 IconButton(onClick = { onGroupOptionsMenuBackClick.invoke() }) {

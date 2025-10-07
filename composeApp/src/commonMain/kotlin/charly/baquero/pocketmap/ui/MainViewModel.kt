@@ -116,14 +116,14 @@ class MainViewModel(
             currentGroupState?.let {
                 state.copy(
                     groupViewState = it.copy(
-                        selectedGroupIds = updateSelectedGroupIds(it.selectedGroupIds, group)
+                        selectedGroups = updateSelectedGroups(it.selectedGroups, group)
                     )
                 )
             } ?: state
         }
     }
 
-    private fun updateSelectedGroupIds(
+    private fun updateSelectedGroups(
         oldMap: Map<Long, GroupModel>,
         group: GroupModel
     ): Map<Long, GroupModel> {
@@ -139,7 +139,7 @@ class MainViewModel(
             val currentGroupState = state.groupViewState as? GroupViewState.Success
             currentGroupState?.let {
                 state.copy(
-                    groupViewState = it.copy(selectedGroupIds = emptyMap())
+                    groupViewState = it.copy(selectedGroups = emptyMap())
                 )
             } ?: state
         }
@@ -179,7 +179,7 @@ class MainViewModel(
         }
         viewModelScope.launch {
             try {
-                deleteGroupsUseCase.execute(currentGroupState.selectedGroupIds.keys)
+                deleteGroupsUseCase.execute(currentGroupState.selectedGroups.keys)
                 _state.update {
                     it.copy(
                         dialogState = DialogState.NoDialog,
@@ -241,7 +241,7 @@ class MainViewModel(
     }
 
     private fun getSingleSelectedGroup(): GroupModel? {
-        return (_state.value.groupViewState as? GroupViewState.Success)?.selectedGroupIds?.values?.firstOrNull()
+        return (_state.value.groupViewState as? GroupViewState.Success)?.selectedGroups?.values?.firstOrNull()
     }
 
     private fun getSingleSelectedGroupName(): String {
@@ -260,7 +260,7 @@ sealed interface GroupViewState {
     data object Empty : GroupViewState
     data class Success(
         val groupList: List<GroupModel>,
-        val selectedGroupIds: Map<Long, GroupModel> = emptyMap(),
+        val selectedGroups: Map<Long, GroupModel> = emptyMap(),
         val deleteState: DeleteGroupState? = null,
         val editState: EditGroupState? = null
     ) : GroupViewState
