@@ -61,6 +61,14 @@ kotlin {
         }
     }
 
+    compilerOptions {
+        // Removes the following warning when executing unit tests:
+        //
+        // 'expect'/'actual' classes (including interfaces, objects, annotations, enums,
+        // and 'actual' typealiases) are in Beta. Consider using the '-Xexpect-actual-classes'
+        // flag to suppress this warning.
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
     // Source set declarations.
     // Declaring a target automatically creates a source set with the same name. By default, the
     // Kotlin Gradle Plugin creates additional source sets that depend on each other, since it is
