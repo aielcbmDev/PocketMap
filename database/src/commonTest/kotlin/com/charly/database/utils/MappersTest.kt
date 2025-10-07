@@ -6,6 +6,7 @@ import com.charly.domain.model.Group
 import com.charly.domain.model.Location
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class MappersTest {
 
@@ -21,6 +22,7 @@ class MappersTest {
         val group = groupEntity.mapToGroup()
 
         // THEN
+        assertIs<Group>(group)
         assertEquals(groupEntity.id, group.id)
         assertEquals(groupEntity.name, group.name)
     }
@@ -46,10 +48,12 @@ class MappersTest {
         assertEquals(2, groupList.size)
         val groupEntity0 = groupEntityList[0]
         val group0 = groupList[0]
+        assertIs<Group>(group0)
         assertEquals(groupEntity0.id, group0.id)
         assertEquals(groupEntity0.name, group0.name)
         val groupEntity1 = groupEntityList[1]
         val group1 = groupList[1]
+        assertIs<Group>(group1)
         assertEquals(groupEntity1.id, group1.id)
         assertEquals(groupEntity1.name, group1.name)
     }
@@ -63,6 +67,7 @@ class MappersTest {
         val groupEntity = groupName.mapToGroupEntity()
 
         // THEN
+        assertIs<GroupEntity>(groupEntity)
         assertEquals(0, groupEntity.id)
         assertEquals(groupName, groupEntity.name)
     }
@@ -79,6 +84,7 @@ class MappersTest {
         val groupEntity = group.mapToGroupEntity()
 
         // THEN
+        assertIs<GroupEntity>(groupEntity)
         assertEquals(group.id, groupEntity.id)
         assertEquals(group.name, groupEntity.name)
     }
@@ -104,10 +110,12 @@ class MappersTest {
         assertEquals(2, groupList.size)
         val group0 = groupList[0]
         val groupEntity0 = groupEntityList[0]
+        assertIs<GroupEntity>(groupEntity0)
         assertEquals(group0.id, groupEntity0.id)
         assertEquals(group0.name, groupEntity0.name)
         val group1 = groupList[1]
         val groupEntity1 = groupEntityList[1]
+        assertIs<GroupEntity>(groupEntity1)
         assertEquals(group1.id, groupEntity1.id)
         assertEquals(group1.name, groupEntity1.name)
     }
@@ -127,6 +135,7 @@ class MappersTest {
         val location = locationEntity.mapToLocation()
 
         // THEN
+        assertIs<Location>(location)
         assertEquals(locationEntity.id, location.id)
         assertEquals(locationEntity.title, location.title)
         assertEquals(locationEntity.description, location.description)
@@ -161,6 +170,7 @@ class MappersTest {
         assertEquals(2, locationList.size)
         val locationEntity0 = locationEntityList[0]
         val location0 = locationList[0]
+        assertIs<Location>(location0)
         assertEquals(locationEntity0.id, location0.id)
         assertEquals(locationEntity0.title, location0.title)
         assertEquals(locationEntity0.description, location0.description)
@@ -168,6 +178,7 @@ class MappersTest {
         assertEquals(locationEntity0.longitude, location0.longitude)
         val locationEntity1 = locationEntityList[1]
         val location1 = locationList[1]
+        assertIs<Location>(location1)
         assertEquals(locationEntity1.id, location1.id)
         assertEquals(locationEntity1.title, location1.title)
         assertEquals(locationEntity1.description, location1.description)
@@ -190,6 +201,7 @@ class MappersTest {
         val locationEntity = location.mapToLocationEntity()
 
         // THEN
+        assertIs<LocationEntity>(locationEntity)
         assertEquals(location.id, locationEntity.id)
         assertEquals(location.title, locationEntity.title)
         assertEquals(location.description, locationEntity.description)
@@ -224,6 +236,7 @@ class MappersTest {
         assertEquals(2, locationEntityList.size)
         val location0 = locationList[0]
         val locationEntity0 = locationEntityList[0]
+        assertIs<LocationEntity>(locationEntity0)
         assertEquals(location0.id, locationEntity0.id)
         assertEquals(location0.title, locationEntity0.title)
         assertEquals(location0.description, locationEntity0.description)
@@ -231,6 +244,7 @@ class MappersTest {
         assertEquals(location0.longitude, locationEntity0.longitude)
         val location1 = locationList[1]
         val locationEntity1 = locationEntityList[1]
+        assertIs<LocationEntity>(locationEntity1)
         assertEquals(location1.id, locationEntity1.id)
         assertEquals(location1.title, locationEntity1.title)
         assertEquals(location1.description, locationEntity1.description)

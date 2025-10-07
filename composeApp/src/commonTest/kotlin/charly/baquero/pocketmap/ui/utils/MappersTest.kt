@@ -6,6 +6,7 @@ import com.charly.domain.model.Group
 import com.charly.domain.model.Location
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertIs
 
 class MappersTest {
 
@@ -21,6 +22,7 @@ class MappersTest {
         val group = groupModel.mapToGroup()
 
         // THEN
+        assertIs<Group>(group)
         assertEquals(groupModel.id, group.id)
         assertEquals(groupModel.name, group.name)
     }
@@ -46,10 +48,12 @@ class MappersTest {
         assertEquals(2, groupList.size)
         val groupModel0 = groupModelList[0]
         val group0 = groupList[0]
+        assertIs<Group>(group0)
         assertEquals(groupModel0.id, group0.id)
         assertEquals(groupModel0.name, group0.name)
         val groupModel1 = groupModelList[1]
         val group1 = groupList[1]
+        assertIs<Group>(group1)
         assertEquals(groupModel1.id, group1.id)
         assertEquals(groupModel1.name, group1.name)
     }
@@ -66,6 +70,7 @@ class MappersTest {
         val groupModel = group.mapToGroupModel()
 
         // THEN
+        assertIs<GroupModel>(groupModel)
         assertEquals(group.id, groupModel.id)
         assertEquals(group.name, groupModel.name)
     }
@@ -91,10 +96,12 @@ class MappersTest {
         assertEquals(2, groupList.size)
         val group0 = groupList[0]
         val groupModel0 = groupModelList[0]
+        assertIs<GroupModel>(groupModel0)
         assertEquals(group0.id, groupModel0.id)
         assertEquals(group0.name, groupModel0.name)
         val group1 = groupList[1]
         val groupModel1 = groupModelList[1]
+        assertIs<GroupModel>(groupModel1)
         assertEquals(group1.id, groupModel1.id)
         assertEquals(group1.name, groupModel1.name)
     }
@@ -114,6 +121,7 @@ class MappersTest {
         val location = locationModel.mapToLocation()
 
         // THEN
+        assertIs<Location>(location)
         assertEquals(locationModel.id, location.id)
         assertEquals(locationModel.title, location.title)
         assertEquals(locationModel.description, location.description)
@@ -148,6 +156,7 @@ class MappersTest {
         assertEquals(2, locationList.size)
         val locationModel0 = locationModelList[0]
         val location0 = locationList[0]
+        assertIs<Location>(location0)
         assertEquals(locationModel0.id, location0.id)
         assertEquals(locationModel0.title, location0.title)
         assertEquals(locationModel0.description, location0.description)
@@ -155,6 +164,7 @@ class MappersTest {
         assertEquals(locationModel0.longitude, location0.longitude)
         val locationModel1 = locationModelList[1]
         val location1 = locationList[1]
+        assertIs<Location>(location1)
         assertEquals(locationModel1.id, location1.id)
         assertEquals(locationModel1.title, location1.title)
         assertEquals(locationModel1.description, location1.description)
@@ -176,8 +186,8 @@ class MappersTest {
         // WHEN
         val locationModel = location.mapToLocationModel()
 
-
         // THEN
+        assertIs<LocationModel>(locationModel)
         assertEquals(location.id, locationModel.id)
         assertEquals(location.title, locationModel.title)
         assertEquals(location.description, locationModel.description)
@@ -212,6 +222,7 @@ class MappersTest {
         assertEquals(2, locationModelList.size)
         val location0 = locationList[0]
         val locationModel0 = locationModelList[0]
+        assertIs<LocationModel>(locationModel0)
         assertEquals(location0.id, locationModel0.id)
         assertEquals(location0.title, locationModel0.title)
         assertEquals(location0.description, locationModel0.description)
@@ -219,6 +230,7 @@ class MappersTest {
         assertEquals(location0.longitude, locationModel0.longitude)
         val location1 = locationList[1]
         val locationModel1 = locationModelList[1]
+        assertIs<LocationModel>(locationModel1)
         assertEquals(location1.id, locationModel1.id)
         assertEquals(location1.title, locationModel1.title)
         assertEquals(location1.description, locationModel1.description)
