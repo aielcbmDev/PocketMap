@@ -56,18 +56,17 @@ class MainViewModel(
 
     private fun onLocationClick(location: LocationModel) {
         _state.update { state ->
-            val currentLocationsState = state.locationsViewState as? LocationsViewState.Success
-            currentLocationsState?.let {
+            (state.locationsViewState as? LocationsViewState.Success)?.let {
                 state.copy(
                     locationsViewState = it.copy(locationSelected = location)
                 )
-            } ?: state
+            } ?: state.copy(locationsViewState = LocationsViewState.Error)
         }
     }
 
     private fun fetchAllGroups() {
+        _state.update { it.copy(groupViewState = GroupViewState.Loading) }
         viewModelScope.launch {
-            _state.update { it.copy(groupViewState = GroupViewState.Loading) }
             try {
                 getAllGroupsUseCase.execute().map { it.mapToGroupModelList() }
                     .collect { groupList ->
@@ -87,8 +86,8 @@ class MainViewModel(
     }
 
     private fun fetchLocationsForGroup(group: GroupModel) {
+        _state.update { it.copy(locationsViewState = LocationsViewState.Loading(groupName = group.name)) }
         viewModelScope.launch {
-            _state.update { it.copy(locationsViewState = LocationsViewState.Loading(groupName = group.name)) }
             try {
                 getAllLocationsForGroupUseCase.execute(group.id).map { it.mapToLocationModelList() }
                     .collect { locationList ->
@@ -112,14 +111,13 @@ class MainViewModel(
 
     private fun displayGroupOptionsMenu(group: GroupModel) {
         _state.update { state ->
-            val currentGroupState = state.groupViewState as? GroupViewState.Success
-            currentGroupState?.let {
+            (state.groupViewState as? GroupViewState.Success)?.let {
                 state.copy(
                     groupViewState = it.copy(
                         selectedGroups = updateSelectedGroups(it.selectedGroups, group)
                     )
                 )
-            } ?: state
+            } ?: state.copy(groupViewState = GroupViewState.Error)
         }
     }
 
@@ -136,12 +134,11 @@ class MainViewModel(
 
     private fun dismissGroupOptionsMenu() {
         _state.update { state ->
-            val currentGroupState = state.groupViewState as? GroupViewState.Success
-            currentGroupState?.let {
+            (state.groupViewState as? GroupViewState.Success)?.let {
                 state.copy(
                     groupViewState = it.copy(selectedGroups = emptyMap())
                 )
-            } ?: state
+            } ?: state.copy(groupViewState = GroupViewState.Error)
         }
     }
 
@@ -173,10 +170,16 @@ class MainViewModel(
     }
 
     private fun deleteGroups() {
-        val currentGroupState = _state.value.groupViewState as? GroupViewState.Success ?: return
-        _state.update {
-            it.copy(groupViewState = currentGroupState.copy(deleteState = DeleteGroupState.Loading))
+        val currentGroupState = _state.value.groupViewState as? GroupViewState.Success
+        if (currentGroupState == null) {
+            _state.update { it.copy(groupViewState = GroupViewState.Error) }
+            return
         }
+        if (currentGroupState.selectedGroups.isEmpty()) {
+            _state.update { it.copy(groupViewState = currentGroupState.copy(deleteGroupState = DeleteGroupState.Error)) }
+            return
+        }
+        _state.update { it.copy(groupViewState = currentGroupState.copy(deleteGroupState = DeleteGroupState.Loading)) }
         viewModelScope.launch {
             try {
                 deleteGroupsUseCase.execute(currentGroupState.selectedGroups.keys)
@@ -184,13 +187,13 @@ class MainViewModel(
                     it.copy(
                         dialogState = DialogState.NoDialog,
                         groupViewState = currentGroupState.copy(
-                            deleteState = DeleteGroupState.Success
+                            deleteGroupState = DeleteGroupState.Success
                         )
                     )
                 }
             } catch (_: Exception) {
                 _state.update {
-                    it.copy(groupViewState = currentGroupState.copy(deleteState = DeleteGroupState.Error))
+                    it.copy(groupViewState = currentGroupState.copy(deleteGroupState = DeleteGroupState.Error))
                 }
             }
         }
@@ -202,29 +205,20 @@ class MainViewModel(
             _state.update { it.copy(groupViewState = GroupViewState.Error) }
             return
         }
-        _state.update {
-            it.copy(groupViewState = currentGroupState.copy(editState = EditGroupState.Loading))
+        val selectedGroup = getSingleSelectedGroup()
+        if (selectedGroup == null) {
+            _state.update { it.copy(groupViewState = currentGroupState.copy(editGroupState = EditGroupState.Error)) }
+            return
         }
-
+        _state.update { it.copy(groupViewState = currentGroupState.copy(editGroupState = EditGroupState.Loading)) }
         viewModelScope.launch {
             try {
-                val selectedGroup = getSingleSelectedGroup()
-                if (selectedGroup == null) {
-                    _state.update {
-                        it.copy(
-                            groupViewState = currentGroupState.copy(
-                                editState = EditGroupState.Error
-                            )
-                        )
-                    }
-                    return@launch
-                }
                 editGroupUseCase.execute(selectedGroup.id, groupName)
                 _state.update {
                     it.copy(
                         dialogState = DialogState.NoDialog,
                         groupViewState = currentGroupState.copy(
-                            editState = EditGroupState.Success
+                            editGroupState = EditGroupState.Success
                         )
                     )
                 }
@@ -232,7 +226,7 @@ class MainViewModel(
                 _state.update {
                     it.copy(
                         groupViewState = currentGroupState.copy(
-                            editState = EditGroupState.Error
+                            editGroupState = EditGroupState.Error
                         )
                     )
                 }
@@ -261,8 +255,8 @@ sealed interface GroupViewState {
     data class Success(
         val groupList: List<GroupModel>,
         val selectedGroups: Map<Long, GroupModel> = emptyMap(),
-        val deleteState: DeleteGroupState? = null,
-        val editState: EditGroupState? = null
+        val deleteGroupState: DeleteGroupState? = null,
+        val editGroupState: EditGroupState? = null
     ) : GroupViewState
 
     data object Error : GroupViewState
