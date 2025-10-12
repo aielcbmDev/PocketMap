@@ -1,9 +1,9 @@
 package com.charly.database.utils
 
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
 import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
+import com.charly.domain.model.Group
+import com.charly.domain.model.Location
 
 internal fun GroupEntity.mapToGroup(): Group {
     return Group(
@@ -13,12 +13,7 @@ internal fun GroupEntity.mapToGroup(): Group {
 }
 
 internal fun List<GroupEntity>.mapToGroupList(): List<Group> {
-    val list = mutableListOf<Group>()
-    forEach { groupEntity ->
-        val group = groupEntity.mapToGroup()
-        list.add(group)
-    }
-    return list
+    return map { groupEntity -> groupEntity.mapToGroup() }
 }
 
 internal fun String.mapToGroupEntity(): GroupEntity {
@@ -35,12 +30,7 @@ internal fun Group.mapToGroupEntity(): GroupEntity {
 }
 
 internal fun List<Group>.mapToGroupEntityList(): List<GroupEntity> {
-    val list = mutableListOf<GroupEntity>()
-    forEach { group ->
-        val groupEntity = group.mapToGroupEntity()
-        list.add(groupEntity)
-    }
-    return list
+    return map { group -> group.mapToGroupEntity() }
 }
 
 internal fun LocationEntity.mapToLocation(): Location {
@@ -54,12 +44,7 @@ internal fun LocationEntity.mapToLocation(): Location {
 }
 
 internal fun List<LocationEntity>.mapToLocationList(): List<Location> {
-    val list = mutableListOf<Location>()
-    forEach { locationEntity ->
-        val location = locationEntity.mapToLocation()
-        list.add(location)
-    }
-    return list
+    return map { locationEntity -> locationEntity.mapToLocation() }
 }
 
 internal fun Location.mapToLocationEntity(): LocationEntity {
@@ -73,10 +58,5 @@ internal fun Location.mapToLocationEntity(): LocationEntity {
 }
 
 internal fun List<Location>.mapToLocationEntityList(): List<LocationEntity> {
-    val list = mutableListOf<LocationEntity>()
-    forEach { location ->
-        val locationEntity = location.mapToLocationEntity()
-        list.add(locationEntity)
-    }
-    return list
+    return map { location -> location.mapToLocationEntity() }
 }

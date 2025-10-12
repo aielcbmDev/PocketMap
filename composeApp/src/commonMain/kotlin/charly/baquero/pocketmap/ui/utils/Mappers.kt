@@ -13,12 +13,7 @@ internal fun GroupModel.mapToGroup(): Group {
 }
 
 internal fun List<GroupModel>.mapToGroupList(): List<Group> {
-    val list = mutableListOf<Group>()
-    forEach { groupModel ->
-        val group = groupModel.mapToGroup()
-        list.add(group)
-    }
-    return list
+    return map { groupModel -> groupModel.mapToGroup() }
 }
 
 internal fun Group.mapToGroupModel(): GroupModel {
@@ -29,12 +24,7 @@ internal fun Group.mapToGroupModel(): GroupModel {
 }
 
 internal fun List<Group>.mapToGroupModelList(): List<GroupModel> {
-    val list = mutableListOf<GroupModel>()
-    forEach { group ->
-        val groupModel = group.mapToGroupModel()
-        list.add(groupModel)
-    }
-    return list
+    return map { group -> group.mapToGroupModel() }
 }
 
 internal fun LocationModel.mapToLocation(): Location {
@@ -48,12 +38,7 @@ internal fun LocationModel.mapToLocation(): Location {
 }
 
 internal fun List<LocationModel>.mapToLocationList(): List<Location> {
-    val list = mutableListOf<Location>()
-    forEach { locationModel ->
-        val location = locationModel.mapToLocation()
-        list.add(location)
-    }
-    return list
+    return map { locationModel -> locationModel.mapToLocation() }
 }
 
 internal fun Location.mapToLocationModel(): LocationModel {
@@ -67,10 +52,5 @@ internal fun Location.mapToLocationModel(): LocationModel {
 }
 
 internal fun List<Location>.mapToLocationModelList(): List<LocationModel> {
-    val list = mutableListOf<LocationModel>()
-    forEach { location ->
-        val locationModel = location.mapToLocationModel()
-        list.add(locationModel)
-    }
-    return list
+    return map { location -> location.mapToLocationModel() }
 }
