@@ -4,10 +4,11 @@ import androidx.compose.ui.window.ComposeUIViewController
 import platform.UIKit.UIViewController
 
 fun MainViewController(
-    mapUIViewController: () -> UIViewController
+    mapUIViewController: (String) -> UIViewController
 ) = ComposeUIViewController {
     mapViewController = mapUIViewController
     App()
 }
 
-lateinit var mapViewController: () -> UIViewController
+lateinit var mapViewController: (String) -> UIViewController
+
