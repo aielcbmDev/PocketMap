@@ -7,24 +7,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.viewinterop.UIKitViewController
 import charly.baquero.pocketmap.mapViewController
 import charly.baquero.pocketmap.ui.model.LocationModel
-import kotlinx.serialization.json.Json
 
 @Composable
 actual fun MapComponent(
     locationList: List<LocationModel>?,
     locationSelected: LocationModel?
 ) {
-    val locationsJson = locationList.getLocationsAsJson()
-    key(locationsJson) {
+    key(locationList, locationSelected) {
         UIKitViewController(
             factory = {
-                mapViewController(locationsJson)
+                mapViewController(locationList, locationSelected)
             },
             modifier = Modifier.fillMaxSize(),
         )
     }
-}
-
-private fun List<LocationModel>?.getLocationsAsJson(): String {
-    return if (this == null) "[]" else Json.encodeToString(this)
 }

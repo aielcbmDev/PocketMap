@@ -4,69 +4,70 @@ import ComposeApp
 import GoogleMaps
 import Foundation
 
-struct LocationModel: Codable {
-    let id: Int64
-    let title: String
-    let description: String?
-    let latitude: Double
-    let longitude: Double
-}
-
 struct GoogleMapView: UIViewRepresentable {
-    var locationsJson: String
+    var locationsList: [ComposeApp.LocationModel]
+    var locationSelected: ComposeApp.LocationModel?
 
     func makeUIView(context: Context) -> GMSMapView {
-        let locations = decodeLocations()
         let options = GMSMapViewOptions()
-        options.camera = GMSCameraPosition.camera(withLatitude: 51.50512, longitude: -0.08633, zoom: 10.0)
+        let cameraPosition: GMSCameraPosition
 
-        let mapView = GMSMapView(options: options)
-
-        mapView.clear()
-        // Creates a marker for each location.
-        for location in locations {
-            let marker = GMSMarker()
-            marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-            marker.title = location.title
-            marker.snippet = location.description
-            marker.map = mapView
+        if let location = locationSelected {
+            cameraPosition = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 15.0)
+        } else if let firstLocation = locationsList.first {
+            cameraPosition = GMSCameraPosition.camera(withLatitude: firstLocation.latitude, longitude: firstLocation.longitude, zoom: 10.0)
+        } else {
+            cameraPosition = GMSCameraPosition.camera(withLatitude: 51.50512, longitude: -0.08633, zoom: 10.0)
         }
-
+        options.camera = cameraPosition
+        let mapView = GMSMapView(options: options)
+        updateMarkers(for: mapView, locationSelected: locationSelected)
         return mapView
     }
 
     func updateUIView(_ uiView: GMSMapView, context: Context) {
-        // In a real app you might want to update the markers
-        // if the locationsJson changes.
+        updateMarkers(for: uiView, locationSelected: locationSelected)
+
+        if let location = locationSelected {
+            let cameraPosition = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 15.0)
+            uiView.animate(to: cameraPosition)
+        }
     }
 
-    private func decodeLocations() -> [LocationModel] {
-        guard let data = locationsJson.data(using: .utf8) else { return [] }
-        do {
-            let decoder = JSONDecoder()
-            return try decoder.decode([LocationModel].self, from: data)
-        } catch {
-            print("Error decoding locations: \(error)")
-            return []
+    private func updateMarkers(for mapView: GMSMapView, locationSelected: ComposeApp.LocationModel?) {
+        mapView.clear()
+        var markerToSelect: GMSMarker?
+        for location in locationsList {
+            let marker = GMSMarker()
+            marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+            marker.title = location.title
+            marker.snippet = location.description_
+            marker.map = mapView
+            if location.id == locationSelected?.id {
+                markerToSelect = marker
+            }
         }
+        mapView.selectedMarker = markerToSelect
     }
 }
 
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
-        MainViewControllerKt.MainViewController(
-            mapUIViewController: { (locationsJson) -> UIViewController in
-                return UIHostingController(rootView: GoogleMapView(locationsJson: locationsJson))
+        return MainViewControllerKt.MainViewController(
+            mapUIViewController: { locationsList, locationSelected in
+                let swiftLocations = locationsList as? [ComposeApp.LocationModel] ?? []
+                return UIHostingController(rootView: GoogleMapView(locationsList: swiftLocations, locationSelected: locationSelected))
             }
         )
     }
 
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+    }
 }
 
 struct ContentView: View {
     var body: some View {
         ComposeView()
-                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+            .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
     }
 }
