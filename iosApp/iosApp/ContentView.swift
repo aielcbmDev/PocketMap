@@ -8,19 +8,41 @@ struct GoogleMapView: UIViewRepresentable {
     var locationsList: [ComposeApp.LocationModel]
     var locationSelected: ComposeApp.LocationModel?
 
+    class Coordinator: NSObject, GMSMapViewDelegate {
+        func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
+            UserDefaults.standard.set(position.target.latitude, forKey: "lastLatitude")
+            UserDefaults.standard.set(position.target.longitude, forKey: "lastLongitude")
+            UserDefaults.standard.set(position.zoom, forKey: "lastZoom")
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator()
+    }
+
     func makeUIView(context: Context) -> GMSMapView {
         let options = GMSMapViewOptions()
         let cameraPosition: GMSCameraPosition
 
         if let location = locationSelected {
             cameraPosition = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 15.0)
-        } else if let firstLocation = locationsList.first {
-            cameraPosition = GMSCameraPosition.camera(withLatitude: firstLocation.latitude, longitude: firstLocation.longitude, zoom: 10.0)
         } else {
-            cameraPosition = GMSCameraPosition.camera(withLatitude: 51.50512, longitude: -0.08633, zoom: 10.0)
+            let lastLatitude = UserDefaults.standard.double(forKey: "lastLatitude")
+            let lastLongitude = UserDefaults.standard.double(forKey: "lastLongitude")
+            let lastZoom = UserDefaults.standard.float(forKey: "lastZoom")
+
+            if lastLatitude != 0 && lastLongitude != 0 {
+                let zoom: Float = lastZoom > 0 ? lastZoom : 10.0
+                cameraPosition = GMSCameraPosition.camera(withLatitude: lastLatitude, longitude: lastLongitude, zoom: zoom)
+            } else {
+                cameraPosition = GMSCameraPosition.camera(withLatitude: 51.50512, longitude: -0.08633, zoom: 10.0)
+            }
         }
         options.camera = cameraPosition
+
         let mapView = GMSMapView(options: options)
+        mapView.delegate = context.coordinator
+
         displayMarkers(for: mapView, locationSelected: locationSelected)
         return mapView
     }
