@@ -21,12 +21,12 @@ struct GoogleMapView: UIViewRepresentable {
         }
         options.camera = cameraPosition
         let mapView = GMSMapView(options: options)
-        updateMarkers(for: mapView, locationSelected: locationSelected)
+        displayMarkers(for: mapView, locationSelected: locationSelected)
         return mapView
     }
 
     func updateUIView(_ uiView: GMSMapView, context: Context) {
-        updateMarkers(for: uiView, locationSelected: locationSelected)
+        displayMarkers(for: uiView, locationSelected: locationSelected)
 
         if let location = locationSelected {
             let cameraPosition = GMSCameraPosition.camera(withLatitude: location.latitude, longitude: location.longitude, zoom: 15.0)
@@ -34,9 +34,7 @@ struct GoogleMapView: UIViewRepresentable {
         }
     }
 
-    private func updateMarkers(for mapView: GMSMapView, locationSelected: ComposeApp.LocationModel?) {
-        mapView.clear()
-        var markerToSelect: GMSMarker?
+    private func displayMarkers(for mapView: GMSMapView, locationSelected: ComposeApp.LocationModel?) {
         for location in locationsList {
             let marker = GMSMarker()
             marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
@@ -44,10 +42,9 @@ struct GoogleMapView: UIViewRepresentable {
             marker.snippet = location.description_
             marker.map = mapView
             if location.id == locationSelected?.id {
-                markerToSelect = marker
+                mapView.selectedMarker = marker
             }
         }
-        mapView.selectedMarker = markerToSelect
     }
 }
 
