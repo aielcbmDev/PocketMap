@@ -9,15 +9,32 @@ struct GoogleMapView: UIViewRepresentable {
     var locationSelected: ComposeApp.LocationModel?
 
     class Coordinator: NSObject, GMSMapViewDelegate {
+        var parent: GoogleMapView
+
+        init(_ parent: GoogleMapView) {
+            self.parent = parent
+        }
+
         func mapView(_ mapView: GMSMapView, idleAt position: GMSCameraPosition) {
             UserDefaults.standard.set(position.target.latitude, forKey: "lastLatitude")
             UserDefaults.standard.set(position.target.longitude, forKey: "lastLongitude")
             UserDefaults.standard.set(position.zoom, forKey: "lastZoom")
         }
+
+        func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
+            if let location = marker.userData as? ComposeApp.LocationModel {
+                // Handle the marker click here.
+                // For now, let\'s just print the location title.
+                print("Clicked on: \(location.title)")
+            }
+            // Return false to allow the default behavior (center map, show info window)
+            // Return true if you have handled the event completely.
+            return false
+        }
     }
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(self)
     }
 
     func makeUIView(context: Context) -> GMSMapView {
@@ -68,6 +85,7 @@ struct GoogleMapView: UIViewRepresentable {
             marker.position = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
             marker.title = location.title
             marker.snippet = location.description_
+            marker.userData = location
             marker.map = mapView
             if location.id == locationSelected?.id {
                 mapView.selectedMarker = marker
@@ -81,7 +99,8 @@ struct ComposeView: UIViewControllerRepresentable {
         return MainViewControllerKt.MainViewController(
             mapUIViewController: { locationsList, locationSelected in
                 let swiftLocations = locationsList as? [ComposeApp.LocationModel] ?? []
-                return UIHostingController(rootView: GoogleMapView(locationsList: swiftLocations, locationSelected: locationSelected))
+                let googleMapView = GoogleMapView(locationsList: swiftLocations, locationSelected: locationSelected)
+                return UIHostingController(rootView: googleMapView)
             }
         )
     }
