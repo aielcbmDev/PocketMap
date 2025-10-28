@@ -89,6 +89,9 @@ private fun MainNavigationHost() {
                 deleteGroups = { mainViewModel.onEvent(ViewEvent.DeleteGroups) },
                 editGroup = { groupName ->
                     mainViewModel.onEvent(ViewEvent.EditGroup(groupName))
+                },
+                onMarkerClick = { locationModel ->
+                    mainViewModel.onEvent(ViewEvent.OnMarkerClick(locationModel))
                 }
             )
         }

@@ -6,15 +6,14 @@ import charly.baquero.pocketmap.ui.model.LocationModel
 
 @Composable
 fun MapPane(
-    locationsViewState: LocationsViewState
+    locationsViewState: LocationsViewState,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
     val (locationList, locationSelected) = retrieveData(locationsViewState)
     MapComponent(
         locationList = locationList,
         locationSelected = locationSelected,
-        onMarkerClick = { locationModel ->
-            println("Marker clicked: ${locationModel.title}")
-        }
+        onMarkerClick = onMarkerClick
     )
 }
 

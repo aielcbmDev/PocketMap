@@ -47,6 +47,9 @@ class MainViewModel(
             is ViewEvent.CreateGroup -> createGroup(viewEvent.groupName)
             is ViewEvent.DeleteGroups -> deleteGroups()
             is ViewEvent.EditGroup -> editGroup(viewEvent.groupName)
+            is ViewEvent.OnMarkerClick -> {
+                println("Marker clicked: ${viewEvent.locationModel.title}")
+            }
         }
     }
 
@@ -308,4 +311,5 @@ sealed interface ViewEvent {
     data class CreateGroup(val groupName: String) : ViewEvent
     data object DeleteGroups : ViewEvent
     data class EditGroup(val groupName: String) : ViewEvent
+    data class OnMarkerClick(val locationModel: LocationModel) : ViewEvent
 }

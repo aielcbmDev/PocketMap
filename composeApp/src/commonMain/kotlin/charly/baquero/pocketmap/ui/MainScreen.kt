@@ -41,7 +41,8 @@ fun MainScreen(
     createGroup: (String) -> Unit,
     onDismissDialog: () -> Unit,
     deleteGroups: () -> Unit,
-    editGroup: (String) -> Unit
+    editGroup: (String) -> Unit,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
     val windowSize = with(LocalDensity.current) {
         val windowInfo = LocalWindowInfo.current
@@ -90,7 +91,8 @@ fun MainScreen(
                     onClearMapClick = onClearMapClick,
                     onCreateGroupClick = onCreateGroupClick,
                     createGroup = createGroup,
-                    onDismissDialog = onDismissDialog
+                    onDismissDialog = onDismissDialog,
+                    onMarkerClick = onMarkerClick
                 )
             }
             composable(BottomTab.Groups.route) {

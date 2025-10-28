@@ -23,6 +23,7 @@ import charly.baquero.pocketmap.ui.DialogState
 import charly.baquero.pocketmap.ui.LocationsViewState
 import charly.baquero.pocketmap.ui.common.DisplayDialog
 import charly.baquero.pocketmap.ui.common.IconButtonWithRichTooltip
+import charly.baquero.pocketmap.ui.model.LocationModel
 import org.jetbrains.compose.resources.stringResource
 import pocketmap.composeapp.generated.resources.Res
 import pocketmap.composeapp.generated.resources.map_screen_add_group_tooltip_description
@@ -37,7 +38,8 @@ fun MapScreen(
     onClearMapClick: () -> Unit,
     onCreateGroupClick: () -> Unit,
     createGroup: (String) -> Unit,
-    onDismissDialog: () -> Unit
+    onDismissDialog: () -> Unit,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
     Box(modifier = Modifier.fillMaxSize()) {
         Scaffold(
@@ -48,7 +50,10 @@ fun MapScreen(
                 )
             }
         ) { _ ->
-            MapPane(locationsViewState)
+            MapPane(
+                locationsViewState = locationsViewState,
+                onMarkerClick = onMarkerClick
+            )
             DisplayDialog(
                 dialogState = dialogState,
                 createGroup = createGroup,
