@@ -41,7 +41,6 @@ struct GoogleMapView: UIViewRepresentable {
         let mapView = GMSMapView(options: options)
         mapView.delegate = context.coordinator
 
-        displayMarkers(for: mapView, locationSelected: locationSelected)
         return mapView
     }
 
