@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
 @Composable
 actual fun MapComponent(
     locationList: List<LocationModel>?,
-    locationSelected: LocationModel?
+    locationSelected: LocationModel?,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),
@@ -39,7 +40,8 @@ actual fun MapComponent(
         ) {
             DisplayMarkers(
                 locationList = locationList,
-                locationSelected = locationSelected
+                locationSelected = locationSelected,
+                onMarkerClick = onMarkerClick
             )
             MoveCameraToSelectedLocation(
                 cameraPositionState = currentCameraPositionState,
@@ -52,16 +54,24 @@ actual fun MapComponent(
 @Composable
 fun DisplayMarkers(
     locationList: List<LocationModel>?,
-    locationSelected: LocationModel?
+    locationSelected: LocationModel?,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
-    locationList?.forEach {
+    locationList?.forEach { it ->
         val markerState = rememberUpdatedMarkerState(
             position = LatLng(it.latitude, it.longitude)
         )
         Marker(
             state = markerState,
             title = it.title,
-            snippet = it.description
+            snippet = it.description,
+            tag = it,
+            onClick = { marker ->
+                (marker.tag as? LocationModel)?.let { location ->
+                    onMarkerClick.invoke(location)
+                }
+                false
+            }
         )
         if (locationSelected?.id == it.id) {
             markerState.showInfoWindow()

@@ -6,5 +6,6 @@ import charly.baquero.pocketmap.ui.model.LocationModel
 @Composable
 expect fun MapComponent(
     locationList: List<LocationModel>? = null,
-    locationSelected: LocationModel? = null
+    locationSelected: LocationModel? = null,
+    onMarkerClick: (LocationModel) -> Unit = {}
 )

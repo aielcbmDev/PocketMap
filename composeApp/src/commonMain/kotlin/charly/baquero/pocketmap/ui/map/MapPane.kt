@@ -11,7 +11,10 @@ fun MapPane(
     val (locationList, locationSelected) = retrieveData(locationsViewState)
     MapComponent(
         locationList = locationList,
-        locationSelected = locationSelected
+        locationSelected = locationSelected,
+        onMarkerClick = { locationModel ->
+            println("Marker clicked: ${locationModel.title}")
+        }
     )
 }
 

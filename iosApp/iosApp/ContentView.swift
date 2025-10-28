@@ -7,9 +7,14 @@ import Foundation
 struct ComposeView: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> UIViewController {
         return MainViewControllerKt.MainViewController(
-            mapUIViewController: { locationsList, locationSelected in
+            mapUIViewController: { locationsList, locationSelected, onMarkerClick in
                 let swiftLocations = locationsList as? [ComposeApp.LocationModel] ?? []
-                let googleMapView = GoogleMapView(locationsList: swiftLocations, locationSelected: locationSelected)
+                let googleMapView = GoogleMapView(
+                    locationsList: swiftLocations,
+                    locationSelected: locationSelected,
+                    onMarkerClick: { location in
+                        _ = onMarkerClick(location)
+                    })
                 return UIHostingController(rootView: googleMapView)
             }
         )

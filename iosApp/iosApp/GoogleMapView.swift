@@ -7,6 +7,7 @@ import Foundation
 struct GoogleMapView: UIViewRepresentable {
     var locationsList: [ComposeApp.LocationModel]
     var locationSelected: ComposeApp.LocationModel?
+    var onMarkerClick: (ComposeApp.LocationModel) -> Void
 
     class Coordinator: NSObject, GMSMapViewDelegate {
         var parent: GoogleMapView
@@ -23,12 +24,8 @@ struct GoogleMapView: UIViewRepresentable {
 
         func mapView(_ mapView: GMSMapView, didTap marker: GMSMarker) -> Bool {
             if let location = marker.userData as? ComposeApp.LocationModel {
-                // Handle the marker click here.
-                // For now, let\'s just print the location title.
-                print("Clicked on: \(location.title)")
+                parent.onMarkerClick(location)
             }
-            // Return false to allow the default behavior (center map, show info window)
-            // Return true if you have handled the event completely.
             return false
         }
     }

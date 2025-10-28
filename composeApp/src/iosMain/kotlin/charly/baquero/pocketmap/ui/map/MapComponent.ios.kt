@@ -11,12 +11,13 @@ import charly.baquero.pocketmap.ui.model.LocationModel
 @Composable
 actual fun MapComponent(
     locationList: List<LocationModel>?,
-    locationSelected: LocationModel?
+    locationSelected: LocationModel?,
+    onMarkerClick: (LocationModel) -> Unit
 ) {
     key(locationList, locationSelected) {
         UIKitViewController(
             factory = {
-                mapViewController(locationList, locationSelected)
+                mapViewController(locationList, locationSelected, onMarkerClick)
             },
             modifier = Modifier.fillMaxSize(),
         )
