@@ -50,3 +50,4 @@ google-services.json
 Package.resolved
 Debug.xcconfig
 Release.xcconfig
+iosApp/Configuration/Secrets.xcconfig
