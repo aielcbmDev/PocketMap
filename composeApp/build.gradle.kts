@@ -1,6 +1,8 @@
 import dev.mokkery.gradle.ApplicationRule
 import dev.mokkery.gradle.mokkery
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.io.FileInputStream
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
@@ -85,6 +87,9 @@ kotlin {
 }
 
 android {
+    val secretProperties = Properties()
+    secretProperties.load(FileInputStream(file("../secrets.properties")))
+
     namespace = "charly.baquero.pocketmap"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
@@ -94,6 +99,9 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+    }
+    buildFeatures {
+        buildConfig = true
     }
     packaging {
         resources {
