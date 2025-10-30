@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.mokkeryPlugin)
     alias(libs.plugins.kotlinAllOpen)
 }
@@ -14,7 +15,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.charly.domain"
+        namespace = "com.charly.networking"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -36,7 +37,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "domainKit"
+    val xcfName = "networkingKit"
 
     iosX64 {
         binaries.framework {
@@ -62,48 +63,50 @@ kotlin {
     // common to share sources between related targets.
     // See: https://kotlinlang.org/docs/multiplatform-hierarchy.html
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(libs.jetbrains.kotlin.stdlib)
-                // Add KMP dependencies here
-                implementation(project.dependencies.platform(libs.koin.bom))
-                implementation(libs.koin.compose)
-                implementation(libs.koin.compose.viewmodel)
-            }
+        androidMain.dependencies {
+            // Add Android-specific dependencies here. Note that this source set depends on
+            // commonMain by default and will correctly pull the Android artifacts of any KMP
+            // dependencies declared in commonMain.
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.okhttp.logging.interceptor)
+
+            implementation(libs.koin.android)
+            implementation(libs.koin.core)
         }
 
-        commonTest {
-            dependencies {
-                implementation(mokkery("coroutines"))
-                implementation(libs.jetbrains.kotlinx.test)
-                implementation(libs.jetbrains.kotlinx.coroutines.test)
-            }
+        commonMain.dependencies {
+            implementation(libs.jetbrains.kotlin.stdlib)
+            // Add KMP dependencies here
+            implementation(libs.ktor.client.logging)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
 
-        androidMain {
-            dependencies {
-                // Add Android-specific dependencies here. Note that this source set depends on
-                // commonMain by default and will correctly pull the Android artifacts of any KMP
-                // dependencies declared in commonMain.
-            }
+        commonTest.dependencies {
+            implementation(mokkery("coroutines"))
+            implementation(libs.jetbrains.kotlinx.test)
+            implementation(libs.jetbrains.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.mock)
         }
 
-        getByName("androidDeviceTest") {
-            dependencies {
-                implementation(libs.androidx.runner)
-                implementation(libs.androidx.core)
-                implementation(libs.androidx.testExt.junit)
-            }
+        getByName("androidDeviceTest").dependencies {
+            implementation(libs.androidx.runner)
+            implementation(libs.androidx.core)
+            implementation(libs.androidx.testExt.junit)
         }
 
-        iosMain {
-            dependencies {
-                // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
-                // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
-                // part of KMP’s default source set hierarchy. Note that this source set depends
-                // on common by default and will correctly pull the iOS artifacts of any
-                // KMP dependencies declared in commonMain.
-            }
+        iosMain.dependencies {
+            // Add iOS-specific dependencies here. This a source set created by Kotlin Gradle
+            // Plugin (KGP) that each specific iOS target (e.g., iosX64) depends on as
+            // part of KMP’s default source set hierarchy. Note that this source set depends
+            // on common by default and will correctly pull the iOS artifacts of any
+            // KMP dependencies declared in commonMain.
+            implementation(libs.ktor.client.darwin)
         }
     }
 }
@@ -120,6 +123,6 @@ val isTesting = gradle
 
 if (isTesting) {
     allOpen {
-        annotation("com.charly.domain.OpenClassForMocking")
+        annotation("com.charly.networking.OpenClassForMocking")
     }
 }

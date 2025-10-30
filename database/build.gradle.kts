@@ -20,7 +20,7 @@ kotlin {
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
         namespace = "com.charly.database"
-        compileSdk = libs.versions.android.targetSdk.get().toInt()
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
         androidResources.enable = true
         withHostTestBuilder {
@@ -94,7 +94,7 @@ kotlin {
         commonTest {
             dependencies {
                 implementation(mokkery("coroutines"))
-                implementation(libs.jetbrains.kotlin.test)
+                implementation(libs.jetbrains.kotlinx.test)
                 implementation(libs.jetbrains.kotlinx.coroutines.test)
             }
         }

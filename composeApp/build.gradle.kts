@@ -80,7 +80,7 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(mokkery("coroutines"))
-            implementation(libs.jetbrains.kotlin.test)
+            implementation(libs.jetbrains.kotlinx.test)
             implementation(libs.jetbrains.kotlinx.coroutines.test)
         }
     }
