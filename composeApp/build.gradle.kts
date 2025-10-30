@@ -52,8 +52,8 @@ kotlin {
             implementation(libs.koin.core)
         }
         commonMain.dependencies {
-            implementation(project(":database"))
-            implementation(project(":domain"))
+            implementation(project(":maps-feature:database"))
+            implementation(project(":maps-feature:domain"))
             implementation(project(":startup"))
             implementation(libs.jetbrains.material.icons.extended)
             implementation(compose.runtime)

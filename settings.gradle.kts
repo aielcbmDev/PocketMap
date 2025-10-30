@@ -29,7 +29,7 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
-include(":database")
+include(":maps-feature:database")
 include(":startup")
-include(":domain")
-include(":networking")
+include(":maps-feature:domain")
+include(":maps-feature:networking")

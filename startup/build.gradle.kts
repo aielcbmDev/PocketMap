@@ -67,8 +67,8 @@ kotlin {
     sourceSets {
         commonMain {
             dependencies {
-                implementation(project(":database"))
-                implementation(project(":domain"))
+                implementation(project(":maps-feature:database"))
+                implementation(project(":maps-feature:domain"))
                 implementation(libs.jetbrains.kotlin.stdlib)
                 // Add KMP dependencies here
                 implementation(compose.runtime)

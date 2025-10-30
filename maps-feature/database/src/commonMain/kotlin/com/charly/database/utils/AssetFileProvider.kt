@@ -4,7 +4,7 @@ import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity
 import com.charly.database.model.membership.MembershipEntity
 import kotlinx.serialization.json.Json
-import pocketmap.database.generated.resources.Res
+import pocketmap.maps_feature.database.generated.resources.Res
 
 class AssetFileProvider {
 
