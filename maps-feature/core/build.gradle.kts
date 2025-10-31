@@ -1,7 +1,11 @@
+import dev.mokkery.gradle.mokkery
+
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
+    alias(libs.plugins.mokkeryPlugin)
+    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {
@@ -67,10 +71,19 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.jetbrains.kotlin.stdlib)
             // Add KMP dependencies here
+            implementation(project(":maps-feature:domain"))
+            implementation(project(":maps-feature:database"))
+            implementation(project(":maps-feature:networking"))
+
+            implementation(project.dependencies.platform(libs.koin.bom))
+            implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
         }
 
         commonTest.dependencies {
+            implementation(mokkery("coroutines"))
             implementation(libs.jetbrains.kotlinx.test)
+            implementation(libs.jetbrains.kotlinx.coroutines.test)
         }
 
         getByName("androidDeviceTest").dependencies {
@@ -86,5 +99,21 @@ kotlin {
             // on common by default and will correctly pull the iOS artifacts of any
             // KMP dependencies declared in commonMain.
         }
+    }
+}
+
+// this check might require adjustment depending on your project type and the tasks that you use
+// `endsWith("Test")` works with "*Test" tasks from Multiplatform projects, but it does not include
+// tasks like `check`
+fun isTestingTask(name: String) = name.endsWith("Test")
+
+val isTesting = gradle
+    .startParameter
+    .taskNames
+    .any(::isTestingTask)
+
+if (isTesting) {
+    allOpen {
+        annotation("com.charly.core.OpenClassForMocking")
     }
 }

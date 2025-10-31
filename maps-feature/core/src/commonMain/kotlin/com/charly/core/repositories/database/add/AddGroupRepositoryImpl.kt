@@ -1,7 +1,7 @@
-package com.charly.database.repositories.add
+package com.charly.core.repositories.database.add
 
+import com.charly.core.mappers.mapToGroupEntity
 import com.charly.database.datasources.GroupDataSource
-import com.charly.database.utils.mapToGroupEntity
 import com.charly.domain.repositories.add.AddGroupRepository
 
 class AddGroupRepositoryImpl(

@@ -1,4 +1,4 @@
-package com.charly.database.repositories.delete
+package com.charly.core.repositories.database.delete
 
 import com.charly.database.datasources.GroupDataSource
 import com.charly.domain.repositories.delete.DeleteGroupsRepository

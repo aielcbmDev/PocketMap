@@ -1,13 +1,14 @@
-package com.charly.database.repositories.prepopulate
+package com.charly.core.repositories.database.prepopulate
 
 import com.charly.database.OpenClassForMocking
+import com.charly.database.utils.PrePopulateTables
 import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
 
 @OpenClassForMocking
 class PrePopulateDatabaseRepositoryImpl(
     private val isDatabaseCreated: Boolean,
     private val prePopulateTablesLazy: Lazy<PrePopulateTables>
-): PrePopulateDatabaseRepository {
+) : PrePopulateDatabaseRepository {
 
     override suspend fun execute() {
         if (isDatabaseCreated) return

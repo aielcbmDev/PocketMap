@@ -1,4 +1,4 @@
-package com.charly.database.utils
+package com.charly.core.mappers
 
 import com.charly.database.model.groups.GroupEntity
 import com.charly.database.model.locations.LocationEntity

@@ -1,7 +1,7 @@
-package com.charly.database.repositories.getall
+package com.charly.core.repositories.database.getall
 
+import com.charly.core.mappers.mapToGroupList
 import com.charly.database.datasources.GroupDataSource
-import com.charly.database.utils.mapToGroupList
 import com.charly.domain.model.Group
 import com.charly.domain.repositories.get.GetAllGroupsRepository
 import kotlinx.coroutines.flow.Flow

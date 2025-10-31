@@ -1,7 +1,7 @@
-package com.charly.database.repositories.getall
+package com.charly.core.repositories.database.getall
 
+import com.charly.core.mappers.mapToLocationList
 import com.charly.database.datasources.MembershipDataSource
-import com.charly.database.utils.mapToLocationList
 import com.charly.domain.model.Location
 import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository
 import kotlinx.coroutines.flow.Flow

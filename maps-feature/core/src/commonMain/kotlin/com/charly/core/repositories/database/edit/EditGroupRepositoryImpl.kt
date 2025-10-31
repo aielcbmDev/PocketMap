@@ -1,4 +1,4 @@
-package com.charly.database.repositories.edit
+package com.charly.core.repositories.database.edit
 
 import com.charly.database.datasources.GroupDataSource
 import com.charly.domain.repositories.edit.EditGroupRepository
