@@ -1,6 +1,7 @@
 package com.charly.domain.usecases.delete
 
-import com.charly.domain.repositories.delete.DeleteGroupsRepository
+import com.charly.domain.repositories.database.delete.DeleteGroupsRepository
+import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend

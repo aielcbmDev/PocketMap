@@ -1,7 +1,8 @@
 package com.charly.domain.usecases.get
 
-import com.charly.domain.model.Group
-import com.charly.domain.repositories.get.GetAllGroupsRepository
+import com.charly.domain.model.database.Group
+import com.charly.domain.repositories.database.get.GetAllGroupsRepository
+import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.everySuspend
 import dev.mokkery.mock

@@ -2,8 +2,8 @@ package charly.baquero.pocketmap.ui.utils
 
 import charly.baquero.pocketmap.ui.model.GroupModel
 import charly.baquero.pocketmap.ui.model.LocationModel
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
+import com.charly.domain.model.database.Group
+import com.charly.domain.model.database.Location
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertIs

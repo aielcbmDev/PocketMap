@@ -1,6 +1,6 @@
 package com.charly.startup.ui
 
-import com.charly.domain.usecases.prepopulate.PrePopulateDatabaseUseCase
+import com.charly.domain.usecases.database.prepopulate.PrePopulateDatabaseUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend

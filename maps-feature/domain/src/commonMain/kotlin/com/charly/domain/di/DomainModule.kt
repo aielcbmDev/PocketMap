@@ -1,11 +1,11 @@
 package com.charly.domain.di
 
-import com.charly.domain.usecases.add.AddGroupUseCase
-import com.charly.domain.usecases.delete.DeleteGroupsUseCase
-import com.charly.domain.usecases.edit.EditGroupUseCase
-import com.charly.domain.usecases.get.GetAllGroupsUseCase
-import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
-import com.charly.domain.usecases.prepopulate.PrePopulateDatabaseUseCase
+import com.charly.domain.usecases.database.add.AddGroupUseCase
+import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
+import com.charly.domain.usecases.database.edit.EditGroupUseCase
+import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
+import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.usecases.database.prepopulate.PrePopulateDatabaseUseCase
 import org.koin.dsl.module
 
 val domainModule = module {

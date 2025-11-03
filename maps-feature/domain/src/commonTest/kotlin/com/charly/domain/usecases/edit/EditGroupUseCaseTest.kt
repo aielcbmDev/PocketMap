@@ -1,6 +1,7 @@
 package com.charly.domain.usecases.edit
 
-import com.charly.domain.repositories.edit.EditGroupRepository
+import com.charly.domain.repositories.database.edit.EditGroupRepository
+import com.charly.domain.usecases.database.edit.EditGroupUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend

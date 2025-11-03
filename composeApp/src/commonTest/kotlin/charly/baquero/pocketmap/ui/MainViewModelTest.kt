@@ -2,13 +2,13 @@ package charly.baquero.pocketmap.ui
 
 import charly.baquero.pocketmap.ui.model.GroupModel
 import charly.baquero.pocketmap.ui.model.LocationModel
-import com.charly.domain.model.Group
-import com.charly.domain.model.Location
-import com.charly.domain.usecases.add.AddGroupUseCase
-import com.charly.domain.usecases.delete.DeleteGroupsUseCase
-import com.charly.domain.usecases.edit.EditGroupUseCase
-import com.charly.domain.usecases.get.GetAllGroupsUseCase
-import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.model.database.Group
+import com.charly.domain.model.database.Location
+import com.charly.domain.usecases.database.add.AddGroupUseCase
+import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
+import com.charly.domain.usecases.database.edit.EditGroupUseCase
+import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
+import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend

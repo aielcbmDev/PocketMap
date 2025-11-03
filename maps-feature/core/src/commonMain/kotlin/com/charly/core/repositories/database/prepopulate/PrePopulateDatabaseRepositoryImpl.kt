@@ -2,7 +2,7 @@ package com.charly.core.repositories.database.prepopulate
 
 import com.charly.database.OpenClassForMocking
 import com.charly.database.utils.PrePopulateTables
-import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.domain.repositories.database.prepopulate.PrePopulateDatabaseRepository
 
 @OpenClassForMocking
 class PrePopulateDatabaseRepositoryImpl(

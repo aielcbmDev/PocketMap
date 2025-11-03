@@ -1,7 +1,7 @@
 package com.charly.core.repositories.database.delete
 
 import com.charly.database.datasources.GroupDataSource
-import com.charly.domain.repositories.delete.DeleteGroupsRepository
+import com.charly.domain.repositories.database.delete.DeleteGroupsRepository
 
 class DeleteGroupsRepositoryImpl(
     private val groupDataSource: GroupDataSource

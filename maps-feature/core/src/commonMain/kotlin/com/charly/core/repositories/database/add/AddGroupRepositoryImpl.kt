@@ -1,8 +1,8 @@
 package com.charly.core.repositories.database.add
 
-import com.charly.core.mappers.mapToGroupEntity
+import com.charly.core.mappers.database.mapToGroupEntity
 import com.charly.database.datasources.GroupDataSource
-import com.charly.domain.repositories.add.AddGroupRepository
+import com.charly.domain.repositories.database.add.AddGroupRepository
 
 class AddGroupRepositoryImpl(
     private val groupDataSource: GroupDataSource

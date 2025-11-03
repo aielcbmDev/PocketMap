@@ -1,7 +1,7 @@
 package com.charly.core.repositories.database.edit
 
 import com.charly.database.datasources.GroupDataSource
-import com.charly.domain.repositories.edit.EditGroupRepository
+import com.charly.domain.repositories.database.edit.EditGroupRepository
 
 class EditGroupRepositoryImpl(
     private val groupDataSource: GroupDataSource

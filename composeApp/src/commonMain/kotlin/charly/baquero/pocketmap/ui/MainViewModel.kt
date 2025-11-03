@@ -6,11 +6,11 @@ import charly.baquero.pocketmap.ui.model.GroupModel
 import charly.baquero.pocketmap.ui.model.LocationModel
 import charly.baquero.pocketmap.ui.utils.mapToGroupModelList
 import charly.baquero.pocketmap.ui.utils.mapToLocationModelList
-import com.charly.domain.usecases.add.AddGroupUseCase
-import com.charly.domain.usecases.delete.DeleteGroupsUseCase
-import com.charly.domain.usecases.edit.EditGroupUseCase
-import com.charly.domain.usecases.get.GetAllGroupsUseCase
-import com.charly.domain.usecases.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.usecases.database.add.AddGroupUseCase
+import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
+import com.charly.domain.usecases.database.edit.EditGroupUseCase
+import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
+import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map

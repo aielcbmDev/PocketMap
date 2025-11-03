@@ -7,12 +7,12 @@ import com.charly.core.repositories.database.getall.GetAllGroupsRepositoryImpl
 import com.charly.core.repositories.database.getall.GetAllLocationsForGroupRepositoryImpl
 import com.charly.core.repositories.database.prepopulate.PrePopulateDatabaseRepositoryImpl
 import com.charly.database.di.databaseModule
-import com.charly.domain.repositories.add.AddGroupRepository
-import com.charly.domain.repositories.delete.DeleteGroupsRepository
-import com.charly.domain.repositories.edit.EditGroupRepository
-import com.charly.domain.repositories.get.GetAllGroupsRepository
-import com.charly.domain.repositories.get.GetAllLocationsForGroupRepository
-import com.charly.domain.repositories.prepopulate.PrePopulateDatabaseRepository
+import com.charly.domain.repositories.database.add.AddGroupRepository
+import com.charly.domain.repositories.database.delete.DeleteGroupsRepository
+import com.charly.domain.repositories.database.edit.EditGroupRepository
+import com.charly.domain.repositories.database.get.GetAllGroupsRepository
+import com.charly.domain.repositories.database.get.GetAllLocationsForGroupRepository
+import com.charly.domain.repositories.database.prepopulate.PrePopulateDatabaseRepository
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 

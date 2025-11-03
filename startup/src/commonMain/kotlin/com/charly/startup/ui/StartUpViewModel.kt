@@ -2,7 +2,7 @@ package com.charly.startup.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.charly.domain.usecases.prepopulate.PrePopulateDatabaseUseCase
+import com.charly.domain.usecases.database.prepopulate.PrePopulateDatabaseUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
