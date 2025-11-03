@@ -27,7 +27,7 @@ material3Adaptive = "1.2.0"                     # https://central.sonatype.com/a
 material3AdaptiveNavSuite = "1.9.0"             # https://central.sonatype.com/artifact/org.jetbrains.compose.material3/material3-adaptive-navigation-suite/versions
 materialIcons = "1.7.3"                         # https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended
 ktor = "3.3.1"                                  # https://ktor.io/changelog/
-okhttp = "5.2.1"                                # https://square.github.io/okhttp/changelogs/changelog/
+okhttp = "5.3.0"                                # https://square.github.io/okhttp/changelogs/changelog/
 
 [libraries]
 jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
