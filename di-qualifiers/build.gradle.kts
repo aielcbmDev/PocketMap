@@ -1,12 +1,7 @@
-import dev.mokkery.gradle.mokkery
-
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
     alias(libs.plugins.androidLint)
-    alias(libs.plugins.kotlinSerialization)
-    alias(libs.plugins.mokkeryPlugin)
-    alias(libs.plugins.kotlinAllOpen)
 }
 
 kotlin {
@@ -15,7 +10,7 @@ kotlin {
     // which platforms this KMP module supports.
     // See: https://kotlinlang.org/docs/multiplatform-discover-project.html#targets
     androidLibrary {
-        namespace = "com.charly.networking"
+        namespace = "com.charly.qualifiers"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 
@@ -37,7 +32,7 @@ kotlin {
     // A step-by-step guide on how to include this library in an XCode
     // project can be found here:
     // https://developer.android.com/kotlin/multiplatform/migrate
-    val xcfName = "networkingKit"
+    val xcfName = "di-qualifiersKit"
 
     iosX64 {
         binaries.framework {
@@ -67,32 +62,15 @@ kotlin {
             // Add Android-specific dependencies here. Note that this source set depends on
             // commonMain by default and will correctly pull the Android artifacts of any KMP
             // dependencies declared in commonMain.
-            implementation(libs.ktor.client.okhttp)
-            implementation(libs.okhttp.logging.interceptor)
-
-            implementation(libs.koin.android)
-            implementation(libs.koin.core)
         }
 
         commonMain.dependencies {
             implementation(libs.jetbrains.kotlin.stdlib)
             // Add KMP dependencies here
-            implementation(project(":di-qualifiers"))
-            implementation(libs.ktor.client.logging)
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-
-            implementation(project.dependencies.platform(libs.koin.bom))
-            implementation(libs.koin.compose)
-            implementation(libs.koin.compose.viewmodel)
         }
 
         commonTest.dependencies {
-            implementation(mokkery("coroutines"))
             implementation(libs.jetbrains.kotlinx.test)
-            implementation(libs.jetbrains.kotlinx.coroutines.test)
-            implementation(libs.ktor.client.mock)
         }
 
         getByName("androidDeviceTest").dependencies {
@@ -107,23 +85,6 @@ kotlin {
             // part of KMP’s default source set hierarchy. Note that this source set depends
             // on common by default and will correctly pull the iOS artifacts of any
             // KMP dependencies declared in commonMain.
-            implementation(libs.ktor.client.darwin)
         }
-    }
-}
-
-// this check might require adjustment depending on your project type and the tasks that you use
-// `endsWith("Test")` works with "*Test" tasks from Multiplatform projects, but it does not include
-// tasks like `check`
-fun isTestingTask(name: String) = name.endsWith("Test")
-
-val isTesting = gradle
-    .startParameter
-    .taskNames
-    .any(::isTestingTask)
-
-if (isTesting) {
-    allOpen {
-        annotation("com.charly.networking.OpenClassForMocking")
     }
 }

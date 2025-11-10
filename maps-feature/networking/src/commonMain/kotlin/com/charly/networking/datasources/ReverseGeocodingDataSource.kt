@@ -7,7 +7,7 @@ class ReverseGeocodingDataSource(
     private val mapsApiService: MapsApiService
 ) {
 
-    suspend fun getReverseGeocoding(latitude: Double, longitude: Double): GeocodingData {
+    suspend fun execute(latitude: Double, longitude: Double): GeocodingData {
         return mapsApiService.getAddressForLocation(latitude, longitude)
     }
 }

@@ -11,6 +11,7 @@ import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
 import com.charly.domain.usecases.database.edit.EditGroupUseCase
 import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.usecases.networking.ReverseGeocodingUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -22,7 +23,8 @@ class MainViewModel(
     private val getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase,
     private val addGroupUseCase: AddGroupUseCase,
     private val deleteGroupsUseCase: DeleteGroupsUseCase,
-    private val editGroupUseCase: EditGroupUseCase
+    private val editGroupUseCase: EditGroupUseCase,
+    private val reverseGeocodingUseCase: ReverseGeocodingUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(MainUiState())
@@ -71,6 +73,7 @@ class MainViewModel(
         _state.update { it.copy(groupViewState = GroupViewState.Loading) }
         viewModelScope.launch {
             try {
+                val geocoding = reverseGeocodingUseCase.execute(51.50512, -0.08633)
                 getAllGroupsUseCase.execute().map { it.mapToGroupModelList() }
                     .collect { groupList ->
                         _state.update { state ->

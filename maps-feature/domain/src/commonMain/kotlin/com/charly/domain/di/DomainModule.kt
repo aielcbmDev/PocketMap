@@ -6,6 +6,7 @@ import com.charly.domain.usecases.database.edit.EditGroupUseCase
 import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
 import com.charly.domain.usecases.database.prepopulate.PrePopulateDatabaseUseCase
+import com.charly.domain.usecases.networking.ReverseGeocodingUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -15,4 +16,5 @@ val domainModule = module {
     factory<DeleteGroupsUseCase> { DeleteGroupsUseCase(get()) }
     factory<EditGroupUseCase> { EditGroupUseCase(get()) }
     factory<PrePopulateDatabaseUseCase> { PrePopulateDatabaseUseCase(get()) }
+    factory<ReverseGeocodingUseCase> { ReverseGeocodingUseCase(get()) }
 }

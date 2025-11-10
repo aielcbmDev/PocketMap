@@ -55,6 +55,7 @@ kotlin {
             implementation(project(":maps-feature:core"))
             implementation(project(":maps-feature:domain"))
             implementation(project(":startup"))
+            implementation(project(":di-qualifiers"))
             implementation(libs.jetbrains.material.icons.extended)
             implementation(compose.runtime)
             implementation(compose.foundation)

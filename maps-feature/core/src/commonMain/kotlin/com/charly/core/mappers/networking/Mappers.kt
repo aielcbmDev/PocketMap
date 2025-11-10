@@ -1,6 +1,7 @@
 package com.charly.core.mappers.networking
 
 import com.charly.domain.model.networking.AddressComponents
+import com.charly.domain.model.networking.Geocoding
 import com.charly.domain.model.networking.Geometry
 import com.charly.domain.model.networking.Location
 import com.charly.domain.model.networking.Northeast
@@ -9,6 +10,7 @@ import com.charly.domain.model.networking.Results
 import com.charly.domain.model.networking.Southwest
 import com.charly.domain.model.networking.Viewport
 import com.charly.networking.model.AddressComponentsData
+import com.charly.networking.model.GeocodingData
 import com.charly.networking.model.GeometryData
 import com.charly.networking.model.LocationData
 import com.charly.networking.model.NortheastData
@@ -113,4 +115,15 @@ internal fun ResultsData?.mapToResults(): Results? {
             types = types
         )
     }
+}
+
+internal fun List<ResultsData>?.mapTpResultsList(): List<Results>? {
+    return this?.mapNotNull { it.mapToResults() }
+}
+
+internal fun GeocodingData.mapToGeocoding(): Geocoding {
+    return Geocoding(
+        results = results.mapTpResultsList(),
+        status = status
+    )
 }

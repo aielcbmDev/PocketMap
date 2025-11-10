@@ -1,13 +1,15 @@
 package com.charly.core.repositories.networking
 
+import com.charly.core.mappers.networking.mapToGeocoding
+import com.charly.domain.model.networking.Geocoding
+import com.charly.domain.repositories.networking.ReverseGeocodingRepository
 import com.charly.networking.datasources.ReverseGeocodingDataSource
-import com.charly.networking.model.GeocodingData
 
 class ReverseGeocodingRepositoryImpl(
     private val reverseGeocodingDataSource: ReverseGeocodingDataSource
-) {
+) : ReverseGeocodingRepository {
 
-    suspend fun getReverseGeocoding(latitude: Double, longitude: Double): GeocodingData {
-        return reverseGeocodingDataSource.getReverseGeocoding(latitude, longitude)
+    override suspend fun execute(latitude: Double, longitude: Double): Geocoding {
+        return reverseGeocodingDataSource.execute(latitude, longitude).mapToGeocoding()
     }
 }
