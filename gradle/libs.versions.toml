@@ -26,8 +26,8 @@ mokkeryVersion = "2.10.2"                       # https://github.com/lupuuss/Mok
 material3Adaptive = "1.2.0"                     # https://central.sonatype.com/artifact/org.jetbrains.compose.material3.adaptive/adaptive-navigation/versions
 material3AdaptiveNavSuite = "1.9.0"             # https://central.sonatype.com/artifact/org.jetbrains.compose.material3/material3-adaptive-navigation-suite/versions
 materialIcons = "1.7.3"                         # https://mvnrepository.com/artifact/org.jetbrains.compose.material/material-icons-extended
-ktor = "3.3.2"                                  # https://ktor.io/changelog/
-okhttp = "5.3.0"                                # https://square.github.io/okhttp/changelogs/changelog/
+ktor = "3.4.0"                                  # https://ktor.io/changelog/
+okhttp = "5.3.2"                                # https://square.github.io/okhttp/changelogs/changelog/
 
 [libraries]
 jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesTest" }
