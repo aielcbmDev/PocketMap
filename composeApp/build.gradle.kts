@@ -57,12 +57,12 @@ kotlin {
             implementation(project(":startup"))
             implementation(project(":di-qualifiers"))
             implementation(libs.jetbrains.material.icons.extended)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material3)
-            implementation(compose.ui)
-            implementation(compose.components.resources)
-            implementation(compose.components.uiToolingPreview)
+            implementation(libs.compose.runtime)
+            implementation(libs.compose.foundation)
+            implementation(libs.compose.material3)
+            implementation(libs.compose.ui)
+            implementation(libs.compose.components.resources)
+            implementation(libs.compose.ui.tooling.preview)
             implementation(libs.jetbrains.lifecycle.viewmodel)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
             implementation(libs.jetbrains.kotlin.serialization.json)
@@ -137,9 +137,9 @@ secrets {
 }
 
 // this check might require adjustment depending on your project type and the tasks that you use
-// `endsWith("Test")` works with "*Test" tasks from Multiplatform projects, but it does not include
-// tasks like `check`
-fun isTestingTask(name: String) = name.endsWith("Test")
+// `name.endsWith("Test") || name.endsWith("check")` works with "*Test" and "check" tasks from
+// Multiplatform projects
+fun isTestingTask(name: String) = name.endsWith("Test") || name.endsWith("check")
 
 val isTesting = gradle
     .startParameter

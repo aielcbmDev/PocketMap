@@ -1,5 +1,6 @@
-package com.charly.database.repositories.prepopulate
+package com.charly.core.repositories.database.prepopulate
 
+import com.charly.database.utils.PrePopulateTables
 import dev.mokkery.answering.returns
 import dev.mokkery.every
 import dev.mokkery.everySuspend
@@ -34,7 +35,7 @@ class PrePopulateDatabaseRepositoryTest {
     fun `Verify that no interactions with the database occur if the it already exists`() = runTest {
         // GIVEN
         val isDatabaseCreated = true
-        val prePopulateTables = mock<PrePopulateTables>() {
+        val prePopulateTables = mock<PrePopulateTables> {
             everySuspend { execute() } returns Unit
         }
         val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {
@@ -60,7 +61,7 @@ class PrePopulateDatabaseRepositoryTest {
     fun `Verify that the database is pre-populated if it does not exist`() = runTest {
         // GIVEN
         val isDatabaseCreated = false
-        val prePopulateTables = mock<PrePopulateTables>() {
+        val prePopulateTables = mock<PrePopulateTables> {
             everySuspend { execute() } returns Unit
         }
         val prePopulateTablesLazy = mock<Lazy<PrePopulateTables>> {

@@ -73,7 +73,6 @@ class MainViewModel(
         _state.update { it.copy(groupViewState = GroupViewState.Loading) }
         viewModelScope.launch {
             try {
-                val geocoding = reverseGeocodingUseCase.execute(51.50512, -0.08633)
                 getAllGroupsUseCase.execute().map { it.mapToGroupModelList() }
                     .collect { groupList ->
                         _state.update { state ->

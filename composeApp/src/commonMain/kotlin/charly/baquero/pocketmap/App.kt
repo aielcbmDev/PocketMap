@@ -19,7 +19,7 @@ import com.charly.core.di.coreModule
 import com.charly.domain.di.domainModule
 import com.charly.startup.di.startUpModule
 import com.charly.startup.ui.StartUpScreen
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinApplication
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.dsl.KoinAppDeclaration

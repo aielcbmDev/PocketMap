@@ -6,12 +6,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.RichTooltip
 import androidx.compose.material3.Text
+import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -24,7 +26,7 @@ fun IconButtonWithTooltip(
 ) {
     TooltipBox(
         modifier = modifier,
-        positionProvider = TooltipDefaults.rememberPlainTooltipPositionProvider(),
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
         tooltip = {
             PlainTooltip { Text(tooltipText) }
         },
@@ -51,7 +53,7 @@ fun IconButtonWithRichTooltip(
 ) {
     TooltipBox(
         modifier = modifier,
-        positionProvider = TooltipDefaults.rememberRichTooltipPositionProvider(),
+        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(TooltipAnchorPosition.Above),
         tooltip = {
             RichTooltip(
                 title = { Text(tooltipTitle) }

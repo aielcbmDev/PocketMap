@@ -7,6 +7,7 @@ import com.charly.database.datasources.LocationDataSource
 import com.charly.database.datasources.MembershipDataSource
 import com.charly.database.utils.AssetFileProvider
 import com.charly.database.utils.PrePopulateTables
+import com.charly.database.utils.PrePopulateTablesImpl
 import com.charly.database.utils.getRoomDatabase
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -40,7 +41,7 @@ val databaseModule = module {
     }
 
     factory<PrePopulateTables> {
-        PrePopulateTables(
+        PrePopulateTablesImpl(
             pocketMapDatabase = get(),
             groupDataSource = get(),
             locationDataSource = get(),

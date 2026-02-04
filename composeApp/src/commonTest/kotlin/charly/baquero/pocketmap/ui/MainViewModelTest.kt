@@ -9,6 +9,7 @@ import com.charly.domain.usecases.database.delete.DeleteGroupsUseCase
 import com.charly.domain.usecases.database.edit.EditGroupUseCase
 import com.charly.domain.usecases.database.get.GetAllGroupsUseCase
 import com.charly.domain.usecases.database.get.GetAllLocationsForGroupUseCase
+import com.charly.domain.usecases.networking.ReverseGeocodingUseCase
 import dev.mokkery.answering.returns
 import dev.mokkery.answering.throws
 import dev.mokkery.everySuspend
@@ -52,7 +53,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -77,7 +79,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -126,7 +129,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
             assertIs<GroupViewState.Loading>(mainViewModel.state.value.groupViewState)
             runCurrent()
@@ -164,7 +168,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
             assertIs<GroupViewState.Loading>(mainViewModel.state.value.groupViewState)
             runCurrent()
@@ -191,7 +196,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
             assertIs<GroupViewState.Loading>(mainViewModel.state.value.groupViewState)
             runCurrent()
@@ -236,7 +242,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = getAllLocationsForGroupUseCase,
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
 
             // WHEN
@@ -292,7 +299,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = getAllLocationsForGroupUseCase,
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
 
             // WHEN
@@ -330,7 +338,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = getAllLocationsForGroupUseCase,
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
 
             // WHEN
@@ -360,7 +369,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
             val groupModel = GroupModel(
                 id = 1,
@@ -403,7 +413,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
 
             // WHEN
@@ -436,7 +447,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -455,7 +467,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -474,7 +487,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -493,7 +507,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = mock(),
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -516,7 +531,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = addGroupUseCase,
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -541,7 +557,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = mock(),
             addGroupUseCase = addGroupUseCase,
             deleteGroupsUseCase = mock(),
-            editGroupUseCase = mock()
+            editGroupUseCase = mock(),
+            reverseGeocodingUseCase = mock()
         )
 
         // WHEN
@@ -562,7 +579,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
 
             // WHEN
@@ -663,7 +681,8 @@ class MainViewModelTest {
                 getAllLocationsForGroupUseCase = mock(),
                 addGroupUseCase = mock(),
                 deleteGroupsUseCase = mock(),
-                editGroupUseCase = mock()
+                editGroupUseCase = mock(),
+                reverseGeocodingUseCase = mock()
             )
             val groupName = "a random name"
 
@@ -779,7 +798,8 @@ class MainViewModelTest {
         getAllLocationsForGroupUseCase: GetAllLocationsForGroupUseCase = mock(),
         addGroupUseCase: AddGroupUseCase = mock(),
         deleteGroupsUseCase: DeleteGroupsUseCase = mock(),
-        editGroupUseCase: EditGroupUseCase = mock()
+        editGroupUseCase: EditGroupUseCase = mock(),
+        reverseGeocodingUseCase: ReverseGeocodingUseCase = mock()
     ): MainViewModel {
         val groupsList = listOf(
             Group(1, "Group 1"),
@@ -793,7 +813,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = getAllLocationsForGroupUseCase,
             addGroupUseCase = addGroupUseCase,
             deleteGroupsUseCase = deleteGroupsUseCase,
-            editGroupUseCase = editGroupUseCase
+            editGroupUseCase = editGroupUseCase,
+            reverseGeocodingUseCase = reverseGeocodingUseCase
         )
         testScope.runCurrent()
         return mainViewModel
@@ -823,7 +844,8 @@ class MainViewModelTest {
         testScope: TestScope,
         addGroupUseCase: AddGroupUseCase = mock(),
         deleteGroupsUseCase: DeleteGroupsUseCase = mock(),
-        editGroupUseCase: EditGroupUseCase = mock()
+        editGroupUseCase: EditGroupUseCase = mock(),
+        reverseGeocodingUseCase: ReverseGeocodingUseCase = mock()
     ): MainViewModel {
         val groupsList = listOf(
             Group(1, "Group 1"),
@@ -860,7 +882,8 @@ class MainViewModelTest {
             getAllLocationsForGroupUseCase = getAllLocationsForGroupUseCase,
             addGroupUseCase = addGroupUseCase,
             deleteGroupsUseCase = deleteGroupsUseCase,
-            editGroupUseCase = editGroupUseCase
+            editGroupUseCase = editGroupUseCase,
+            reverseGeocodingUseCase = reverseGeocodingUseCase
         )
         testScope.runCurrent()
         mainViewModel.onEvent(ViewEvent.FetchLocationsForGroup(groupModel))
