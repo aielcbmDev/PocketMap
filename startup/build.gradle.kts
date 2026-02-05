@@ -121,10 +121,11 @@ kotlin {
     }
 }
 
-// this check might require adjustment depending on your project type and the tasks that you use
-// `name.endsWith("Test") || name.endsWith("check")` works with "*Test" and "check" tasks from
-// Multiplatform projects
-fun isTestingTask(name: String) = name.endsWith("Test") || name.endsWith("check")
+// Determines if the current Gradle task is for testing, enabling mocking.
+// This works for standard tasks like `./gradlew assemble` and `./gradlew check`.
+// Adjust if your project uses different tasks for testing.
+fun isTestingTask(name: String) =
+    name.endsWith("Test") || name.contentEquals("check") || name.contentEquals("assemble")
 
 val isTesting = gradle
     .startParameter
